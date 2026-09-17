@@ -3,17 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MaDE - творческое ателье и школа обучения">
     <title>MaDE - Творческое ателье</title>
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+    <!-- HEADER -->
     <header class="header">
         <div class="container">
             <div class="header__left">
-                <div class="logo script-font">MaDE</div>
+                <div class="logo">MaDE</div>
                 <nav class="nav">
-                    <a href="#" class="nav__link" data-i18n="nav_home">Главная</a>
+                    <a href="#hero" class="nav__link" data-i18n="nav_home">Главная</a>
                     <a href="#courses" class="nav__link" data-i18n="nav_education">Обучение</a>
                     <a href="#gallery" class="nav__link" data-i18n="nav_gallery">Галерея</a>
                     <a href="#shop" class="nav__link" data-i18n="nav_shop">Магазин</a>
@@ -27,15 +29,30 @@
         </div>
     </header>
 
-    <section class="hero">
+    <!-- HERO -->
+    <section class="hero" id="hero">
         <div class="container">
             <div class="hero__text">
                 <span class="hero__subtitle" data-i18n="hero_subtitle">Добро пожаловать</span>
                 <h1 class="hero__title"><span data-i18n="hero_title_start">Откройте свой</span> <span data-i18n="hero_title_accent">творческий</span> <span data-i18n="hero_title_end">потенциал</span></h1>
-                <p data-i18n="hero_desc">Научитесь создавать прекрасное в нашем ателье</p>
+                <p class="hero__description" data-i18n="hero_desc">Научитесь создавать прекрасное в нашем ателье</p>
                 <div class="hero__buttons">
                     <button class="cta-button" data-i18n="hero_btn_1">Начать обучение</button>
                     <button class="cta-button cta-button--outline" data-i18n="hero_btn_2">Узнать больше</button>
+                </div>
+                <div class="hero__stats">
+                    <div class="stat">
+                        <div class="stat__number">500+</div>
+                        <div class="stat__label" data-i18n="hero_stat_2">выпускников</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat__number">10+</div>
+                        <div class="stat__label" data-i18n="hero_stat_4">лет опыта</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat__number">8</div>
+                        <div class="stat__label" data-i18n="hero_stat_6">курсов</div>
+                    </div>
                 </div>
             </div>
             <div class="hero__visual">
@@ -44,10 +61,346 @@
         </div>
     </section>
 
+    <!-- ADVANTAGES -->
+    <section class="advantages">
+        <div class="container">
+            <h2 class="section-title" data-i18n="advantages_title">Почему выбирают MaDE</h2>
+            <div class="advantages__grid">
+                <div class="advantage-card">
+                    <div class="advantage-card__icon">✨</div>
+                    <h3 class="advantage-card__title" data-i18n="advantage_1_title">Авторская методика</h3>
+                    <p class="advantage-card__text" data-i18n="advantage_1_desc">Уникальный подход</p>
+                </div>
+                <div class="advantage-card">
+                    <div class="advantage-card__icon">👥</div>
+                    <h3 class="advantage-card__title" data-i18n="advantage_2_title">Маленькие группы</h3>
+                    <p class="advantage-card__text" data-i18n="advantage_2_desc">Персональное внимание</p>
+                </div>
+                <div class="advantage-card">
+                    <div class="advantage-card__icon">🎨</div>
+                    <h3 class="advantage-card__title" data-i18n="advantage_3_title">Реальные проекты</h3>
+                    <p class="advantage-card__text" data-i18n="advantage_3_desc">Практика на заказах</p>
+                </div>
+                <div class="advantage-card">
+                    <div class="advantage-card__icon">📚</div>
+                    <h3 class="advantage-card__title" data-i18n="advantage_4_title">Материалы на всегда</h3>
+                    <p class="advantage-card__text" data-i18n="advantage_4_desc">Доступ к ресурсам</p>
+                </div>
+                <div class="advantage-card">
+                    <div class="advantage-card__icon">🏆</div>
+                    <h3 class="advantage-card__title" data-i18n="advantage_5_title">Помощь в трудоустройстве</h3>
+                    <p class="advantage-card__text" data-i18n="advantage_5_desc">Поддержка в поиске</p>
+                </div>
+                <div class="advantage-card">
+                    <div class="advantage-card__icon">🌍</div>
+                    <h3 class="advantage-card__title" data-i18n="advantage_6_title">Сообщество</h3>
+                    <p class="advantage-card__text" data-i18n="advantage_6_desc">Сеть профессионалов</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- COURSES -->
+    <section class="courses" id="courses">
+        <div class="container">
+            <h2 class="section-title" data-i18n="courses_title">Наши курсы</h2>
+            <div class="courses__grid">
+                <div class="course-card course-card--featured">
+                    <div class="course-card__image"></div>
+                    <div class="course-card__content">
+                        <div class="course-card__badge">БАЗОВЫЙ</div>
+                        <h3 class="course-card__title">Дизайн интерьера: основы</h3>
+                        <p class="course-card__description">Полный курс для начинающих. Научитесь основным принципам</p>
+                        <div class="course-card__meta">
+                            <span class="meta-badge">8 недель</span>
+                            <span class="meta-badge">Очный</span>
+                        </div>
+                        <div class="course-card__price">18 000 ₽</div>
+                        <button class="cta-button cta-button--small">Записаться</button>
+                    </div>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-card__image"></div>
+                    <div class="course-card__content">
+                        <div class="course-card__badge course-card__badge--medium">СРЕДНИЙ</div>
+                        <h3 class="course-card__title">Шитье и кройка</h3>
+                        <div class="course-card__meta">
+                            <span class="meta-badge">10 недель</span>
+                            <span class="meta-badge">Очный</span>
+                        </div>
+                        <div class="course-card__price">24 000 ₽</div>
+                        <button class="cta-button cta-button--small">Записаться</button>
+                    </div>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-card__image"></div>
+                    <div class="course-card__content">
+                        <div class="course-card__badge course-card__badge--advanced">ПРОДВИНУТЫЙ</div>
+                        <h3 class="course-card__title">Цифровой дизайн</h3>
+                        <div class="course-card__meta">
+                            <span class="meta-badge">12 недель</span>
+                            <span class="meta-badge">Гибридный</span>
+                        </div>
+                        <div class="course-card__price">32 000 ₽</div>
+                        <button class="cta-button cta-button--small">Записаться</button>
+                    </div>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-card__image"></div>
+                    <div class="course-card__content">
+                        <div class="course-card__badge course-card__badge--medium">СРЕДНИЙ</div>
+                        <h3 class="course-card__title">Графический дизайн</h3>
+                        <div class="course-card__meta">
+                            <span class="meta-badge">10 недель</span>
+                            <span class="meta-badge">Онлайн</span>
+                        </div>
+                        <div class="course-card__price">28 000 ₽</div>
+                        <button class="cta-button cta-button--small">Записаться</button>
+                    </div>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-card__image"></div>
+                    <div class="course-card__content">
+                        <div class="course-card__badge">БАЗОВЫЙ</div>
+                        <h3 class="course-card__title">Типографика</h3>
+                        <div class="course-card__meta">
+                            <span class="meta-badge">6 недель</span>
+                            <span class="meta-badge">Очный</span>
+                        </div>
+                        <div class="course-card__price">16 000 ₽</div>
+                        <button class="cta-button cta-button--small">Записаться</button>
+                    </div>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-card__image"></div>
+                    <div class="course-card__content">
+                        <div class="course-card__badge course-card__badge--intensive">ИНТЕНСИВ</div>
+                        <h3 class="course-card__title">Выходной интенсив</h3>
+                        <div class="course-card__meta">
+                            <span class="meta-badge">2 дня</span>
+                            <span class="meta-badge">Очный</span>
+                        </div>
+                        <div class="course-card__price">5 000 ₽</div>
+                        <button class="cta-button cta-button--small">Записаться</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- GALLERY -->
+    <section class="gallery" id="gallery">
+        <div class="container">
+            <h2 class="section-title" data-i18n="gallery_title">Наши работы</h2>
+            <div class="gallery__filters">
+                <button class="filter-btn filter-btn--active">Все работы</button>
+                <button class="filter-btn">MaDE</button>
+                <button class="filter-btn">Ученики</button>
+            </div>
+            <div class="gallery__grid">
+                <div class="gallery-item gallery-item--large"></div>
+                <div class="gallery-item gallery-item--medium"></div>
+                <div class="gallery-item"></div>
+                <div class="gallery-item"></div>
+                <div class="gallery-item"></div>
+                <div class="gallery-item gallery-item--medium"></div>
+                <div class="gallery-item"></div>
+                <div class="gallery-item"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="about__content">
+                <div class="about__images">
+                    <div class="about__image about__image--primary"></div>
+                    <div class="about__image about__image--secondary"></div>
+                </div>
+                <div class="about__text">
+                    <h2 class="section-title" data-i18n="about_title">Как всё началось</h2>
+                    <p class="about__paragraph">MaDE родилась из любви к творчеству в 2014 году. Мы начали как небольшое ателье, где создавали уникальные вещи для друзей и близких.</p>
+                    <p class="about__paragraph">За 10 лет мы выпустили более 500 выпускников, каждый из которых нашёл свой творческий путь. Наша философия — практический, живой подход к обучению.</p>
+                    <p class="about__paragraph">Сегодня MaDE — это не просто школа, а целое сообщество творческих людей, поддерживающих друг друга и растущих вместе.</p>
+                    <div class="about__highlights">
+                        <div class="highlight">
+                            <div class="highlight__number">500+</div>
+                            <div class="highlight__text">выпускников</div>
+                        </div>
+                        <div class="highlight">
+                            <div class="highlight__number">10+</div>
+                            <div class="highlight__text">лет опыта</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SHOP -->
+    <section class="shop" id="shop">
+        <div class="container">
+            <h2 class="section-title" data-i18n="shop_title">Магазин</h2>
+            <div class="shop__grid">
+                <div class="shop-card">
+                    <div class="shop-card__image"></div>
+                    <div class="shop-card__content">
+                        <span class="shop-card__category">Планеры</span>
+                        <h3 class="shop-card__title">Планер творчества</h3>
+                        <div class="shop-card__price">1 290 ₽</div>
+                        <button class="cta-button cta-button--small">Купить</button>
+                    </div>
+                </div>
+                <div class="shop-card">
+                    <div class="shop-card__image"></div>
+                    <div class="shop-card__content">
+                        <span class="shop-card__category">Книги</span>
+                        <h3 class="shop-card__title">История дизайна</h3>
+                        <div class="shop-card__price">890 ₽</div>
+                        <button class="cta-button cta-button--small">Купить</button>
+                    </div>
+                </div>
+                <div class="shop-card">
+                    <div class="shop-card__image"></div>
+                    <div class="shop-card__content">
+                        <span class="shop-card__category">Выкройки</span>
+                        <h3 class="shop-card__title">Набор выкроек платьев</h3>
+                        <div class="shop-card__price">490 ₽</div>
+                        <button class="cta-button cta-button--small">Купить</button>
+                    </div>
+                </div>
+                <div class="shop-card">
+                    <div class="shop-card__image"></div>
+                    <div class="shop-card__content">
+                        <span class="shop-card__category">Альбомы</span>
+                        <h3 class="shop-card__title">Скетч альбом премиум</h3>
+                        <div class="shop-card__price">690 ₽</div>
+                        <button class="cta-button cta-button--small">Купить</button>
+                    </div>
+                </div>
+                <div class="shop-card">
+                    <div class="shop-card__image"></div>
+                    <div class="shop-card__content">
+                        <span class="shop-card__category">Наборы</span>
+                        <h3 class="shop-card__title">Полный набор инструментов</h3>
+                        <div class="shop-card__price">2 490 ₽</div>
+                        <button class="cta-button cta-button--small">Купить</button>
+                    </div>
+                </div>
+                <div class="shop-card">
+                    <div class="shop-card__image"></div>
+                    <div class="shop-card__content">
+                        <span class="shop-card__category">Видеокурсы</span>
+                        <h3 class="shop-card__title">Дизайн для начинающих</h3>
+                        <div class="shop-card__price">3 990 ₽</div>
+                        <button class="cta-button cta-button--small">Купить</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- REVIEWS -->
+    <section class="reviews">
+        <div class="container">
+            <h2 class="section-title" data-i18n="reviews_title">Отзывы</h2>
+            <div class="reviews__grid">
+                <div class="review-card">
+                    <div class="review-card__quote">"</div>
+                    <p class="review-card__text">Курс полностью изменил мой взгляд на дизайн. Преподаватели невероятно профессиональны, а атмосфера вдохновляет</p>
+                    <div class="review-card__author">Маша Петрова • Шитье и кройка</div>
+                </div>
+                <div class="review-card">
+                    <div class="review-card__quote">"</div>
+                    <p class="review-card__text">Практический подход MaDE — это именно то, чего мне не хватало. Теперь я уверена в своих навыках</p>
+                    <div class="review-card__author">Ольга Морозова • Цифровой дизайн</div>
+                </div>
+                <div class="review-card">
+                    <div class="review-card__quote">"</div>
+                    <p class="review-card__text">После курса у меня уже были первые клиенты. MaDE помогла с портфолио и советами</p>
+                    <div class="review-card__author">Елена Сидорова • Дизайн интерьера</div>
+                </div>
+                <div class="review-card">
+                    <div class="review-card__quote">"</div>
+                    <p class="review-card__text">Сообщество MaDE — это не просто школа, это семья. Мы до сих пор общаемся</p>
+                    <div class="review-card__author">Анна Соколова • Графический дизайн</div>
+                </div>
+                <div class="review-card">
+                    <div class="review-card__quote">"</div>
+                    <p class="review-card__text">Преподаватель заметил мой потенциал и помог развить его. Переломный момент в карьере</p>
+                    <div class="review-card__author">Дарья Волкова • Типографика</div>
+                </div>
+                <div class="review-card">
+                    <div class="review-card__quote">"</div>
+                    <p class="review-card__text">За два дня интенсива я понял, что дизайн — это мое. Спасибо MaDE за качество</p>
+                    <div class="review-card__author">Максим Кузнецов • Интенсив выходной</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
     <footer class="footer">
         <div class="container">
-            <p><span data-i18n="footer_copy">&copy; 2024 MaDE. Все права защищены</span></p>
+            <div class="footer__content">
+                <div class="footer__column">
+                    <h4 class="footer__title">О компании</h4>
+                    <ul class="footer__list">
+                        <li><a href="#" class="footer__link">О MaDE</a></li>
+                        <li><a href="#" class="footer__link">История</a></li>
+                        <li><a href="#" class="footer__link">Подход</a></li>
+                        <li><a href="#" class="footer__link">Команда</a></li>
+                        <li><a href="#" class="footer__link">Блог</a></li>
+                    </ul>
+                </div>
+                <div class="footer__column">
+                    <h4 class="footer__title">Обучение</h4>
+                    <ul class="footer__list">
+                        <li><a href="#" class="footer__link">Все курсы</a></li>
+                        <li><a href="#" class="footer__link">Расписание</a></li>
+                        <li><a href="#" class="footer__link">Преподаватели</a></li>
+                        <li><a href="#" class="footer__link">FAQ</a></li>
+                        <li><a href="#" class="footer__link">Подписаться</a></li>
+                    </ul>
+                </div>
+                <div class="footer__column">
+                    <h4 class="footer__title">Сообщество</h4>
+                    <ul class="footer__list">
+                        <li><a href="#" class="footer__link">Галерея</a></li>
+                        <li><a href="#" class="footer__link">События</a></li>
+                        <li><a href="#" class="footer__link">Instagram</a></li>
+                        <li><a href="#" class="footer__link">Telegram</a></li>
+                        <li><a href="#" class="footer__link">Обратная связь</a></li>
+                    </ul>
+                </div>
+                <div class="footer__column">
+                    <h4 class="footer__title">Контакты</h4>
+                    <ul class="footer__list">
+                        <li><a href="mailto:hello@made.com" class="footer__link">hello@made.com</a></li>
+                        <li><a href="tel:+79991234567" class="footer__link">+7 (999) 123-45-67</a></li>
+                        <li><a href="#" class="footer__link">Москва, ул. Творчества 42</a></li>
+                        <li><a href="#" class="footer__link">Политика конфиденциальности</a></li>
+                        <li><a href="#" class="footer__link">Условия использования</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer__bottom">
+                <p>&copy; 2024 MaDE. <span data-i18n="footer_copy">Все права защищены</span></p>
+                <div class="footer__socials">
+                    <a href="#" class="footer__social">Instagram</a>
+                    <a href="#" class="footer__social">Telegram</a>
+                    <a href="#" class="footer__social">Facebook</a>
+                </div>
+            </div>
         </div>
     </footer>
+
+    <script src="js/script.js"></script>
 </body>
 </html>
