@@ -10,26 +10,32 @@
 <body>
     <header class="header">
         <div class="container">
-            <div class="logo script-font">MaDE</div>
-            <nav class="nav">
-                <a href="#" class="nav__link">Главная</a>
-                <a href="#courses" class="nav__link">Обучение</a>
-                <a href="#gallery" class="nav__link">Галерея</a>
-                <a href="#shop" class="nav__link">Магазин</a>
-                <a href="#about" class="nav__link">О MaDE</a>
-            </nav>
+            <div class="header__left">
+                <div class="logo script-font">MaDE</div>
+                <nav class="nav">
+                    <a href="#" class="nav__link" data-i18n="nav_home">Главная</a>
+                    <a href="#courses" class="nav__link" data-i18n="nav_education">Обучение</a>
+                    <a href="#gallery" class="nav__link" data-i18n="nav_gallery">Галерея</a>
+                    <a href="#shop" class="nav__link" data-i18n="nav_shop">Магазин</a>
+                    <a href="#about" class="nav__link" data-i18n="nav_about">О MaDE</a>
+                </nav>
+            </div>
+            <div class="language-switcher">
+                <button class="lang-btn lang-btn--active" data-lang="ru">РУ</button>
+                <button class="lang-btn" data-lang="kk">КК</button>
+            </div>
         </div>
     </header>
 
     <section class="hero">
         <div class="container">
             <div class="hero__text">
-                <span class="hero__subtitle">Добро пожаловать</span>
-                <h1 class="hero__title">Откройте свой <span>творческий</span> потенциал</h1>
-                <p>Научитесь создавать прекрасное в нашем ателье</p>
+                <span class="hero__subtitle" data-i18n="hero_subtitle">Добро пожаловать</span>
+                <h1 class="hero__title"><span data-i18n="hero_title_start">Откройте свой</span> <span data-i18n="hero_title_accent">творческий</span> <span data-i18n="hero_title_end">потенциал</span></h1>
+                <p data-i18n="hero_desc">Научитесь создавать прекрасное в нашем ателье</p>
                 <div class="hero__buttons">
-                    <button class="cta-button">Начать обучение</button>
-                    <button class="cta-button cta-button--outline">Узнать больше</button>
+                    <button class="cta-button" data-i18n="hero_btn_1">Начать обучение</button>
+                    <button class="cta-button cta-button--outline" data-i18n="hero_btn_2">Узнать больше</button>
                 </div>
             </div>
             <div class="hero__visual">
@@ -40,7 +46,7 @@
 
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2024 MaDE. Все права защищены</p>
+            <p><span data-i18n="footer_copy">&copy; 2024 MaDE. Все права защищены</span></p>
         </div>
     </footer>
 </body>
