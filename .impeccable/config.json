@@ -1,0 +1,53 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "low-contrast",
+        "value": "*",
+        "files": [
+          "index.html"
+        ],
+        "createdAt": "2026-09-18T08:37:30.855Z",
+        "reason": "user-specified palette: --clay (#A8846A) on --paper is the designated secondary/caption text color per explicit design spec"
+      },
+      {
+        "rule": "hero-eyebrow-chip",
+        "value": "*",
+        "files": [
+          "index.html"
+        ],
+        "createdAt": "2026-09-18T08:39:43.979Z",
+        "reason": "user spec explicitly requires this eyebrow label with horizontal rule per prompt"
+      },
+      {
+        "rule": "overused-font",
+        "value": "inter",
+        "files": [
+          "index.html"
+        ],
+        "createdAt": "2026-09-18T08:39:44.249Z",
+        "reason": "user spec explicitly names Inter as the body typeface"
+      },
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": [
+          "index.html"
+        ],
+        "createdAt": "2026-09-18T08:39:44.602Z",
+        "reason": "user-specified palette value --paper:#EDE6DB"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "index.html"
+        ],
+        "createdAt": "2026-09-18T08:40:34.024Z",
+        "reason": "false positive: .fact and .direction already have 20px/40px insets via :first-child/:last-child rules, detector's static heuristic misses the pseudo-class logic"
+      }
+    ]
+  }
+}
