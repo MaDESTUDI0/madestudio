@@ -3,6 +3,7 @@ const path = require('path');
 const express = require('express');
 const cors = require('cors');
 const cookieSession = require('cookie-session');
+const rateLimit = require('express-rate-limit');
 
 const { migrate } = require('./db');
 const authRoutes = require('./routes/auth');
@@ -18,11 +19,17 @@ if (!SESSION_SECRET) {
   process.exit(1);
 }
 
+// Render (and most hosts) put the app behind a reverse proxy, so without
+// this, req.ip is the proxy's address for every request — the per-IP
+// rate limits below (and the ones already in routes/auth.js and
+// routes/register.js) would silently lump every visitor into one bucket.
+app.set('trust proxy', 1);
+
 app.use(cors({
   origin: (process.env.ALLOWED_ORIGIN || '').split(',').filter(Boolean),
   credentials: true
 }));
-app.use(express.json());
+app.use(express.json({ limit: '100kb' }));
 app.use(cookieSession({
   name: 'made_session',
   secret: SESSION_SECRET,
@@ -30,6 +37,22 @@ app.use(cookieSession({
   sameSite: 'lax',
   secure: process.env.NODE_ENV === 'production'
 }));
+
+// Blanket abuse/flood limiter for the whole API. This is not DDoS
+// protection — a real volumetric attack is stopped upstream by
+// Render/Cloudflare and GitHub Pages/Fastly, not application code — it
+// just stops a single client from hammering the service and starving
+// real visitors. The login/register endpoints layer their own tighter,
+// more targeted limits on top of this in routes/auth.js and
+// routes/register.js.
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 300,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: 'too_many_requests' }
+});
+app.use('/api', apiLimiter);
 
 app.use('/api', authRoutes);
 app.use('/api', contentRoutes);
