@@ -158,7 +158,7 @@ nav.main-nav{display:flex;align-items:center;gap:36px;}
 
 .header-cta{padding:11px 24px;font-size:13.5px;}
 
-.header-auth{display:flex;align-items:center;gap:16px;}
+.auth-group{display:flex;align-items:center;gap:8px;}
 
 .header-login{
   font-size:14px;color:var(--ink);
@@ -447,7 +447,7 @@ footer{padding:32px 0;}
 @media (max-width:720px){
   .wrap{padding:0 20px;}
   .header-inner{padding:16px 20px;}
-  .nav-links,.header-cta,.main-nav .header-login,.main-nav > .lang-switch{display:none;}
+  .nav-links,.header-cta,.auth-group,.main-nav .header-login,.main-nav > .lang-switch{display:none;}
   .mobile-bar{display:flex;}
   .burger{display:flex;}
   .fact-strip{flex-direction:column;}
