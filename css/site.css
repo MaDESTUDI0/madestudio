@@ -204,20 +204,6 @@ nav.main-nav{display:flex;align-items:center;gap:36px;}
 .eye-toggle:hover{color:var(--wine);}
 .eye-toggle svg{width:18px;height:18px;display:block;}
 
-.change-password-form{margin:-4px 0 18px;}
-.change-password-form label{display:block;margin-bottom:12px;font-size:12px;color:var(--clay);}
-.change-password-form label span{display:block;margin-bottom:5px;}
-.change-password-form input{
-  width:100%;padding:8px 0;border:none;border-bottom:1px solid var(--rule);
-  font-size:14px;color:var(--ink);background:none;
-  transition:border-color .3s ease;
-}
-.change-password-form input:focus{border-bottom-color:var(--wine);}
-.change-password-form .btn{width:100%;margin-top:4px;padding:10px;font-size:13px;}
-.change-password-note{font-size:12.5px;margin-top:10px;display:none;}
-.change-password-note.visible{display:block;}
-.change-password-note.ok{color:#3d7a4d;}
-.change-password-note.err{color:var(--wine);}
 
 .avatar-panel .btn-outline{width:100%;padding:10px;font-size:13px;margin-top:4px;}
 
