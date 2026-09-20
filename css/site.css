@@ -416,8 +416,16 @@ footer{padding:32px 0;}
 .account-note{margin-top:28px;font-size:14px;color:var(--clay);border-top:1px solid var(--rule);padding-top:20px;}
 .account-note a{color:var(--wine);border-bottom:1px solid var(--wine);padding-bottom:1px;}
 .account-logged-in{display:none;}
-.account-logged-in.visible{display:block;}
-.account-logged-in .username{color:var(--wine);}
+.account-logged-in.visible{
+  display:block;text-align:center;
+  max-width:360px;margin:24px auto 0;
+}
+.account-logged-in p{font-size:18px;}
+.account-logged-in .username{
+  color:var(--wine);font-family:'Playfair Display',serif;
+  font-size:32px;margin-top:4px;
+}
+.account-logged-in .btn{margin-top:24px;}
 .account-resend{
   background:none;border:none;padding:0;margin-top:14px;
   font-size:13px;color:var(--clay);text-decoration:underline;
