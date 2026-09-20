@@ -93,8 +93,7 @@ header{
 }
 .header-inner{
   display:flex;align-items:center;justify-content:space-between;
-  padding:18px 32px;
-  max-width:1240px;margin:0 auto;
+  padding:18px 48px;
 }
 .logo-svg{height:40px;width:auto;}
 nav.main-nav{display:flex;align-items:center;gap:36px;}
