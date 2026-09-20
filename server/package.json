@@ -11,7 +11,8 @@
     "start": "node server.js",
     "dev": "node server.js",
     "seed": "node scripts/seed-content.js",
-    "create-owner": "node scripts/create-owner.js"
+    "create-owner": "node scripts/create-owner.js",
+    "create-user": "node scripts/create-user.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

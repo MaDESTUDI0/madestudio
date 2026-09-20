@@ -181,6 +181,12 @@
       })
     })
       .then(function(data){
+        if (data.role !== 'owner') {
+          loginError.textContent = 'У этого аккаунта нет доступа к админ-панели.';
+          loginError.hidden = false;
+          api('/api/logout', { method: 'POST' });
+          return;
+        }
         showApp(data.username);
         loadPage(PAGES[0].id);
       })
@@ -199,6 +205,7 @@
   // On load, check if already authenticated (existing session cookie)
   api('/api/me')
     .then(function(data){
+      if (data.role !== 'owner') { showLogin(); return; }
       showApp(data.username);
       loadPage(PAGES[0].id);
     })

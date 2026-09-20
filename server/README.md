@@ -26,10 +26,17 @@ into the HTML otherwise.
 - `server/routes/auth.js` — `POST /api/login`, `POST /api/logout`,
   `GET /api/me`, with basic rate-limiting on failed logins.
 - `admin/` — the admin panel UI (plain HTML/CSS/JS, no build step).
+  Only accounts with `role = 'owner'` can log in here — the API
+  rejects content edits from any other role with 403, and the admin
+  UI itself checks the role after login and logs out anyone else.
 - `js/content-loader.js` — runs on every public page, fetches
   `/api/content/<page>` and patches the live `data-ru`/`data-kk`
   values in before re-rendering, then gets out of the way if the API
   isn't reachable.
+- `login.html` + `js/account.js` — the public-facing login page
+  (linked from "Войти" in the header). Any account in `users`
+  (`role = 'customer'` or otherwise) can log in here; it just shows
+  who's logged in for now; there's nothing behind it yet.
 
 ## Running locally
 
@@ -65,8 +72,20 @@ If those credentials are lost, delete the `owner` row from the
 instead of getting a random generated one). There's no self-service
 password change yet — for now, resetting means re-running that script.
 
-To add more admin accounts by hand for now, insert a row into `users`
-with a bcrypt hash (`bcryptjs.hashSync(password, 12)`).
+## Customer accounts (manual, for now)
+
+There's no public sign-up. "Регистрация" was removed from the site —
+instead, someone asks for an account via DM (Instagram/WhatsApp) and
+the owner creates it by hand:
+
+```
+npm run create-user <username> <password>            # role defaults to "customer"
+npm run create-user <username> <password> owner       # a second admin, if ever needed
+```
+
+The person then logs in at `/login.html` on the public site. Customer
+accounts cannot reach `/admin` or edit content — only `role: "owner"`
+can (enforced both in the API and in the admin UI).
 
 ## Deploying
 
@@ -89,9 +108,10 @@ Node 22.5+), then:
    (or serve `admin/` from that same host, which is what `server.js`
    already does at `/admin`).
 
-## Adding bonus accounts / SMS login later
+## Adding a bonus system / SMS login later
 
-The `users` table already exists and is separate from customer
-accounts — a future bonus-system account table (phone number, SMS
-code, balance) would live alongside it without touching what's built
-here.
+Customer accounts already exist (`users`, `role = 'customer'`),
+created manually for now. A future bonus system would add a `balance`
+column (or a separate `bonus_ledger` table) tied to `users.id`, and
+phone+SMS login would replace/extend the username+password flow in
+`routes/auth.js` without touching the content/admin pieces built here.

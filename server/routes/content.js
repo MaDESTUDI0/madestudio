@@ -1,6 +1,6 @@
 const express = require('express');
 const db = require('../db');
-const { requireAuth } = require('../middleware/auth');
+const { requireRole } = require('../middleware/auth');
 
 const router = express.Router();
 
@@ -22,7 +22,7 @@ router.get('/content/:page', (req, res) => {
   res.json(out);
 });
 
-router.put('/content/:page', requireAuth, (req, res) => {
+router.put('/content/:page', requireRole('owner'), (req, res) => {
   const { page } = req.params;
   const body = req.body || {};
 

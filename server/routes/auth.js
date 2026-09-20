@@ -48,7 +48,8 @@ router.post('/login', (req, res) => {
   attempts.delete(ip);
   req.session.userId = user.id;
   req.session.username = user.username;
-  res.json({ ok: true, username: user.username });
+  req.session.role = user.role;
+  res.json({ ok: true, username: user.username, role: user.role });
 });
 
 router.post('/logout', (req, res) => {
@@ -60,7 +61,7 @@ router.get('/me', (req, res) => {
   if (!req.session || !req.session.userId) {
     return res.status(401).json({ error: 'unauthorized' });
   }
-  res.json({ username: req.session.username });
+  res.json({ username: req.session.username, role: req.session.role });
 });
 
 module.exports = router;

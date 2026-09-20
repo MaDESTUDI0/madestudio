@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Вход — MaDE Studio</title>
+<meta name="description" content="Вход в личный кабинет MaDE Studio.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500;600&family=Pinyon+Script&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/site.css">
+<noscript><style>.reveal{opacity:1!important;transform:none!important;}</style></noscript>
+<style>
+  .account-wrap{max-width:420px;}
+  .account-form label{display:block;margin-bottom:18px;font-size:13px;color:var(--clay);}
+  .account-form label span{display:block;margin-bottom:6px;}
+  .account-form input{
+    width:100%;padding:12px 14px;border:1px solid var(--rule);border-radius:2px;
+    font-size:15px;color:var(--ink);background:var(--paper-light);
+  }
+  .account-form .btn{width:100%;margin-top:4px;}
+  .account-error{color:var(--wine);font-size:14px;margin-top:16px;display:none;}
+  .account-error.visible{display:block;}
+  .account-note{margin-top:28px;font-size:14px;color:var(--clay);border-top:1px solid var(--rule);padding-top:20px;}
+  .account-note a{color:var(--wine);border-bottom:1px solid var(--wine);padding-bottom:1px;}
+  .account-logged-in{display:none;}
+  .account-logged-in.visible{display:block;}
+  .account-logged-in .username{color:var(--wine);}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a href="index.html" aria-label="MaDE Studio — главная">
+      <svg class="logo-svg" viewBox="0 0 160 40" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="MaDE">
+        <text x="0" y="30" font-family="'Pinyon Script', cursive" font-size="36" fill="#5E1F2B">MaDE</text>
+      </svg>
+    </a>
+
+    <nav class="main-nav">
+      <div class="nav-links" data-i18n-group>
+        <a href="courses.html" data-ru="Курсы" data-kk="Курстар">Курсы</a>
+        <a href="atelier.html" data-ru="Ателье" data-kk="Ателье">Ателье</a>
+        <a href="gallery.html" data-ru="Работы" data-kk="Жұмыстар">Работы</a>
+        <a href="shop.html" data-ru="Магазин" data-kk="Дүкен">Магазин</a>
+        <a href="reviews.html" data-ru="Отзывы" data-kk="Пікірлер">Отзывы</a>
+        <a href="about.html" data-ru="О студии" data-kk="Студия туралы">О студии</a>
+      </div>
+
+      <div class="lang-switch" role="group" aria-label="Язык / Тіл">
+        <button type="button" data-lang="ru" class="active">Рус</button>
+        <span class="sep">/</span>
+        <button type="button" data-lang="kk">Қаз</button>
+      </div>
+
+      <a href="courses.html#signup" class="btn btn-solid header-cta" data-ru="Записаться" data-kk="Жазылу">Записаться</a>
+    </nav>
+
+    <div class="mobile-bar">
+      <div class="lang-switch mobile-lang-switch" role="group" aria-label="Язык / Тіл">
+        <button type="button" data-lang="ru" class="active">Рус</button>
+        <span class="sep">/</span>
+        <button type="button" data-lang="kk">Қаз</button>
+      </div>
+
+      <button class="burger" id="burgerBtn" aria-expanded="false" aria-controls="mobileNav" aria-label="Меню">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="mobile-nav" id="mobileNav" data-i18n-group>
+    <a href="courses.html" data-ru="Курсы" data-kk="Курстар">Курсы</a>
+    <a href="atelier.html" data-ru="Ателье" data-kk="Ателье">Ателье</a>
+    <a href="gallery.html" data-ru="Работы" data-kk="Жұмыстар">Работы</a>
+    <a href="shop.html" data-ru="Магазин" data-kk="Дүкен">Магазин</a>
+    <a href="reviews.html" data-ru="Отзывы" data-kk="Пікірлер">Отзывы</a>
+    <a href="about.html" data-ru="О студии" data-kk="Студия туралы">О студии</a>
+    <div class="mobile-extra">
+      <a href="courses.html#signup" class="btn btn-solid" data-ru="Записаться" data-kk="Жазылу">Записаться</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="page-hero">
+    <div class="wrap">
+      <div class="eyebrow reveal" data-ru="Личный кабинет" data-kk="Жеке кабинет">Личный кабинет</div>
+      <h1 class="page-title reveal reveal-d1" data-i18n-html
+          data-ru="Вход в &lt;em&gt;аккаунт&lt;/em&gt;"
+          data-kk="&lt;em&gt;Аккаунтқа&lt;/em&gt; кіру">
+        Вход в <em>аккаунт</em>
+      </h1>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap account-wrap">
+
+      <div id="loggedOutView">
+        <form id="accountLoginForm" class="account-form reveal">
+          <label>
+            <span data-ru="Логин" data-kk="Логин">Логин</span>
+            <input type="text" name="username" autocomplete="username" required>
+          </label>
+          <label>
+            <span data-ru="Пароль" data-kk="Құпия сөз">Пароль</span>
+            <input type="password" name="password" autocomplete="current-password" required>
+          </label>
+          <button type="submit" class="btn btn-solid" data-ru="Войти" data-kk="Кіру">Войти</button>
+          <p id="accountLoginError" class="account-error" data-ru="Неверный логин или пароль." data-kk="Логин немесе құпия сөз қате.">Неверный логин или пароль.</p>
+        </form>
+
+        <p class="account-note reveal reveal-d1"
+           data-ru="Аккаунтов пока нет в свободной регистрации — напишите нам, и мы создадим его вручную."
+           data-kk="Әзірге еркін тіркелу жоқ — бізге жазыңыз, аккаунтты қолмен жасаймыз.">
+          Аккаунтов пока нет в свободной регистрации — напишите нам, и мы создадим его вручную.
+          <br>
+          <a href="https://instagram.com/made_studio_kz" target="_blank" rel="noopener">Instagram</a>
+          ·
+          <a href="https://wa.me/77000000000" target="_blank" rel="noopener">WhatsApp</a>
+        </p>
+      </div>
+
+      <div id="loggedInView" class="account-logged-in reveal">
+        <p data-ru="Вы вошли как" data-kk="Сіз кірдіңіз:">Вы вошли как</p>
+        <p class="username" id="accountUsername"></p>
+        <button id="accountLogoutBtn" class="btn btn-outline" style="margin-top:20px;" data-ru="Выйти" data-kk="Шығу">Выйти</button>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap footer-row">
+    <div>© 2026 MaDE Studio, Алматы</div>
+    <div class="footer-links">
+      <a href="courses.html" data-ru="Курсы" data-kk="Курстар">Курсы</a>
+      <a href="atelier.html" data-ru="Ателье" data-kk="Ателье">Ателье</a>
+      <a href="shop.html" data-ru="Магазин" data-kk="Дүкен">Магазин</a>
+      <a href="contacts.html" data-ru="Контакты" data-kk="Байланыс">Контакты</a>
+      <a href="https://instagram.com/made_studio_kz" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://2gis.kz" target="_blank" rel="noopener">2ГИС</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  window.MADE_TITLES = {
+    ru: 'Вход — MaDE Studio',
+    kk: 'Кіру — MaDE Studio'
+  };
+</script>
+<script src="js/site.js"></script>
+<script src="js/account.js"></script>
+</body>
+</html>
