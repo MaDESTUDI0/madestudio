@@ -267,10 +267,29 @@ nav.main-nav{display:flex;align-items:center;gap:36px;}
 .mobile-nav .mobile-extra{padding:16px 32px;display:flex;gap:16px;align-items:center;}
 
 /* ===== Homepage hero ===== */
-.hero{padding:72px 0 96px;}
+.hero{padding:72px 0 96px;position:relative;overflow:hidden;}
 .hero-grid{
+  position:relative;z-index:1;
   display:grid;grid-template-columns:1.1fr 1fr;gap:64px;align-items:center;
 }
+
+.hero-decor{position:absolute;inset:0;color:var(--wine);pointer-events:none;z-index:0;}
+.hero-decor svg{position:absolute;}
+.decor-arc{opacity:.15;}
+.decor-arc-1{top:-90px;left:-120px;width:420px;height:420px;}
+.decor-arc-2{bottom:-140px;right:-100px;width:360px;height:360px;}
+.decor-scissors{top:56px;left:16px;width:112px;height:112px;opacity:.55;transform:rotate(-8deg);}
+.decor-spool{top:196px;left:30px;width:78px;height:116px;opacity:.5;}
+.decor-tape{top:52px;right:4px;width:150px;height:186px;opacity:.5;}
+.decor-pins{top:296px;right:26px;width:100px;height:100px;opacity:.5;}
+.decor-pattern{bottom:-26px;right:-18px;width:150px;height:150px;opacity:.35;}
+.decor-tagline{
+  position:absolute;width:200px;font-family:'Pinyon Script',cursive;
+  color:var(--wine);opacity:.7;line-height:1.2;
+}
+.decor-tagline p{font-size:25px;}
+.decor-tagline-1{top:340px;left:18px;text-align:left;}
+.decor-tagline-2{top:376px;right:24px;text-align:right;}
 .eyebrow{
   display:flex;align-items:center;gap:14px;
   font-size:13px;color:var(--clay);letter-spacing:.02em;
@@ -636,6 +655,7 @@ footer{padding:32px 0;}
 
 /* ===== Responsive ===== */
 @media (max-width:900px){
+  .hero-decor{display:none;}
   .hero-grid{grid-template-columns:1fr;gap:48px;}
   .hero-visual{order:-1;}
   .directions-grid,.col-3{grid-template-columns:1fr;}
