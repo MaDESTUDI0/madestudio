@@ -101,6 +101,15 @@
         ],
         "createdAt": "2026-09-20T11:31:07.574Z",
         "reason": "user spec explicitly names Inter as the body typeface site-wide"
+      },
+      {
+        "rule": "overused-font",
+        "value": "inter",
+        "files": [
+          "admin/admin.css"
+        ],
+        "createdAt": "2026-09-20T12:32:39.161Z",
+        "reason": "user spec explicitly names Inter as the body typeface site-wide, admin panel matches for consistency"
       }
     ]
   }

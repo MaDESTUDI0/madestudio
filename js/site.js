@@ -93,4 +93,8 @@
   var saved = 'ru';
   try{ saved = localStorage.getItem('made_lang') || 'ru'; }catch(e){}
   applyLang(saved);
+
+  // Exposed so content-loader.js can re-render text after patching
+  // data-ru/data-kk with values fetched from the admin-editable API.
+  window.MADE_APPLY_LANG = applyLang;
 })();

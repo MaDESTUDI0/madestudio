@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="css/site.css">
 <noscript><style>.reveal{opacity:1!important;transform:none!important;}</style></noscript>
 </head>
-<body>
+<body data-page="shop">
 
 <header>
   <div class="header-inner">
@@ -23,12 +23,12 @@
 
     <nav class="main-nav">
       <div class="nav-links" data-i18n-group>
-        <a href="courses.html" data-ru="Курсы" data-kk="Курстар">Курсы</a>
-        <a href="atelier.html" data-ru="Ателье" data-kk="Ателье">Ателье</a>
-        <a href="gallery.html" data-ru="Работы" data-kk="Жұмыстар">Работы</a>
-        <a href="shop.html" class="is-current" data-ru="Магазин" data-kk="Дүкен">Магазин</a>
-        <a href="reviews.html" data-ru="Отзывы" data-kk="Пікірлер">Отзывы</a>
-        <a href="about.html" data-ru="О студии" data-kk="Студия туралы">О студии</a>
+        <a data-key="nav.1" href="courses.html" data-ru="Курсы" data-kk="Курстар">Курсы</a>
+        <a data-key="nav.2" href="atelier.html" data-ru="Ателье" data-kk="Ателье">Ателье</a>
+        <a data-key="nav.3" href="gallery.html" data-ru="Работы" data-kk="Жұмыстар">Работы</a>
+        <a data-key="nav.4" href="shop.html" class="is-current" data-ru="Магазин" data-kk="Дүкен">Магазин</a>
+        <a data-key="nav.5" href="reviews.html" data-ru="Отзывы" data-kk="Пікірлер">Отзывы</a>
+        <a data-key="nav.6" href="about.html" data-ru="О студии" data-kk="Студия туралы">О студии</a>
       </div>
 
       <div class="lang-switch" role="group" aria-label="Язык / Тіл">
@@ -38,10 +38,10 @@
       </div>
 
       <div class="header-auth">
-        <a href="#" class="header-login" data-ru="Войти" data-kk="Кіру">Войти</a>
-        <a href="#" class="header-login" data-ru="Регистрация" data-kk="Тіркелу">Регистрация</a>
+        <a data-key="nav.7" href="#" class="header-login" data-ru="Войти" data-kk="Кіру">Войти</a>
+        <a data-key="nav.8" href="#" class="header-login" data-ru="Регистрация" data-kk="Тіркелу">Регистрация</a>
       </div>
-      <a href="courses.html#signup" class="btn btn-solid header-cta" data-ru="Записаться" data-kk="Жазылу">Записаться</a>
+      <a data-key="nav.9" href="courses.html#signup" class="btn btn-solid header-cta" data-ru="Записаться" data-kk="Жазылу">Записаться</a>
     </nav>
 
     <div class="mobile-bar">
@@ -58,16 +58,16 @@
   </div>
 
   <div class="mobile-nav" id="mobileNav" data-i18n-group>
-    <a href="courses.html" data-ru="Курсы" data-kk="Курстар">Курсы</a>
-    <a href="atelier.html" data-ru="Ателье" data-kk="Ателье">Ателье</a>
-    <a href="gallery.html" data-ru="Работы" data-kk="Жұмыстар">Работы</a>
-    <a href="shop.html" class="is-current" data-ru="Магазин" data-kk="Дүкен">Магазин</a>
-    <a href="reviews.html" data-ru="Отзывы" data-kk="Пікірлер">Отзывы</a>
-    <a href="about.html" data-ru="О студии" data-kk="Студия туралы">О студии</a>
-    <a href="#" class="header-login" data-ru="Войти" data-kk="Кіру">Войти</a>
-    <a href="#" class="header-login" data-ru="Регистрация" data-kk="Тіркелу">Регистрация</a>
+    <a data-key="mobile-nav.1" href="courses.html" data-ru="Курсы" data-kk="Курстар">Курсы</a>
+    <a data-key="mobile-nav.2" href="atelier.html" data-ru="Ателье" data-kk="Ателье">Ателье</a>
+    <a data-key="mobile-nav.3" href="gallery.html" data-ru="Работы" data-kk="Жұмыстар">Работы</a>
+    <a data-key="mobile-nav.4" href="shop.html" class="is-current" data-ru="Магазин" data-kk="Дүкен">Магазин</a>
+    <a data-key="mobile-nav.5" href="reviews.html" data-ru="Отзывы" data-kk="Пікірлер">Отзывы</a>
+    <a data-key="mobile-nav.6" href="about.html" data-ru="О студии" data-kk="Студия туралы">О студии</a>
+    <a data-key="mobile-nav.7" href="#" class="header-login" data-ru="Войти" data-kk="Кіру">Войти</a>
+    <a data-key="mobile-nav.8" href="#" class="header-login" data-ru="Регистрация" data-kk="Тіркелу">Регистрация</a>
     <div class="mobile-extra">
-      <a href="courses.html#signup" class="btn btn-solid" data-ru="Записаться" data-kk="Жазылу">Записаться</a>
+      <a data-key="mobile-nav.9" href="courses.html#signup" class="btn btn-solid" data-ru="Записаться" data-kk="Жазылу">Записаться</a>
     </div>
   </div>
 </header>
@@ -75,13 +75,13 @@
 <main>
   <section class="page-hero">
     <div class="wrap">
-      <div class="eyebrow reveal" data-ru="Магазин" data-kk="Дүкен">Магазин</div>
-      <h1 class="page-title reveal reveal-d1" data-i18n-html
+      <div data-key="page-hero.1" class="eyebrow reveal" data-ru="Магазин" data-kk="Дүкен">Магазин</div>
+      <h1 data-key="page-hero.2" class="page-title reveal reveal-d1" data-i18n-html
           data-ru="Для тех, кто шьёт &lt;em&gt;дома&lt;/em&gt;"
           data-kk="Үйде тігетіндерге &lt;em&gt;арналған&lt;/em&gt;">
         Для тех, кто шьёт <em>дома</em>
       </h1>
-      <p class="page-lead reveal reveal-d2" data-ru="Авторские материалы MaDE Studio: сборник по швейному делу, планеры для мастерской и наборы лекал."
+      <p data-key="page-hero.3" class="page-lead reveal reveal-d2" data-ru="Авторские материалы MaDE Studio: сборник по швейному делу, планеры для мастерской и наборы лекал."
          data-kk="MaDE Studio авторлық материалдары: тігін ісі бойынша жинақ, шеберхана планерлері және лекал жинақтары.">
         Авторские материалы MaDE Studio: сборник по швейному делу, планеры для мастерской и наборы лекал.
       </p>
@@ -91,20 +91,20 @@
   <section class="section">
     <div class="wrap">
       <div class="section-head reveal">
-        <h2 data-ru="В наличии" data-kk="Қолда бар">В наличии</h2>
+        <h2 data-key="section.1" data-ru="В наличии" data-kk="Қолда бар">В наличии</h2>
       </div>
       <div class="product-grid">
         <div class="product reveal">
           <div class="product-media">
             <img src="images/shop-book.jpg" alt="Сборник «Швейное дело» — авторское пособие MaDE Studio" loading="lazy">
           </div>
-          <h3 data-ru="«Швейное дело»" data-kk="«Швейное дело»">«Швейное дело»</h3>
-          <p data-ru="Авторский сборник: построение выкроек, техники пошива и разбор частых ошибок." data-kk="Авторлық жинақ: выкройка құру, тігу техникасы және жиі кездесетін қателерді талдау.">
+          <h3 data-key="shop.1" data-ru="«Швейное дело»" data-kk="«Швейное дело»">«Швейное дело»</h3>
+          <p data-key="shop.2" data-ru="Авторский сборник: построение выкроек, техники пошива и разбор частых ошибок." data-kk="Авторлық жинақ: выкройка құру, тігу техникасы және жиі кездесетін қателерді талдау.">
             Авторский сборник: построение выкроек, техники пошива и разбор частых ошибок.
           </p>
           <div class="product-meta">
-            <span class="product-price" data-ru="Цена по запросу" data-kk="Бағасы сұрау бойынша">Цена по запросу</span>
-            <a href="https://wa.me/77000000000" class="product-cta" target="_blank" rel="noopener" data-ru="Написать в WhatsApp" data-kk="WhatsApp-қа жазу">Написать в WhatsApp</a>
+            <span data-key="shop.3" class="product-price" data-ru="Цена по запросу" data-kk="Бағасы сұрау бойынша">Цена по запросу</span>
+            <a data-key="shop.4" href="https://wa.me/77000000000" class="product-cta" target="_blank" rel="noopener" data-ru="Написать в WhatsApp" data-kk="WhatsApp-қа жазу">Написать в WhatsApp</a>
           </div>
         </div>
 
@@ -118,13 +118,13 @@
               <line x1="14" y1="20" x2="14" y2="64" stroke="#5E1F2B" stroke-width="1.5"/>
             </svg>
           </div>
-          <h3 data-ru="Планер для мастерской" data-kk="Шеберхана планері">Планер для мастерской</h3>
-          <p data-ru="Учёт заказов, тканей и расходов — чтобы в мастерской был порядок." data-kk="Тапсырыстарды, маталарды және шығындарды есепке алу — шеберханада тәртіп болуы үшін.">
+          <h3 data-key="shop.5" data-ru="Планер для мастерской" data-kk="Шеберхана планері">Планер для мастерской</h3>
+          <p data-key="shop.6" data-ru="Учёт заказов, тканей и расходов — чтобы в мастерской был порядок." data-kk="Тапсырыстарды, маталарды және шығындарды есепке алу — шеберханада тәртіп болуы үшін.">
             Учёт заказов, тканей и расходов — чтобы в мастерской был порядок.
           </p>
           <div class="product-meta">
-            <span class="product-price" data-ru="Цена по запросу" data-kk="Бағасы сұрау бойынша">Цена по запросу</span>
-            <a href="https://wa.me/77000000000" class="product-cta" target="_blank" rel="noopener" data-ru="Написать в WhatsApp" data-kk="WhatsApp-қа жазу">Написать в WhatsApp</a>
+            <span data-key="shop.7" class="product-price" data-ru="Цена по запросу" data-kk="Бағасы сұрау бойынша">Цена по запросу</span>
+            <a data-key="shop.8" href="https://wa.me/77000000000" class="product-cta" target="_blank" rel="noopener" data-ru="Написать в WhatsApp" data-kk="WhatsApp-қа жазу">Написать в WhatsApp</a>
           </div>
         </div>
 
@@ -135,13 +135,13 @@
               <path d="M36 8 L36 64" stroke="#5E1F2B" stroke-width="1"/>
             </svg>
           </div>
-          <h3 data-ru="Наборы лекал" data-kk="Лекал жинақтары">Наборы лекал</h3>
-          <p data-ru="Готовые лекала базовых изделий — если хочется шить сразу, без построения выкройки." data-kk="Негізгі бұйымдардың дайын лекалдары — выkройка құрмай-ақ бірден тігкіңіз келсе.">
+          <h3 data-key="shop.9" data-ru="Наборы лекал" data-kk="Лекал жинақтары">Наборы лекал</h3>
+          <p data-key="shop.10" data-ru="Готовые лекала базовых изделий — если хочется шить сразу, без построения выкройки." data-kk="Негізгі бұйымдардың дайын лекалдары — выkройка құрмай-ақ бірден тігкіңіз келсе.">
             Готовые лекала базовых изделий — если хочется шить сразу, без построения выкройки.
           </p>
           <div class="product-meta">
-            <span class="product-price" data-ru="Цена по запросу" data-kk="Бағасы сұрау бойынша">Цена по запросу</span>
-            <a href="https://wa.me/77000000000" class="product-cta" target="_blank" rel="noopener" data-ru="Написать в WhatsApp" data-kk="WhatsApp-қа жазу">Написать в WhatsApp</a>
+            <span data-key="shop.11" class="product-price" data-ru="Цена по запросу" data-kk="Бағасы сұрау бойынша">Цена по запросу</span>
+            <a data-key="shop.12" href="https://wa.me/77000000000" class="product-cta" target="_blank" rel="noopener" data-ru="Написать в WhatsApp" data-kk="WhatsApp-қа жазу">Написать в WhatsApp</a>
           </div>
         </div>
       </div>
@@ -151,16 +151,16 @@
   <section class="enroll">
     <div class="wrap enroll-grid">
       <div class="reveal">
-        <h2 data-i18n-html
+        <h2 data-key="enroll.1" data-i18n-html
             data-ru="Есть вопрос по &lt;em&gt;товару&lt;/em&gt;?"
             data-kk="Тауар туралы &lt;em&gt;сұрағыңыз&lt;/em&gt; бар ма?">
           Есть вопрос по <em>товару</em>?
         </h2>
-        <p data-ru="Напишите в WhatsApp — расскажем о наличии и поможем выбрать." data-kk="WhatsApp-қа жазыңыз — бар-жоғын айтып, таңдауға көмектесеміз.">
+        <p data-key="enroll.2" data-ru="Напишите в WhatsApp — расскажем о наличии и поможем выбрать." data-kk="WhatsApp-қа жазыңыз — бар-жоғын айтып, таңдауға көмектесеміз.">
           Напишите в WhatsApp — расскажем о наличии и поможем выбрать.
         </p>
       </div>
-      <a href="https://wa.me/77000000000" class="btn reveal reveal-d1" target="_blank" rel="noopener" data-ru="Написать в WhatsApp" data-kk="WhatsApp-қа жазу">Написать в WhatsApp</a>
+      <a data-key="enroll.3" href="https://wa.me/77000000000" class="btn reveal reveal-d1" target="_blank" rel="noopener" data-ru="Написать в WhatsApp" data-kk="WhatsApp-қа жазу">Написать в WhatsApp</a>
     </div>
   </section>
 </main>
@@ -169,10 +169,10 @@
   <div class="wrap footer-row">
     <div>© 2026 MaDE Studio, Алматы</div>
     <div class="footer-links">
-      <a href="courses.html" data-ru="Курсы" data-kk="Курстар">Курсы</a>
-      <a href="atelier.html" data-ru="Ателье" data-kk="Ателье">Ателье</a>
-      <a href="shop.html" data-ru="Магазин" data-kk="Дүкен">Магазин</a>
-      <a href="contacts.html" data-ru="Контакты" data-kk="Байланыс">Контакты</a>
+      <a data-key="footer.1" href="courses.html" data-ru="Курсы" data-kk="Курстар">Курсы</a>
+      <a data-key="footer.2" href="atelier.html" data-ru="Ателье" data-kk="Ателье">Ателье</a>
+      <a data-key="footer.3" href="shop.html" data-ru="Магазин" data-kk="Дүкен">Магазин</a>
+      <a data-key="footer.4" href="contacts.html" data-ru="Контакты" data-kk="Байланыс">Контакты</a>
       <a href="https://instagram.com/made_studio_kz" target="_blank" rel="noopener">Instagram</a>
       <a href="https://2gis.kz" target="_blank" rel="noopener">2ГИС</a>
     </div>
@@ -186,5 +186,6 @@
   };
 </script>
 <script src="js/site.js"></script>
+<script src="js/content-loader.js"></script>
 </body>
 </html>
