@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500;600&family=Pinyon+Script&display=swap" rel="stylesheet">
+<noscript><style>.reveal{opacity:1!important;transform:none!important;}</style></noscript>
 <style>
   :root{
     --wine:#5E1F2B;
@@ -46,6 +47,19 @@
   }
 
   .wrap{max-width:1180px;margin:0 auto;padding:0 32px;}
+
+  /* ===== Scroll reveal ===== */
+  .reveal{
+    opacity:0;
+    transform:translateY(28px);
+    transition:opacity .8s cubic-bezier(.25,.7,.3,1),
+               transform .8s cubic-bezier(.25,.7,.3,1);
+  }
+  .reveal.is-visible{opacity:1;transform:none;}
+  .reveal-d1{transition-delay:.08s;}
+  .reveal-d2{transition-delay:.16s;}
+  .reveal-d3{transition-delay:.24s;}
+  .reveal-d4{transition-delay:.32s;}
 
   /* ===== Preloader ===== */
   #preloader{
@@ -115,20 +129,54 @@
   .lang-switch .sep{color:var(--rule);}
 
   .btn{
+    position:relative;
     display:inline-block;
+    overflow:hidden;
     font-size:14px;letter-spacing:.01em;
     padding:13px 28px;
     border-radius:2px;
     border:1px solid var(--wine);
-    transition:background .3s ease,color .3s ease,border-color .3s ease;
+    transition:background .3s ease,color .3s ease,border-color .3s ease,
+               transform .4s cubic-bezier(0.34,1.56,0.64,1),
+               box-shadow .4s cubic-bezier(0.34,1.56,0.64,1);
   }
+  .btn::before{
+    content:"";
+    position:absolute;top:0;left:-100%;
+    width:100%;height:100%;
+    background:linear-gradient(120deg,transparent,rgba(255,255,255,.18),transparent);
+    transition:left .55s ease;
+  }
+  .btn:hover::before{left:100%;}
+  .btn:hover{transform:translateY(-2px);}
+  .btn:active{transform:translateY(0);}
   .btn-solid{background:var(--wine);color:var(--paper-light);}
-  .btn-solid:hover{background:var(--wine-deep);border-color:var(--wine-deep);}
+  .btn-solid:hover{background:var(--wine-deep);border-color:var(--wine-deep);box-shadow:0 10px 24px -12px rgba(94,31,43,.55);}
   .btn-outline{background:transparent;color:var(--wine);}
-  .btn-outline:hover{background:var(--wine);color:var(--paper-light);}
+  .btn-outline:hover{background:var(--wine);color:var(--paper-light);box-shadow:0 10px 24px -12px rgba(94,31,43,.4);}
 
   .header-cta{padding:11px 24px;font-size:13.5px;}
 
+  .header-auth{display:flex;align-items:center;gap:16px;}
+
+  .header-login{
+    font-size:14px;color:var(--ink);
+    position:relative;padding-bottom:4px;
+  }
+  .header-login::after{
+    content:"";position:absolute;left:0;bottom:0;
+    width:0;height:1px;background:var(--wine);
+    transition:width .3s ease;
+  }
+  .header-login:hover,.header-login:focus-visible{color:var(--wine);}
+  .header-login:hover::after,.header-login:focus-visible::after{width:100%;}
+
+  .mobile-nav .header-login{
+    display:block;padding:16px 32px;border-bottom:1px solid var(--rule);font-size:15px;
+  }
+  .mobile-nav .header-login::after{display:none;}
+
+  .mobile-bar{display:none;align-items:center;gap:20px;}
   .burger{display:none;background:none;border:none;flex-direction:column;gap:5px;padding:6px;}
   .burger span{width:22px;height:1px;background:var(--ink);display:block;}
 
@@ -199,7 +247,7 @@
     background:linear-gradient(160deg,#F6F1E9,#D6C7B4);
     position:relative;overflow:hidden;
   }
-  .visual-frame svg{width:100%;height:100%;}
+  .visual-frame svg,.visual-frame img{width:100%;height:100%;object-fit:cover;}
   .visual-caption{
     position:absolute;left:24px;bottom:24px;
     background:var(--wine);color:var(--paper-light);
@@ -274,7 +322,8 @@
   @media (max-width:720px){
     .wrap{padding:0 20px;}
     .header-inner{padding:16px 20px;}
-    .nav-links,.lang-switch,.header-cta{display:none;}
+    .nav-links,.header-cta,.main-nav .header-login,.main-nav > .lang-switch{display:none;}
+    .mobile-bar{display:flex;}
     .burger{display:flex;}
     .fact-strip{flex-direction:column;}
     .fact{border-right:none !important;padding:14px 0;border-bottom:1px solid var(--rule);}
@@ -316,12 +365,24 @@
         <button type="button" data-lang="kk">Қаз</button>
       </div>
 
+      <div class="header-auth">
+        <a href="#" class="header-login" data-ru="Войти" data-kk="Кіру">Войти</a>
+        <a href="#" class="header-login" data-ru="Регистрация" data-kk="Тіркелу">Регистрация</a>
+      </div>
       <a href="courses.html#signup" class="btn btn-solid header-cta" data-ru="Записаться" data-kk="Жазылу">Записаться</a>
     </nav>
 
-    <button class="burger" id="burgerBtn" aria-expanded="false" aria-controls="mobileNav" aria-label="Меню">
-      <span></span><span></span><span></span>
-    </button>
+    <div class="mobile-bar">
+      <div class="lang-switch mobile-lang-switch" role="group" aria-label="Язык / Тіл">
+        <button type="button" data-lang="ru" class="active">Рус</button>
+        <span class="sep">/</span>
+        <button type="button" data-lang="kk">Қаз</button>
+      </div>
+
+      <button class="burger" id="burgerBtn" aria-expanded="false" aria-controls="mobileNav" aria-label="Меню">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
   </div>
 
   <div class="mobile-nav" id="mobileNav" data-i18n-group>
@@ -331,12 +392,9 @@
     <a href="shop.html" data-ru="Магазин" data-kk="Дүкен">Магазин</a>
     <a href="reviews.html" data-ru="Отзывы" data-kk="Пікірлер">Отзывы</a>
     <a href="about.html" data-ru="О студии" data-kk="Студия туралы">О студии</a>
+    <a href="#" class="header-login" data-ru="Войти" data-kk="Кіру">Войти</a>
+    <a href="#" class="header-login" data-ru="Регистрация" data-kk="Тіркелу">Регистрация</a>
     <div class="mobile-extra">
-      <div class="lang-switch" role="group" aria-label="Язык / Тіл">
-        <button type="button" data-lang="ru" class="active">Рус</button>
-        <span class="sep">/</span>
-        <button type="button" data-lang="kk">Қаз</button>
-      </div>
       <a href="courses.html#signup" class="btn btn-solid" data-ru="Записаться" data-kk="Жазылу">Записаться</a>
     </div>
   </div>
@@ -346,20 +404,20 @@
   <section class="hero">
     <div class="wrap hero-grid">
       <div>
-        <div class="eyebrow" data-ru="Тігін курсы · Ателье · Алматы" data-kk="Тігін курсы · Ателье · Алматы">Тігін курсы · Ателье · Алматы</div>
+        <div class="eyebrow reveal" data-ru="Тігін курсы · Ателье · Алматы" data-kk="Тігін курсы · Ателье · Алматы">Тігін курсы · Ателье · Алматы</div>
 
-        <h1 class="hero-title" data-i18n-html
+        <h1 class="hero-title reveal reveal-d1" data-i18n-html
             data-ru="Научитесь шить без &lt;em&gt;готовых&lt;/em&gt; выкроек"
             data-kk="&lt;em&gt;Дайын&lt;/em&gt; выкройкасыз тігуді үйреніңіз">
           Научитесь шить без <em>готовых</em> выкроек
         </h1>
 
-        <p class="hero-sub" data-ru="Офлайн-курсы шитья и моделирования в Алматы. Строим выкройку с нуля — по вашим меркам, без чужих лекал."
+        <p class="hero-sub reveal reveal-d2" data-ru="Офлайн-курсы шитья и моделирования в Алматы. Строим выкройку с нуля — по вашим меркам, без чужих лекал."
            data-kk="Алматыдағы тігін және модельдеу курстары. Выкройканы дайын лекалсыз, өз өлшемдеріңіз бойынша нөлден саламыз.">
           Офлайн-курсы шитья и моделирования в Алматы. Строим выкройку с нуля — по вашим меркам, без чужих лекал.
         </p>
 
-        <div class="fact-strip">
+        <div class="fact-strip reveal reveal-d3">
           <div class="fact">
             <span class="fact-num">4</span>
             <span class="fact-label" data-ru="места в группе" data-kk="топтағы орын">места в группе</span>
@@ -374,39 +432,15 @@
           </div>
         </div>
 
-        <div class="hero-actions">
+        <div class="hero-actions reveal reveal-d4">
           <a href="courses.html#signup" class="btn btn-solid" data-ru="Записаться на курс" data-kk="Курсқа жазылу">Записаться на курс</a>
           <a href="gallery.html" class="btn btn-outline" data-ru="Работы учениц" data-kk="Оқушылардың жұмыстары">Работы учениц</a>
         </div>
       </div>
 
-      <div class="hero-visual">
+      <div class="hero-visual reveal reveal-d2">
         <div class="visual-frame">
-          <svg viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Портновский манекен на стойке">
-            <line x1="200" y1="420" x2="200" y2="500" stroke="#A8846A" stroke-width="3"/>
-            <ellipse cx="200" cy="480" rx="60" ry="10" fill="#A8846A" opacity="0.35"/>
-            <line x1="150" y1="425" x2="250" y2="425" stroke="#A8846A" stroke-width="3"/>
-            <line x1="200" y1="420" x2="200" y2="300" stroke="#A8846A" stroke-width="3"/>
-
-            <path d="M140 300 Q140 150 200 130 Q260 150 260 300 Q260 340 200 350 Q140 340 140 300 Z"
-                  fill="#EDE6DB" stroke="#5E1F2B" stroke-width="1.5"/>
-
-            <path d="M160 190 Q200 205 240 190" fill="none" stroke="#5E1F2B" stroke-width="1" stroke-dasharray="4 4"/>
-            <path d="M150 250 Q200 268 250 250" fill="none" stroke="#5E1F2B" stroke-width="1" stroke-dasharray="4 4"/>
-            <path d="M145 300 Q200 316 255 300" fill="none" stroke="#5E1F2B" stroke-width="1" stroke-dasharray="4 4"/>
-            <line x1="200" y1="135" x2="200" y2="345" stroke="#5E1F2B" stroke-width="1" stroke-dasharray="4 4"/>
-
-            <circle cx="163" cy="192" r="3.5" fill="#5E1F2B"/>
-            <circle cx="238" cy="190" r="3.5" fill="#5E1F2B"/>
-            <circle cx="152" cy="251" r="3.5" fill="#5E1F2B"/>
-            <circle cx="250" cy="249" r="3.5" fill="#5E1F2B"/>
-            <circle cx="147" cy="301" r="3.5" fill="#5E1F2B"/>
-            <circle cx="253" cy="300" r="3.5" fill="#5E1F2B"/>
-
-            <path d="M170 150 Q120 220 150 340" fill="none" stroke="#5E1F2B" stroke-width="1.25"/>
-            <circle cx="170" cy="150" r="2.5" fill="#5E1F2B"/>
-            <circle cx="150" cy="340" r="2.5" fill="#5E1F2B"/>
-          </svg>
+          <img src="images/hero-mannequin.jpg" alt="Мастер MaDE Studio снимает мерки с портновского манекена" loading="lazy">
         </div>
         <div class="visual-caption">
           <p data-ru="Выкройка строится по вашей фигуре" data-kk="Выкройка сіздің дене пішініңізге сай құрылады">Выкройка строится по вашей фигуре</p>
@@ -417,7 +451,7 @@
 
   <section class="directions">
     <div class="wrap directions-grid">
-      <div class="direction">
+      <div class="direction reveal">
         <h2 data-ru="Курсы шитья" data-kk="Тігін курстары">Курсы шитья</h2>
         <p data-ru="Групповые занятия по шитью и моделированию — от построения выкройки до готового изделия."
            data-kk="Тігін және модельдеу бойынша топтық сабақтар — выкройканы құрудан дайын бұйымға дейін.">
@@ -426,7 +460,7 @@
         <a href="courses.html" data-ru="Программа и цены" data-kk="Бағдарлама және бағалар">Программа и цены</a>
       </div>
 
-      <div class="direction">
+      <div class="direction reveal reveal-d1">
         <h2 data-ru="Пошив и реставрация" data-kk="Тігу және реставрация">Пошив и реставрация</h2>
         <p data-ru="Индивидуальный пошив по вашим меркам и реставрация одежды, которую жаль выбрасывать."
            data-kk="Өз өлшемдеріңіз бойынша жеке тігу және лақтырып жіберуге өкінетін киімдерді қалпына келтіру.">
@@ -435,7 +469,7 @@
         <a href="atelier.html" data-ru="Записаться на примерку" data-kk="Өлшемге жазылу">Записаться на примерку</a>
       </div>
 
-      <div class="direction">
+      <div class="direction reveal reveal-d2">
         <h2 data-ru="Магазин" data-kk="Дүкен">Магазин</h2>
         <p data-ru="Авторские сборники по швейному делу, планеры для мастерской и наборы лекал."
            data-kk="Авторлық тігін жинақтары, шеберхана үшін планерлер және лекал жинақтары.">
@@ -448,7 +482,7 @@
 
   <section class="enroll">
     <div class="wrap enroll-grid">
-      <div>
+      <div class="reveal">
         <h2 data-i18n-html
             data-ru="Набор в группу — &lt;em&gt;каждый месяц&lt;/em&gt;"
             data-kk="Топқа қабылдау — &lt;em&gt;ай сайын&lt;/em&gt;">
@@ -459,7 +493,7 @@
           Группы до 4 человек, занятия дважды в неделю с 11:00. Пишите — расскажем о ближайшем наборе.
         </p>
       </div>
-      <a href="https://wa.me/77000000000" class="btn" target="_blank" rel="noopener" data-ru="Написать в WhatsApp" data-kk="WhatsApp-қа жазу">Написать в WhatsApp</a>
+      <a href="https://wa.me/77000000000" class="btn reveal reveal-d1" target="_blank" rel="noopener" data-ru="Написать в WhatsApp" data-kk="WhatsApp-қа жазу">Написать в WhatsApp</a>
     </div>
   </section>
 </main>
@@ -488,11 +522,11 @@
 
   function step(){
     if(done) return;
-    progress += Math.random()*14 + 4;
+    progress += Math.random()*6 + 2;
     if(progress > 92) progress = 92;
     fill.style.width = progress + '%';
     if(progress < 92){
-      setTimeout(step, Math.random()*220 + 120);
+      setTimeout(step, Math.random()*500 + 350);
     }
   }
   step();
@@ -508,7 +542,23 @@
   }
 
   window.addEventListener('load', finish);
-  setTimeout(finish, 4500);
+  setTimeout(finish, 8000);
+
+  // Scroll reveal
+  var revealEls = document.querySelectorAll('.reveal');
+  if('IntersectionObserver' in window){
+    var revealObserver = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.classList.add('is-visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, {threshold:0.15, rootMargin:'0px 0px -8% 0px'});
+    revealEls.forEach(function(el){ revealObserver.observe(el); });
+  }else{
+    revealEls.forEach(function(el){ el.classList.add('is-visible'); });
+  }
 
   // Mobile menu
   var burger = document.getElementById('burgerBtn');
