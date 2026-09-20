@@ -92,6 +92,15 @@
         ],
         "createdAt": "2026-09-20T11:29:27.086Z",
         "reason": "false positive: .direction/.fact insets are set via :first-child/:last-child rules in css/site.css, detector's static heuristic misses pseudo-class logic"
+      },
+      {
+        "rule": "overused-font",
+        "value": "inter",
+        "files": [
+          "css/site.css"
+        ],
+        "createdAt": "2026-09-20T11:31:07.574Z",
+        "reason": "user spec explicitly names Inter as the body typeface site-wide"
       }
     ]
   }

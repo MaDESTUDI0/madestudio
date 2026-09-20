@@ -11,7 +11,7 @@
       if(done) return;
       progress += Math.random()*6 + 2;
       if(progress > 92) progress = 92;
-      fill.style.width = progress + '%';
+      fill.style.transform = 'scaleX(' + (progress / 100) + ')';
       if(progress < 92){
         setTimeout(step, Math.random()*500 + 350);
       }
@@ -21,7 +21,7 @@
     var finish = function(){
       if(done) return;
       done = true;
-      fill.style.width = '100%';
+      fill.style.transform = 'scaleX(1)';
       setTimeout(function(){
         pre.classList.add('hidden');
         document.body.classList.remove('loading');
