@@ -42,6 +42,9 @@ async function migrate() {
       last_sent_at TIMESTAMPTZ NOT NULL DEFAULT now(),
       created_at TIMESTAMPTZ NOT NULL DEFAULT now()
     );
+
+    ALTER TABLE users ADD COLUMN IF NOT EXISTS name TEXT;
+    ALTER TABLE pending_registrations ADD COLUMN IF NOT EXISTS name TEXT;
   `);
 }
 

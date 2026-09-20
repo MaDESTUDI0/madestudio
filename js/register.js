@@ -24,7 +24,8 @@
     invalid_code: 'Неверный код.',
     code_expired: 'Код устарел — запросите новый.',
     no_pending_registration: 'Сессия регистрации истекла — начните заново.',
-    missing_fields: 'Заполните все поля.'
+    missing_fields: 'Заполните все поля.',
+    missing_name: 'Укажите имя.'
   };
 
   function api(path, opts) {
@@ -54,6 +55,7 @@
     clearError(step1Error);
 
     var formData = new FormData(step1);
+    var name = String(formData.get('name') || '').trim();
     var email = String(formData.get('email') || '').trim();
     var password = String(formData.get('password') || '');
     var password2 = String(formData.get('password2') || '');
@@ -65,7 +67,7 @@
 
     api('/api/register/start', {
       method: 'POST',
-      body: JSON.stringify({ email: email, password: password })
+      body: JSON.stringify({ email: email, password: password, name: name })
     })
       .then(function(){
         currentEmail = email.toLowerCase();
@@ -89,8 +91,9 @@
     })
       .then(function(data){
         step2.style.display = 'none';
-        successEmail.textContent = data.username;
+        successEmail.textContent = data.name || data.username;
         success.classList.add('visible');
+        if (typeof window.MADE_REFRESH_AUTH === 'function') window.MADE_REFRESH_AUTH();
       })
       .catch(function(err){ showError(step2Error, err); });
   });

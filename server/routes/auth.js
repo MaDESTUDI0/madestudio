@@ -1,6 +1,7 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const { pool } = require('../db');
+const { requireAuth } = require('../middleware/auth');
 const asyncHandler = require('../asyncHandler');
 
 const router = express.Router();
@@ -51,7 +52,8 @@ router.post('/login', asyncHandler(async (req, res) => {
   req.session.userId = user.id;
   req.session.username = user.username;
   req.session.role = user.role;
-  res.json({ ok: true, username: user.username, role: user.role });
+  req.session.name = user.name;
+  res.json({ ok: true, username: user.username, role: user.role, name: user.name });
 }));
 
 router.post('/logout', (req, res) => {
@@ -63,7 +65,28 @@ router.get('/me', (req, res) => {
   if (!req.session || !req.session.userId) {
     return res.status(401).json({ error: 'unauthorized' });
   }
-  res.json({ username: req.session.username, role: req.session.role });
+  res.json({ username: req.session.username, role: req.session.role, name: req.session.name });
 });
+
+router.post('/change-password', requireAuth, asyncHandler(async (req, res) => {
+  const { currentPassword, newPassword } = req.body || {};
+  if (!currentPassword || !newPassword) {
+    return res.status(400).json({ error: 'missing_fields' });
+  }
+  if (newPassword.length < 8) {
+    return res.status(400).json({ error: 'weak_password' });
+  }
+
+  const { rows } = await pool.query('SELECT * FROM users WHERE id = $1', [req.session.userId]);
+  const user = rows[0];
+  if (!user || !bcrypt.compareSync(currentPassword, user.password_hash)) {
+    return res.status(401).json({ error: 'invalid_credentials' });
+  }
+
+  const newHash = bcrypt.hashSync(newPassword, 12);
+  await pool.query('UPDATE users SET password_hash = $1 WHERE id = $2', [newHash, user.id]);
+
+  res.json({ ok: true });
+}));
 
 module.exports = router;

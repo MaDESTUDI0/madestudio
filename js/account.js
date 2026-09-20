@@ -21,10 +21,10 @@
     });
   }
 
-  function showLoggedIn(username) {
+  function showLoggedIn(data) {
     loggedOutView.style.display = 'none';
     loggedInView.classList.add('visible');
-    usernameEl.textContent = username;
+    usernameEl.textContent = data.name || data.username;
   }
 
   function showLoggedOut() {
@@ -44,17 +44,23 @@
         password: formData.get('password')
       })
     })
-      .then(function(data){ showLoggedIn(data.username); })
+      .then(function(data){
+        showLoggedIn(data);
+        if (typeof window.MADE_REFRESH_AUTH === 'function') window.MADE_REFRESH_AUTH();
+      })
       .catch(function(){ errorEl.classList.add('visible'); });
   });
 
   if (logoutBtn) {
     logoutBtn.addEventListener('click', function(){
-      api('/api/logout', { method: 'POST' }).finally(showLoggedOut);
+      api('/api/logout', { method: 'POST' }).finally(function(){
+        showLoggedOut();
+        if (typeof window.MADE_REFRESH_AUTH === 'function') window.MADE_REFRESH_AUTH();
+      });
     });
   }
 
   // If a session cookie is already set (backend deployed + previously
   // logged in), reflect that instead of showing the form.
-  api('/api/me').then(function(data){ showLoggedIn(data.username); }).catch(function(){});
+  api('/api/me').then(showLoggedIn).catch(function(){});
 })();

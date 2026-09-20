@@ -46,12 +46,16 @@ router.post('/register/start', asyncHandler(async (req, res) => {
   }
   registerIpHit(ip);
 
-  const { email, password } = req.body || {};
+  const { email, password, name } = req.body || {};
   if (!email || !EMAIL_RE.test(email)) {
     return res.status(400).json({ error: 'invalid_email' });
   }
   if (!password || password.length < 8) {
     return res.status(400).json({ error: 'weak_password' });
+  }
+  const trimmedName = String(name || '').trim().slice(0, 100);
+  if (!trimmedName) {
+    return res.status(400).json({ error: 'missing_name' });
   }
 
   const normalizedEmail = String(email).trim().toLowerCase();
@@ -76,15 +80,16 @@ router.post('/register/start', asyncHandler(async (req, res) => {
   const expiresAt = new Date(Date.now() + CODE_TTL_MS);
 
   await pool.query(
-    `INSERT INTO pending_registrations (email, password_hash, code_hash, attempts, expires_at, last_sent_at)
-     VALUES ($1, $2, $3, 0, $4, now())
+    `INSERT INTO pending_registrations (email, password_hash, code_hash, name, attempts, expires_at, last_sent_at)
+     VALUES ($1, $2, $3, $4, 0, $5, now())
      ON CONFLICT (email) DO UPDATE SET
        password_hash = EXCLUDED.password_hash,
        code_hash = EXCLUDED.code_hash,
+       name = EXCLUDED.name,
        attempts = 0,
        expires_at = EXCLUDED.expires_at,
        last_sent_at = now()`,
-    [normalizedEmail, passwordHash, codeHash, expiresAt]
+    [normalizedEmail, passwordHash, codeHash, trimmedName, expiresAt]
   );
 
   try {
@@ -172,8 +177,8 @@ router.post('/register/verify', asyncHandler(async (req, res) => {
   let userId;
   try {
     const { rows: inserted } = await pool.query(
-      'INSERT INTO users (username, password_hash, role) VALUES ($1, $2, $3) RETURNING id',
-      [normalizedEmail, pending.password_hash, 'customer']
+      'INSERT INTO users (username, password_hash, role, name) VALUES ($1, $2, $3, $4) RETURNING id',
+      [normalizedEmail, pending.password_hash, 'customer', pending.name]
     );
     userId = inserted[0].id;
   } catch (err) {
@@ -186,8 +191,9 @@ router.post('/register/verify', asyncHandler(async (req, res) => {
   req.session.userId = userId;
   req.session.username = normalizedEmail;
   req.session.role = 'customer';
+  req.session.name = pending.name;
 
-  res.json({ ok: true, username: normalizedEmail, role: 'customer' });
+  res.json({ ok: true, username: normalizedEmail, role: 'customer', name: pending.name });
 }));
 
 module.exports = router;

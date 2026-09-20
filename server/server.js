@@ -30,12 +30,20 @@ app.use(cors({
   credentials: true
 }));
 app.use(express.json({ limit: '100kb' }));
+// The frontend (GitHub Pages) and this API live on different origins,
+// so every logged-in request after the initial login is a cross-site
+// fetch. SameSite=Lax cookies are withheld from cross-site fetch/XHR
+// (only sent on top-level navigation), which silently drops the
+// session on the very next page — hence "logs out" when navigating.
+// SameSite=None is required for cross-site fetch, and browsers require
+// Secure to be set whenever SameSite=None is used.
+const isProd = process.env.NODE_ENV === 'production';
 app.use(cookieSession({
   name: 'made_session',
   secret: SESSION_SECRET,
   maxAge: 8 * 60 * 60 * 1000,
-  sameSite: 'lax',
-  secure: process.env.NODE_ENV === 'production'
+  sameSite: isProd ? 'none' : 'lax',
+  secure: isProd
 }));
 
 // Blanket abuse/flood limiter for the whole API. This is not DDoS

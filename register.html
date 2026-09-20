@@ -89,6 +89,10 @@
 
       <form id="registerStep1" class="account-form reveal">
         <label>
+          <span data-key="section.15" data-ru="ФИО" data-kk="Аты-жөні">ФИО</span>
+          <input type="text" name="name" autocomplete="name" maxlength="100" required>
+        </label>
+        <label>
           <span data-key="section.1" data-ru="Email" data-kk="Email">Email</span>
           <input type="email" name="email" autocomplete="email" required>
         </label>
@@ -119,7 +123,7 @@
       </form>
 
       <div id="registerSuccess" class="account-logged-in">
-        <p data-key="section.9" data-ru="Аккаунт создан. Вы вошли как" data-kk="Аккаунт жасалды. Сіз кірдіңіз:">Аккаунт создан. Вы вошли как</p>
+        <p data-key="section.9" data-ru="Аккаунт создан. Добро пожаловать," data-kk="Аккаунт жасалды. Қош келдіңіз,">Аккаунт создан. Добро пожаловать,</p>
         <p class="username" id="registerSuccessEmail"></p>
         <a data-key="section.10" href="index.html" class="btn btn-outline" style="margin-top:20px;" data-ru="На главную" data-kk="Басты бетке">На главную</a>
       </div>
@@ -160,6 +164,7 @@
 <script src="js/config.js"></script>
 <script src="js/site.js"></script>
 <script src="js/content-loader.js"></script>
+<script src="js/auth-widget.js"></script>
 <script src="js/register.js"></script>
 </body>
 </html>

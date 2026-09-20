@@ -59,20 +59,19 @@
   }
 
   // i18n
-  var STRINGS_HTML = document.querySelectorAll('[data-i18n-html]');
-  var STRINGS_TEXT = document.querySelectorAll('[data-ru]:not([data-i18n-html])');
-
   var titles = window.MADE_TITLES || {};
 
   function applyLang(lang){
     document.documentElement.lang = lang;
     if(titles[lang]) document.title = titles[lang];
 
-    STRINGS_TEXT.forEach(function(el){
+    // Queried live (not cached) so elements injected later — e.g. by
+    // auth-widget.js after login — still get translated.
+    document.querySelectorAll('[data-ru]:not([data-i18n-html])').forEach(function(el){
       var val = el.getAttribute('data-' + lang);
       if(val !== null) el.textContent = val;
     });
-    STRINGS_HTML.forEach(function(el){
+    document.querySelectorAll('[data-i18n-html]').forEach(function(el){
       var val = el.getAttribute('data-' + lang);
       if(val !== null) el.innerHTML = val;
     });

@@ -26,10 +26,11 @@ async function createOwner() {
     generated = true;
   }
 
+  const name = process.env.OWNER_NAME || 'Owner';
   const hash = bcrypt.hashSync(password, 12);
   await pool.query(
-    'INSERT INTO users (username, password_hash, role) VALUES ($1, $2, $3)',
-    [username, hash, 'owner']
+    'INSERT INTO users (username, password_hash, role, name) VALUES ($1, $2, $3, $4)',
+    [username, hash, 'owner', name]
   );
 
   console.log('Owner account created.');
