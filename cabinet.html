@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Личный кабинет — MaDE Studio</title>
+<meta name="description" content="Программа курса «Тігу және модельдеу» — доступна ученикам после входа в аккаунт.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500;600&family=Pinyon+Script&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/site.css">
+<noscript><style>.reveal{opacity:1!important;transform:none!important;}</style></noscript>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a href="index.html" aria-label="MaDE Studio — главная">
+      <svg class="logo-svg" viewBox="0 0 160 40" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="MaDE">
+        <text x="0" y="30" font-family="'Pinyon Script', cursive" font-size="36" fill="#5E1F2B">MaDE</text>
+      </svg>
+    </a>
+
+    <nav class="main-nav">
+      <div class="nav-links" data-i18n-group>
+        <a href="courses.html" data-ru="Курсы" data-kk="Курстар">Курсы</a>
+        <a href="atelier.html" data-ru="Ателье" data-kk="Ателье">Ателье</a>
+        <a href="gallery.html" data-ru="Работы" data-kk="Жұмыстар">Работы</a>
+        <a href="shop.html" data-ru="Магазин" data-kk="Дүкен">Магазин</a>
+        <a href="reviews.html" data-ru="Отзывы" data-kk="Пікірлер">Отзывы</a>
+        <a href="about.html" data-ru="О студии" data-kk="Студия туралы">О студии</a>
+      </div>
+
+      <div class="lang-switch" role="group" aria-label="Язык / Тіл">
+        <button type="button" data-lang="ru" class="active">Рус</button>
+        <span class="sep">/</span>
+        <button type="button" data-lang="kk">Қаз</button>
+      </div>
+
+      <a href="login.html" class="btn btn-outline header-cta" data-ru="Войти" data-kk="Кіру">Войти</a>
+      <a href="courses.html#signup" class="btn btn-solid header-cta" data-ru="Записаться" data-kk="Жазылу">Записаться</a>
+    </nav>
+
+    <div class="mobile-bar">
+      <div class="lang-switch mobile-lang-switch" role="group" aria-label="Язык / Тіл">
+        <button type="button" data-lang="ru" class="active">Рус</button>
+        <span class="sep">/</span>
+        <button type="button" data-lang="kk">Қаз</button>
+      </div>
+
+      <button class="burger" id="burgerBtn" aria-expanded="false" aria-controls="mobileNav" aria-label="Меню">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="mobile-nav" id="mobileNav" data-i18n-group>
+    <a href="courses.html" data-ru="Курсы" data-kk="Курстар">Курсы</a>
+    <a href="atelier.html" data-ru="Ателье" data-kk="Ателье">Ателье</a>
+    <a href="gallery.html" data-ru="Работы" data-kk="Жұмыстар">Работы</a>
+    <a href="shop.html" data-ru="Магазин" data-kk="Дүкен">Магазин</a>
+    <a href="reviews.html" data-ru="Отзывы" data-kk="Пікірлер">Отзывы</a>
+    <a href="about.html" data-ru="О студии" data-kk="Студия туралы">О студии</a>
+    <a href="login.html" class="header-login" data-ru="Войти" data-kk="Кіру">Войти</a>
+    <div class="mobile-extra">
+      <a href="courses.html#signup" class="btn btn-solid" data-ru="Записаться" data-kk="Жазылу">Записаться</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="page-hero">
+    <div class="wrap">
+      <div class="eyebrow reveal" data-ru="Личный кабинет" data-kk="Жеке кабинет">Личный кабинет</div>
+      <h1 class="page-title reveal reveal-d1" data-i18n-html
+          data-ru="Программа &lt;em&gt;курса&lt;/em&gt;"
+          data-kk="Курс &lt;em&gt;бағдарламасы&lt;/em&gt;">
+        Программа <em>курса</em>
+      </h1>
+      <p class="page-lead reveal reveal-d2" data-ru="«Тігу және модельдеу»: от основ шитья до самостоятельного построения выкроек."
+         data-kk="«Тігу және модельдеу»: тігудің негіздерінен выкройканы өз бетінше құруға дейін.">
+        «Тігу және модельдеу»: от основ шитья до самостоятельного построения выкроек.
+      </p>
+    </div>
+  </section>
+
+  <section class="section" id="cabinetGate">
+    <div class="wrap">
+      <div class="cabinet-gate reveal">
+        <p class="quote" data-ru="Программа курса доступна ученикам после входа в аккаунт." data-kk="Курс бағдарламасы аккаунтқа кіргеннен кейін оқушыларға қолжетімді.">
+          Программа курса доступна ученикам после входа в аккаунт.
+        </p>
+        <p class="note" data-ru="Если вы уже записались на курс, войдите под своим логином. Если аккаунта ещё нет — зарегистрируйтесь или напишите нам."
+           data-kk="Егер курсқа жазылған болсаңыз, өз логиніңізбен кіріңіз. Аккаунтыңыз әлі жоқ болса — тіркеліңіз немесе бізге жазыңыз.">
+          Если вы уже записались на курс, войдите под своим логином. Если аккаунта ещё нет — зарегистрируйтесь или напишите нам.
+        </p>
+        <div class="hero-actions">
+          <a href="login.html" class="btn btn-solid" data-ru="Войти" data-kk="Кіру">Войти</a>
+          <a href="register.html" class="btn btn-outline" data-ru="Регистрация" data-kk="Тіркелу">Регистрация</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div id="cabinetContent" hidden>
+
+    <section class="section">
+      <div class="wrap cabinet-welcome reveal">
+        <p data-ru="Здравствуйте! Рада приветствовать вас на моём курсе." data-kk="Сәлеметсіз бе! Сізді курсыма қош алдым.">Здравствуйте! Рада приветствовать вас на моём курсе.</p>
+        <p data-ru="Здесь вы шаг за шагом разберётесь в шитье и моделировании одежды и получите практические знания, которые сможете применять самостоятельно."
+           data-kk="Мұнда сіз тігу мен киім моделдеуін қадам-қадаммен меңгеріп, өз бетіңізше қолдана алатын практикалық білім аласыз.">
+          Здесь вы шаг за шагом разберётесь в шитье и моделировании одежды и получите практические знания, которые сможете применять самостоятельно.
+        </p>
+        <p data-ru="В процессе обучения вас ждут видеоуроки, практические задания и дополнительные материалы."
+           data-kk="Оқу барысында сізді видеосабақтар, практикалық тапсырмалар және қосымша материалдар күтеді.">
+          В процессе обучения вас ждут видеоуроки, практические задания и дополнительные материалы.
+        </p>
+        <p data-ru="Не переживайте, если вы начинаете с нуля — курс построен так, чтобы двигаться постепенно, от простого к более сложному."
+           data-kk="Нөлден бастасаңыз да алаңдамаңыз — курс қарапайымнан күрделіге қарай, бірте-бірте жылжитындай құрылған.">
+          Не переживайте, если вы начинаете с нуля — курс построен так, чтобы двигаться постепенно, от простого к более сложному.
+        </p>
+        <p data-ru="Перед началом рекомендую посмотреть короткое вводное видео, где я расскажу, как проходит обучение и как получить максимальный результат."
+           data-kk="Бастамас бұрын қысқа кіріспе видеосын көруге кеңес беремін — онда оқу қалай өтетінін және ең жақсы нәтижеге қалай жетуге болатынын айтамын.">
+          Перед началом рекомендую посмотреть короткое вводное видео, где я расскажу, как проходит обучение и как получить максимальный результат.
+        </p>
+        <p data-ru="Желаю вам интересного обучения и отличных результатов!" data-kk="Сізге қызықты оқу мен тамаша нәтижелер тілеймін!">Желаю вам интересного обучения и отличных результатов!</p>
+        <p class="signature" data-ru="Начинаем!" data-kk="Бастаймыз!">Начинаем!</p>
+      </div>
+    </section>
+
+    <section class="section section-divider">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <h2 data-ru="Цель курса" data-kk="Курстың мақсаты">Цель курса</h2>
+        </div>
+        <p class="goal-text reveal" data-ru="Дать базовые знания и практические навыки в области шитья, конструирования, моделирования и технологии изготовления одежды, необходимые для дальнейшей самостоятельной работы."
+           data-kk="Тігу, конструкциялау, моделдеу және киім дайындау технологиясы саласында одан әрі өз бетінше жұмыс істеу үшін қажетті негізгі білім мен практикалық дағдыларды беру.">
+          Дать базовые знания и практические навыки в области шитья, конструирования, моделирования и технологии изготовления одежды, необходимые для дальнейшей самостоятельной работы.
+        </p>
+        <p class="goal-pipeline reveal reveal-d1" data-ru="снятие мерок → построение конструкции → моделирование → раскрой → технологическая обработка → пошив → ВТО → контроль качества"
+           data-kk="өлшем алу → конструкция құру → моделдеу → пішу → технологиялық өңдеу → тігу → ыстық-дымқыл өңдеу → сапаны бақылау">
+          снятие мерок → построение конструкции → моделирование → раскрой → технологическая обработка → пошив → ВТО → контроль качества
+        </p>
+      </div>
+    </section>
+
+    <section class="section section-divider">
+      <div class="wrap">
+
+        <details class="module reveal" open>
+          <summary><span class="module-title" data-ru="Модуль 1. Оборудование и основы шитья" data-kk="1-модуль. Жабдық және тігудің негіздері">Модуль 1. Оборудование и основы шитья</span><span class="module-toggle"></span></summary>
+          <div class="module-body">
+            <p data-ru="В этом модуле мы начнём с основ, которые необходимы для дальнейшего обучения. Вы познакомитесь с основными видами швейного оборудования, узнаете назначение швейной машины и оверлока, научитесь правильно организовывать рабочее место и соблюдать правила техники безопасности."
+               data-kk="Бұл модульде әрі қарай оқу үшін қажетті негіздерден бастаймыз. Швейлік жабдықтың негізгі түрлерімен танысасыз, тігін машинасы мен оверлоктің қызметін білесіз, жұмыс орнын дұрыс ұйымдастыруды және қауіпсіздік ережелерін сақтауды үйренесіз.">
+              В этом модуле мы начнём с основ, которые необходимы для дальнейшего обучения. Вы познакомитесь с основными видами швейного оборудования, узнаете назначение швейной машины и оверлока, научитесь правильно организовывать рабочее место и соблюдать правила техники безопасности.
+            </p>
+            <p data-ru="Мы подробно разберём устройство швейной машины, научимся правильно заправлять верхнюю и нижнюю нить, подбирать иглы и нитки, а также выполнять основные настройки машины."
+               data-kk="Тігін машинасының құрылысын толық талдаймыз, жоғарғы және астыңғы жіпті дұрыс іліп-қосуды, ине мен жіпті таңдауды, машинаның негізгі баптауларын орындауды үйренеміз.">
+              Мы подробно разберём устройство швейной машины, научимся правильно заправлять верхнюю и нижнюю нить, подбирать иглы и нитки, а также выполнять основные настройки машины.
+            </p>
+            <p data-ru="После этого перейдём к практике: разберём основные виды швов и научимся правильно их выполнять. Также рассмотрим распространённые дефекты строчки и разберём, как их определить и устранить."
+               data-kk="Одан кейін практикаға көшеміз: негізгі тігіс түрлерін талдап, оларды дұрыс орындауды үйренеміз. Сондай-ақ жиі кездесетін тігіс кемшіліктерін қарастырып, оларды анықтап, жоюды талдаймыз.">
+              После этого перейдём к практике: разберём основные виды швов и научимся правильно их выполнять. Также рассмотрим распространённые дефекты строчки и разберём, как их определить и устранить.
+            </p>
+
+            <div class="lesson-list">
+              <div class="lesson-row"><span class="lesson-num" data-ru="Видео 1" data-kk="1-видео">Видео 1</span><span class="lesson-title" data-ru="Швейная машина и оверлок" data-kk="Тігін машинасы және оверлок">Швейная машина и оверлок</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+              <div class="lesson-row"><span class="lesson-num" data-ru="Видео 2" data-kk="2-видео">Видео 2</span><span class="lesson-title" data-ru="Иглы и нитки, виды молний — как выбирать фурнитуру и оборудование" data-kk="Инелер мен жіптер, сырма түрлері — фурнитура мен жабдықты қалай таңдау керек">Иглы и нитки, виды молний — как выбирать фурнитуру и оборудование</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+              <div class="lesson-row"><span class="lesson-num" data-ru="Видео 3" data-kk="3-видео">Видео 3</span><span class="lesson-title" data-ru="Основные виды швов — практика" data-kk="Негізгі тігіс түрлері — практика">Основные виды швов — практика</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+              <div class="lesson-row"><span class="lesson-num" data-ru="Видео 4" data-kk="4-видео">Видео 4</span><span class="lesson-title" data-ru="Ровная строчка, расечки, закрепка" data-kk="Тегіс жол, кесінділер, бекіту">Ровная строчка, расечки, закрепка</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+              <div class="lesson-row"><span class="lesson-num" data-ru="Видео 5" data-kk="5-видео">Видео 5</span><span class="lesson-title" data-ru="Обработка срезов" data-kk="Кесінділерді өңдеу">Обработка срезов</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+              <div class="lesson-row"><span class="lesson-num" data-ru="Видео 6" data-kk="6-видео">Видео 6</span><span class="lesson-title" data-ru="Французский шов" data-kk="Француз тігісі">Французский шов</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+              <div class="lesson-row"><span class="lesson-num" data-ru="Видео 7" data-kk="7-видео">Видео 7</span><span class="lesson-title" data-ru="Московский шов" data-kk="Москва тігісі">Московский шов</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+              <div class="lesson-row"><span class="lesson-num" data-ru="Видео 8" data-kk="8-видео">Видео 8</span><span class="lesson-title" data-ru="Роликовый шов" data-kk="Роликті тігіс">Роликовый шов</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+              <div class="lesson-row"><span class="lesson-num" data-ru="Видео 9" data-kk="9-видео">Видео 9</span><span class="lesson-title" data-ru="Кант" data-kk="Кант">Кант</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+              <div class="lesson-row"><span class="lesson-num" data-ru="Видео 10" data-kk="10-видео">Видео 10</span><span class="lesson-title" data-ru="Обработка косой бейкой" data-kk="Қиғаш жолақпен өңдеу">Обработка косой бейкой</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+              <div class="lesson-row"><span class="lesson-num" data-ru="Видео 11" data-kk="11-видео">Видео 11</span><span class="lesson-title" data-ru="Раскрой ткани. Долевая, поперечная и косая нить" data-kk="Матаны пішу. Бойлық, көлденең және қиғаш жіп">Раскрой ткани. Долевая, поперечная и косая нить</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+            </div>
+
+            <p class="module-result"><strong data-ru="Результат:" data-kk="Нәтиже:">Результат:</strong> <span data-ru="учащийся уверенно ориентируется в оборудовании и выполняет основные машинные операции." data-kk="оқушы жабдықта еркін бағдарланады және негізгі машиналық операцияларды орындайды.">учащийся уверенно ориентируется в оборудовании и выполняет основные машинные операции.</span></p>
+          </div>
+        </details>
+
+        <details class="module reveal">
+          <summary><span class="module-title" data-ru="Модуль 2. Конструирование и моделирование юбок" data-kk="2-модуль. Юбкаларды конструкциялау және моделдеу">Модуль 2. Конструирование и моделирование юбок</span><span class="module-toggle"></span></summary>
+          <div class="module-body">
+            <p data-ru="В этом модуле мы изучим основные принципы построения, моделирования и пошива юбок. Вы последовательно разберёте построение конструкций, особенности разных моделей и способы их обработки."
+               data-kk="Бұл модульде юбка құрудың, моделдеудің және тігудің негізгі принциптерін үйренеміз. Сіз конструкция құруды, әртүрлі модельдердің ерекшеліктерін және оларды өңдеу тәсілдерін бірте-бірте меңгересіз.">
+              В этом модуле мы изучим основные принципы построения, моделирования и пошива юбок. Вы последовательно разберёте построение конструкций, особенности разных моделей и способы их обработки.
+            </p>
+
+            <div class="chapter">
+              <h3 data-ru="Глава 1. Мерки и конструкция" data-kk="1-тарау. Өлшем және конструкция">Глава 1. Мерки и конструкция</h3>
+              <p data-ru="В этой главе изучим снятие мерок и построение основы юбки. Разберём основные правила конструирования и подготовку выкройки к дальнейшей работе."
+                 data-kk="Бұл тарауда өлшем алуды және юбка негізін құруды үйренеміз. Конструкциялаудың негізгі ережелерін және выкройканы әрі қарайғы жұмысқа дайындауды талдаймыз.">
+                В этой главе изучим снятие мерок и построение основы юбки. Разберём основные правила конструирования и подготовку выкройки к дальнейшей работе.
+              </p>
+              <div class="lesson-list">
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 1" data-kk="1-видео">Видео 1</span><span class="lesson-title" data-ru="Снятие мерок по юбке" data-kk="Юбкаға өлшем алу">Снятие мерок по юбке</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 2" data-kk="2-видео">Видео 2</span><span class="lesson-title" data-ru="Конструкция юбки" data-kk="Юбка конструкциясы">Конструкция юбки</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+              </div>
+              <p class="feedback-note"><strong data-ru="Обратная связь." data-kk="Кері байланыс.">Обратная связь.</strong> <span data-ru="После завершения главы у вас есть возможность задать вопрос по материалу или отправить результат своей работы на проверку." data-kk="Тарауды аяқтағаннан кейін сізде материал бойынша сұрақ қою немесе жұмысыңыздың нәтижесін тексеруге жіберу мүмкіндігі бар.">После завершения главы у вас есть возможность задать вопрос по материалу или отправить результат своей работы на проверку.</span></p>
+            </div>
+
+            <div class="chapter">
+              <h3 data-ru="Глава 2. Юбка-трапеция" data-kk="2-тарау. Трапеция юбкасы">Глава 2. Юбка-трапеция</h3>
+              <p data-ru="В этой главе создадим юбку-трапецию и разберём основные этапы её обработки: пояс, застёжку, шлицу и другие технологические узлы изделия."
+                 data-kk="Бұл тарауда трапеция юбкасын жасап, оны өңдеудің негізгі кезеңдерін талдаймыз: белбеу, сырма, шілтер және бұйымның басқа технологиялық тораптары.">
+                В этой главе создадим юбку-трапецию и разберём основные этапы её обработки: пояс, застёжку, шлицу и другие технологические узлы изделия.
+              </p>
+              <div class="lesson-list">
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 1" data-kk="1-видео">Видео 1</span><span class="lesson-title" data-ru="Моделирование юбки-трапеции" data-kk="Трапеция юбкасын моделдеу">Моделирование юбки-трапеции</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 2" data-kk="2-видео">Видео 2</span><span class="lesson-title" data-ru="Раскрой ткани и сборка изделия на примерку. ВТО" data-kk="Матаны пішу және бұйымды өлшеп көруге жинау. Ыстық-дымқыл өңдеу">Раскрой ткани и сборка изделия на примерку. ВТО</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 3" data-kk="3-видео">Видео 3</span><span class="lesson-title" data-ru="Обработка на оверлоке и сборка на швейной машине. Выточка" data-kk="Оверлокта өңдеу және тігін машинасында жинау. Ортаклин">Обработка на оверлоке и сборка на швейной машине. Выточка</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 4" data-kk="4-видео">Видео 4</span><span class="lesson-title" data-ru="Обработка потайной молнии" data-kk="Жасырын сырманы өңдеу">Обработка потайной молнии</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 5" data-kk="5-видео">Видео 5</span><span class="lesson-title" data-ru="Обработка шлицы" data-kk="Шілтерді өңдеу">Обработка шлицы</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 6" data-kk="6-видео">Видео 6</span><span class="lesson-title" data-ru="Обработка пояса" data-kk="Белбеуді өңдеу">Обработка пояса</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+              </div>
+              <p class="feedback-note"><strong data-ru="Обратная связь." data-kk="Кері байланыс.">Обратная связь.</strong> <span data-ru="После завершения главы у вас есть возможность задать вопрос по материалу или отправить результат своей работы на проверку." data-kk="Тарауды аяқтағаннан кейін сізде материал бойынша сұрақ қою немесе жұмысыңыздың нәтижесін тексеруге жіберу мүмкіндігі бар.">После завершения главы у вас есть возможность задать вопрос по материалу или отправить результат своей работы на проверку.</span></p>
+            </div>
+
+            <div class="chapter">
+              <h3 data-ru="Глава 3. Юбка-полусолнце" data-kk="3-тарау. Жарты-күн юбкасы">Глава 3. Юбка-полусолнце</h3>
+              <p data-ru="В этой главе научимся строить юбку-полусолнце, определять необходимый радиус и выполнять раскрой и пошив изделия. Отдельно разберём обработку юбки на резинке и другие варианты обработки."
+                 data-kk="Бұл тарауда жарты-күн юбкасын құруды, қажетті радиусты анықтауды және бұйымды пішу мен тігуді үйренеміз. Резинкалы юбканы өңдеуді және басқа өңдеу нұсқаларын бөлек талдаймыз.">
+                В этой главе научимся строить юбку-полусолнце, определять необходимый радиус и выполнять раскрой и пошив изделия. Отдельно разберём обработку юбки на резинке и другие варианты обработки.
+              </p>
+              <div class="lesson-list">
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 1" data-kk="1-видео">Видео 1</span><span class="lesson-title" data-ru="Расчёт радиуса юбки-полусолнце. Раскрой ткани: нюансы и особенности" data-kk="Жарты-күн юбкасының радиусын есептеу. Матаны пішу: нюанстар мен ерекшеліктер">Расчёт радиуса юбки-полусолнце. Раскрой ткани: нюансы и особенности</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 2" data-kk="2-видео">Видео 2</span><span class="lesson-title" data-ru="Расчёт коэффициента растяжения резинки. Установка и обработка резинки" data-kk="Резинканың созылу коэффициентін есептеу. Резинканы орнату және өңдеу">Расчёт коэффициента растяжения резинки. Установка и обработка резинки</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+              </div>
+              <p class="feedback-note"><strong data-ru="Обратная связь." data-kk="Кері байланыс.">Обратная связь.</strong> <span data-ru="После завершения главы у вас есть возможность задать вопрос по материалу или отправить результат своей работы на проверку." data-kk="Тарауды аяқтағаннан кейін сізде материал бойынша сұрақ қою немесе жұмысыңыздың нәтижесін тексеруге жіберу мүмкіндігі бар.">После завершения главы у вас есть возможность задать вопрос по материалу или отправить результат своей работы на проверку.</span></p>
+            </div>
+
+            <div class="chapter">
+              <h3 data-ru="Глава 4. Моделирование выкроек" data-kk="4-тарау. Выкройканы моделдеу">Глава 4. Моделирование выкроек</h3>
+              <p data-ru="В этой главе научимся моделировать выкройки на основе базовой конструкции, изменять форму и детали изделия и создавать новые модели юбок."
+                 data-kk="Бұл тарауда негізгі конструкция бойынша выкройканы моделдеуді, бұйымның пішіні мен бөлшектерін өзгертуді және юбканың жаңа модельдерін жасауды үйренеміз.">
+                В этой главе научимся моделировать выкройки на основе базовой конструкции, изменять форму и детали изделия и создавать новые модели юбок.
+              </p>
+              <div class="lesson-list">
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 1" data-kk="1-видео">Видео 1</span><span class="lesson-title" data-ru="Моделирование юбки-трапеции" data-kk="Трапеция юбкасын моделдеу">Моделирование юбки-трапеции</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 2" data-kk="2-видео">Видео 2</span><span class="lesson-title" data-ru="Моделирование юбки-солнце" data-kk="Күн юбкасын моделдеу">Моделирование юбки-солнце</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 3" data-kk="3-видео">Видео 3</span><span class="lesson-title" data-ru="Моделирование юбки-полусолнце" data-kk="Жарты-күн юбкасын моделдеу">Моделирование юбки-полусолнце</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 4" data-kk="4-видео">Видео 4</span><span class="lesson-title" data-ru="Моделирование юбки на запах" data-kk="Иіліс юбкасын моделдеу">Моделирование юбки на запах</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 5" data-kk="5-видео">Видео 5</span><span class="lesson-title" data-ru="Моделирование юбки с драпировкой" data-kk="Драпировкалы юбканы моделдеу">Моделирование юбки с драпировкой</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 6" data-kk="6-видео">Видео 6</span><span class="lesson-title" data-ru="Моделирование юбки по косой" data-kk="Қиғаш юбканы моделдеу">Моделирование юбки по косой</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 7" data-kk="7-видео">Видео 7</span><span class="lesson-title" data-ru="Моделирование юбки-карандаш" data-kk="Қарындаш юбкасын моделдеу">Моделирование юбки-карандаш</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 8" data-kk="8-видео">Видео 8</span><span class="lesson-title" data-ru="Моделирование ярусной юбки" data-kk="Қабатты юбканы моделдеу">Моделирование ярусной юбки</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 9" data-kk="9-видео">Видео 9</span><span class="lesson-title" data-ru="Моделирование юбки-годе" data-kk="Годе юбкасын моделдеу">Моделирование юбки-годе</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 10" data-kk="10-видео">Видео 10</span><span class="lesson-title" data-ru="Моделирование классической юбки" data-kk="Классикалық юбканы моделдеу">Моделирование классической юбки</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+              </div>
+              <p class="feedback-note"><strong data-ru="Обратная связь." data-kk="Кері байланыс.">Обратная связь.</strong> <span data-ru="После завершения главы у вас есть возможность задать вопрос по материалу или отправить результат своей работы на проверку." data-kk="Тарауды аяқтағаннан кейін сізде материал бойынша сұрақ қою немесе жұмысыңыздың нәтижесін тексеруге жіберу мүмкіндігі бар.">После завершения главы у вас есть возможность задать вопрос по материалу или отправить результат своей работы на проверку.</span></p>
+            </div>
+
+            <p class="module-result"><strong data-ru="Результат:" data-kk="Нәтиже:">Результат:</strong> <span data-ru="учащийся умеет снять мерки, построить базовую конструкцию юбки, выполнить моделирование и самостоятельно сшить несколько вариантов юбки." data-kk="оқушы өлшем ала алады, юбканың негізгі конструкциясын құра алады, моделдеу орындай алады және юбканың бірнеше нұсқасын өз бетінше тігеді.">учащийся умеет снять мерки, построить базовую конструкцию юбки, выполнить моделирование и самостоятельно сшить несколько вариантов юбки.</span></p>
+          </div>
+        </details>
+
+        <details class="module reveal">
+          <summary><span class="module-title" data-ru="Модуль 3. Конструирование и пошив брюк" data-kk="3-модуль. Шалбарды конструкциялау және тігу">Модуль 3. Конструирование и пошив брюк</span><span class="module-toggle"></span></summary>
+          <div class="module-body">
+            <p data-ru="В этом модуле мы перейдём к конструированию и пошиву брюк. Начнём со снятия мерок и построения базовой конструкции. Затем на практике разберём пошив брюк палаццо и джинсов, последовательно проходя все основные этапы обработки. В заключительной главе перейдём к моделированию выкроек и научимся создавать различные варианты брюк на основе базовой конструкции."
+               data-kk="Бұл модульде шалбарды конструкциялау мен тігуге көшеміз. Өлшем алудан және негізгі конструкция құрудан бастаймыз. Одан кейін практикада палаццо шалбары мен джинсты тігуді, барлық негізгі өңдеу кезеңдерін реттілікпен өтіп талдаймыз. Соңғы тарауда выкройканы моделдеуге көшіп, негізгі конструкция бойынша шалбардың әртүрлі нұсқаларын жасауды үйренеміз.">
+              В этом модуле мы перейдём к конструированию и пошиву брюк. Начнём со снятия мерок и построения базовой конструкции. Затем на практике разберём пошив брюк палаццо и джинсов, последовательно проходя все основные этапы обработки. В заключительной главе перейдём к моделированию выкроек и научимся создавать различные варианты брюк на основе базовой конструкции.
+            </p>
+
+            <div class="chapter">
+              <h3 data-ru="Глава 1. Мерки и конструкция" data-kk="1-тарау. Өлшем және конструкция">Глава 1. Мерки и конструкция</h3>
+              <p data-ru="Снятие мерок и построение базовой конструкции брюк." data-kk="Шалбарға өлшем алу және негізгі конструкция құру.">Снятие мерок и построение базовой конструкции брюк.</p>
+              <div class="lesson-list">
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 1" data-kk="1-видео">Видео 1</span><span class="lesson-title" data-ru="Снятие мерок для брюк" data-kk="Шалбарға өлшем алу">Снятие мерок для брюк</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 2" data-kk="2-видео">Видео 2</span><span class="lesson-title" data-ru="Построение конструкции брюк" data-kk="Шалбар конструкциясын құру">Построение конструкции брюк</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+              </div>
+              <p class="feedback-note"><strong data-ru="Обратная связь." data-kk="Кері байланыс.">Обратная связь.</strong> <span data-ru="После завершения главы у вас есть возможность задать вопрос по материалу или отправить результат своей работы на проверку." data-kk="Тарауды аяқтағаннан кейін сізде материал бойынша сұрақ қою немесе жұмысыңыздың нәтижесін тексеруге жіберу мүмкіндігі бар.">После завершения главы у вас есть возможность задать вопрос по материалу или отправить результат своей работы на проверку.</span></p>
+            </div>
+
+            <div class="chapter">
+              <h3 data-ru="Глава 2. Брюки палаццо" data-kk="2-тарау. Палаццо шалбары">Глава 2. Брюки палаццо</h3>
+              <p data-ru="Построение, раскрой и пошив брюк палаццо с разбором основных технологических узлов." data-kk="Палаццо шалбарын құру, пішу және тігу, негізгі технологиялық тораптарды талдау.">Построение, раскрой и пошив брюк палаццо с разбором основных технологических узлов.</p>
+              <div class="lesson-list">
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 1" data-kk="1-видео">Видео 1</span><span class="lesson-title" data-ru="Моделирование брюк палаццо. Работа со складками" data-kk="Палаццо шалбарын моделдеу. Қатпарлармен жұмыс">Моделирование брюк палаццо. Работа со складками</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 2" data-kk="2-видео">Видео 2</span><span class="lesson-title" data-ru="Раскрой ткани и сборка изделия на примерку. Долевая нить" data-kk="Матаны пішу және бұйымды өлшеп көруге жинау. Бойлық жіп">Раскрой ткани и сборка изделия на примерку. Долевая нить</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 3" data-kk="3-видео">Видео 3</span><span class="lesson-title" data-ru="Передние боковые карманы" data-kk="Алдыңғы бүйір қалталар">Передние боковые карманы</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 4" data-kk="4-видео">Видео 4</span><span class="lesson-title" data-ru="Задний карман с листочкой. Подзор" data-kk="Жапырақшалы артқы қалта. Подзор">Задний карман с листочкой. Подзор</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 5" data-kk="5-видео">Видео 5</span><span class="lesson-title" data-ru="Сборка брюк" data-kk="Шалбарды жинау">Сборка брюк</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 6" data-kk="6-видео">Видео 6</span><span class="lesson-title" data-ru="Обработка застёжки. Гульфик и молния" data-kk="Сырманы өңдеу. Гульфик және сырма">Обработка застёжки. Гульфик и молния</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 7" data-kk="7-видео">Видео 7</span><span class="lesson-title" data-ru="Пояс и шлёвки" data-kk="Белбеу және белбеу ілмектері">Пояс и шлёвки</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 8" data-kk="8-видео">Видео 8</span><span class="lesson-title" data-ru="Обработка низа брюк. Потайной шов" data-kk="Шалбар етегін өңдеу. Жасырын тігіс">Обработка низа брюк. Потайной шов</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+              </div>
+              <p class="feedback-note"><strong data-ru="Обратная связь." data-kk="Кері байланыс.">Обратная связь.</strong> <span data-ru="После завершения главы у вас есть возможность задать вопрос по материалу или отправить результат своей работы на проверку." data-kk="Тарауды аяқтағаннан кейін сізде материал бойынша сұрақ қою немесе жұмысыңыздың нәтижесін тексеруге жіберу мүмкіндігі бар.">После завершения главы у вас есть возможность задать вопрос по материалу или отправить результат своей работы на проверку.</span></p>
+            </div>
+
+            <div class="chapter">
+              <h3 data-ru="Глава 3. Джинсы" data-kk="3-тарау. Джинс">Глава 3. Джинсы</h3>
+              <p data-ru="Пошив джинсов и изучение особенностей обработки изделия." data-kk="Джинс тігу және бұйымды өңдеу ерекшеліктерін меңгеру.">Пошив джинсов и изучение особенностей обработки изделия.</p>
+              <div class="lesson-list">
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 1" data-kk="1-видео">Видео 1</span><span class="lesson-title" data-ru="Моделирование прямых джинсов" data-kk="Тік джинсті моделдеу">Моделирование прямых джинсов</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 2" data-kk="2-видео">Видео 2</span><span class="lesson-title" data-ru="Раскрой ткани и сборка изделия на примерку" data-kk="Матаны пішу және бұйымды өлшеп көруге жинау">Раскрой ткани и сборка изделия на примерку</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 3" data-kk="3-видео">Видео 3</span><span class="lesson-title" data-ru="Обработка передних карманов" data-kk="Алдыңғы қалталарды өңдеу">Обработка передних карманов</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 4" data-kk="4-видео">Видео 4</span><span class="lesson-title" data-ru="Обработка задних накладных карманов" data-kk="Артқы жапсырма қалталарды өңдеу">Обработка задних накладных карманов</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 5" data-kk="5-видео">Видео 5</span><span class="lesson-title" data-ru="Сборка джинсов. Двойной шаговый шов" data-kk="Джинсты жинау. Қос қадамдық тігіс">Сборка джинсов. Двойной шаговый шов</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 6" data-kk="6-видео">Видео 6</span><span class="lesson-title" data-ru="Обработка швов на оверлоке" data-kk="Тігістерді оверлокта өңдеу">Обработка швов на оверлоке</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 7" data-kk="7-видео">Видео 7</span><span class="lesson-title" data-ru="Пояс и шлёвки" data-kk="Белбеу және белбеу ілмектері">Пояс и шлёвки</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 8" data-kk="8-видео">Видео 8</span><span class="lesson-title" data-ru="Обработка низа джинсов" data-kk="Джинс етегін өңдеу">Обработка низа джинсов</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+              </div>
+              <p class="feedback-note"><strong data-ru="Обратная связь." data-kk="Кері байланыс.">Обратная связь.</strong> <span data-ru="После завершения главы у вас есть возможность задать вопрос по материалу или отправить результат своей работы на проверку." data-kk="Тарауды аяқтағаннан кейін сізде материал бойынша сұрақ қою немесе жұмысыңыздың нәтижесін тексеруге жіберу мүмкіндігі бар.">После завершения главы у вас есть возможность задать вопрос по материалу или отправить результат своей работы на проверку.</span></p>
+            </div>
+
+            <div class="chapter">
+              <h3 data-ru="Глава 4. Моделирование выкроек" data-kk="4-тарау. Выкройканы моделдеу">Глава 4. Моделирование выкроек</h3>
+              <p data-ru="Моделирование различных фасонов брюк на основе базовой конструкции." data-kk="Негізгі конструкция бойынша шалбардың әртүрлі фасондарын моделдеу.">Моделирование различных фасонов брюк на основе базовой конструкции.</p>
+              <div class="lesson-list">
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 1" data-kk="1-видео">Видео 1</span><span class="lesson-title" data-ru="Моделирование брюк палаццо — 2 варианта" data-kk="Палаццо шалбарын моделдеу — 2 нұсқа">Моделирование брюк палаццо — 2 варианта</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 2" data-kk="2-видео">Видео 2</span><span class="lesson-title" data-ru="Моделирование брюк клёш" data-kk="Клёш шалбарын моделдеу">Моделирование брюк клёш</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 3" data-kk="3-видео">Видео 3</span><span class="lesson-title" data-ru="Моделирование брюк-бананов" data-kk="Банан шалбарды моделдеу">Моделирование брюк-бананов</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 4" data-kk="4-видео">Видео 4</span><span class="lesson-title" data-ru="Моделирование брюк-кюлотов" data-kk="Кюлот шалбарды моделдеу">Моделирование брюк-кюлотов</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+              </div>
+              <p class="feedback-note"><strong data-ru="Обратная связь." data-kk="Кері байланыс.">Обратная связь.</strong> <span data-ru="После завершения главы у вас есть возможность задать вопрос по материалу или отправить результат своей работы на проверку." data-kk="Тарауды аяқтағаннан кейін сізде материал бойынша сұрақ қою немесе жұмысыңыздың нәтижесін тексеруге жіберу мүмкіндігі бар.">После завершения главы у вас есть возможность задать вопрос по материалу или отправить результат своей работы на проверку.</span></p>
+            </div>
+          </div>
+        </details>
+
+        <details class="module reveal">
+          <summary><span class="module-title" data-ru="Модуль 4. Плечевые изделия" data-kk="4-модуль. Иық бұйымдары">Модуль 4. Плечевые изделия</span><span class="module-toggle"></span></summary>
+          <div class="module-body">
+            <p data-ru="В этом модуле мы переходим к конструированию и пошиву плечевых изделий. Начнём со снятия мерок и построения базовой конструкции. Затем на практике разберём пошив платья-трапеции с рельефами и рубашки с кокеткой, последовательно изучая основные этапы обработки и сборки изделий. В заключительной главе перейдём к моделированию выкроек и научимся создавать различные фасоны плечевых изделий на основе базовой конструкции."
+               data-kk="Бұл модульде иық бұйымдарын конструкциялау мен тігуге көшеміз. Өлшем алудан және негізгі конструкция құрудан бастаймыз. Одан кейін практикада рельефті трапеция көйлегі мен кокеткалы көйлекті тігуді, өңдеу мен жинаудың негізгі кезеңдерін реттілікпен меңгереміз. Соңғы тарауда выкройканы моделдеуге көшіп, негізгі конструкция бойынша иық бұйымдарының әртүрлі фасондарын жасауды үйренеміз.">
+              В этом модуле мы переходим к конструированию и пошиву плечевых изделий. Начнём со снятия мерок и построения базовой конструкции. Затем на практике разберём пошив платья-трапеции с рельефами и рубашки с кокеткой, последовательно изучая основные этапы обработки и сборки изделий. В заключительной главе перейдём к моделированию выкроек и научимся создавать различные фасоны плечевых изделий на основе базовой конструкции.
+            </p>
+
+            <div class="chapter">
+              <h3 data-ru="Глава 1. Снятие мерок и конструкция" data-kk="1-тарау. Өлшем алу және конструкция">Глава 1. Снятие мерок и конструкция</h3>
+              <p data-ru="Снятие необходимых мерок и построение базовой конструкции плечевого изделия." data-kk="Қажетті өлшемдерді алу және иық бұйымының негізгі конструкциясын құру.">Снятие необходимых мерок и построение базовой конструкции плечевого изделия.</p>
+              <div class="lesson-list">
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 1" data-kk="1-видео">Видео 1</span><span class="lesson-title" data-ru="Снятие мерок для плечевых изделий и рукава" data-kk="Иық бұйымдары мен жеңге өлшем алу">Снятие мерок для плечевых изделий и рукава</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 2" data-kk="2-видео">Видео 2</span><span class="lesson-title" data-ru="Построение полочки" data-kk="Өң жағын құру">Построение полочки</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 3" data-kk="3-видео">Видео 3</span><span class="lesson-title" data-ru="Построение спинки" data-kk="Арқа бөлігін құру">Построение спинки</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 4" data-kk="4-видео">Видео 4</span><span class="lesson-title" data-ru="Построение рукава" data-kk="Жеңді құру">Построение рукава</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+              </div>
+              <p class="feedback-note"><strong data-ru="Обратная связь." data-kk="Кері байланыс.">Обратная связь.</strong> <span data-ru="После завершения главы у вас есть возможность задать вопрос по материалу или отправить результат своей работы на проверку." data-kk="Тарауды аяқтағаннан кейін сізде материал бойынша сұрақ қою немесе жұмысыңыздың нәтижесін тексеруге жіберу мүмкіндігі бар.">После завершения главы у вас есть возможность задать вопрос по материалу или отправить результат своей работы на проверку.</span></p>
+            </div>
+
+            <div class="chapter">
+              <h3 data-ru="Глава 2. Платье-трапеция с рельефом" data-kk="2-тарау. Рельефті трапеция көйлегі">Глава 2. Платье-трапеция с рельефом</h3>
+              <p data-ru="Моделирование, раскрой и пошив платья-трапеции с рельефами." data-kk="Рельефті трапеция көйлегін моделдеу, пішу және тігу.">Моделирование, раскрой и пошив платья-трапеции с рельефами.</p>
+              <div class="lesson-list">
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 1" data-kk="1-видео">Видео 1</span><span class="lesson-title" data-ru="Моделирование платья-трапеции с рельефом" data-kk="Рельефті трапеция көйлегін моделдеу">Моделирование платья-трапеции с рельефом</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 2" data-kk="2-видео">Видео 2</span><span class="lesson-title" data-ru="Раскрой и сборка изделия на примерку" data-kk="Пішу және бұйымды өлшеп көруге жинау">Раскрой и сборка изделия на примерку</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 3" data-kk="3-видео">Видео 3</span><span class="lesson-title" data-ru="Боковые карманы в шве" data-kk="Тігістегі бүйір қалталар">Боковые карманы в шве</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 4" data-kk="4-видео">Видео 4</span><span class="lesson-title" data-ru="Сборка изделия" data-kk="Бұйымды жинау">Сборка изделия</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 5" data-kk="5-видео">Видео 5</span><span class="lesson-title" data-ru="Притачивание рукава с посадкой" data-kk="Жеңді отырғызып тігу">Притачивание рукава с посадкой</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 6" data-kk="6-видео">Видео 6</span><span class="lesson-title" data-ru="Обработка потайной молнии на спинке" data-kk="Арқадағы жасырын сырманы өңдеу">Обработка потайной молнии на спинке</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 7" data-kk="7-видео">Видео 7</span><span class="lesson-title" data-ru="Обработка обтачкой и обработка низа изделия" data-kk="Обтачкамен өңдеу және бұйым етегін өңдеу">Обработка обтачкой и обработка низа изделия</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+              </div>
+              <p class="feedback-note"><strong data-ru="Обратная связь." data-kk="Кері байланыс.">Обратная связь.</strong> <span data-ru="После завершения главы у вас есть возможность задать вопрос по материалу или отправить результат своей работы на проверку." data-kk="Тарауды аяқтағаннан кейін сізде материал бойынша сұрақ қою немесе жұмысыңыздың нәтижесін тексеруге жіберу мүмкіндігі бар.">После завершения главы у вас есть возможность задать вопрос по материалу или отправить результат своей работы на проверку.</span></p>
+            </div>
+
+            <div class="chapter">
+              <h3 data-ru="Глава 3. Рубашка с кокеткой" data-kk="3-тарау. Кокеткалы көйлек">Глава 3. Рубашка с кокеткой</h3>
+              <p data-ru="Моделирование, раскрой и пошив рубашки с кокеткой с разбором основных этапов обработки." data-kk="Кокеткалы көйлекті моделдеу, пішу және тігу, негізгі өңдеу кезеңдерін талдау.">Моделирование, раскрой и пошив рубашки с кокеткой с разбором основных этапов обработки.</p>
+              <div class="lesson-list">
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 1" data-kk="1-видео">Видео 1</span><span class="lesson-title" data-ru="Моделирование оверсайз-рубашки с кокеткой и планкой" data-kk="Кокетка мен планкалы оверсайз көйлекті моделдеу">Моделирование оверсайз-рубашки с кокеткой и планкой</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 2" data-kk="2-видео">Видео 2</span><span class="lesson-title" data-ru="Моделирование и построение рукава" data-kk="Жеңді моделдеу және құру">Моделирование и построение рукава</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 3" data-kk="3-видео">Видео 3</span><span class="lesson-title" data-ru="Подготовка ткани, ВТО и раскрой деталей. Сборка на примерку" data-kk="Матаны дайындау, ыстық-дымқыл өңдеу және бөлшектерді пішу. Өлшеп көруге жинау">Подготовка ткани, ВТО и раскрой деталей. Сборка на примерку</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 4" data-kk="4-видео">Видео 4</span><span class="lesson-title" data-ru="Построение воротника" data-kk="Жағаны құру">Построение воротника</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 5" data-kk="5-видео">Видео 5</span><span class="lesson-title" data-ru="Раскрой воротника и манжет" data-kk="Жаға мен манжетті пішу">Раскрой воротника и манжет</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 6" data-kk="6-видео">Видео 6</span><span class="lesson-title" data-ru="Сборка изделия с рукавом" data-kk="Бұйымды жеңімен жинау">Сборка изделия с рукавом</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 7" data-kk="7-видео">Видео 7</span><span class="lesson-title" data-ru="Установка планки" data-kk="Планканы орнату">Установка планки</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 8" data-kk="8-видео">Видео 8</span><span class="lesson-title" data-ru="Установка воротника" data-kk="Жағаны орнату">Установка воротника</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 9" data-kk="9-видео">Видео 9</span><span class="lesson-title" data-ru="Обработка разреза рукава" data-kk="Жең тілігін өңдеу">Обработка разреза рукава</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 10" data-kk="10-видео">Видео 10</span><span class="lesson-title" data-ru="Установка манжет" data-kk="Манжетті орнату">Установка манжет</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 11" data-kk="11-видео">Видео 11</span><span class="lesson-title" data-ru="Нагрудный накладной карман" data-kk="Төс жапсырма қалта">Нагрудный накладной карман</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 12" data-kk="12-видео">Видео 12</span><span class="lesson-title" data-ru="Обработка низа рубашки" data-kk="Көйлек етегін өңдеу">Обработка низа рубашки</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 13" data-kk="13-видео">Видео 13</span><span class="lesson-title" data-ru="Обработка петель" data-kk="Ілмектерді өңдеу">Обработка петель</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 14" data-kk="14-видео">Видео 14</span><span class="lesson-title" data-ru="Пришивание пуговиц" data-kk="Түймелерді тігу">Пришивание пуговиц</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+              </div>
+              <p class="feedback-note"><strong data-ru="Обратная связь." data-kk="Кері байланыс.">Обратная связь.</strong> <span data-ru="После завершения главы у вас есть возможность задать вопрос по материалу или отправить результат своей работы на проверку." data-kk="Тарауды аяқтағаннан кейін сізде материал бойынша сұрақ қою немесе жұмысыңыздың нәтижесін тексеруге жіберу мүмкіндігі бар.">После завершения главы у вас есть возможность задать вопрос по материалу или отправить результат своей работы на проверку.</span></p>
+            </div>
+
+            <div class="chapter">
+              <h3 data-ru="Глава 4. Моделирование выкроек" data-kk="4-тарау. Выкройканы моделдеу">Глава 4. Моделирование выкроек</h3>
+              <p data-ru="Моделирование различных фасонов плечевых изделий на основе базовой конструкции. В этой главе вы познакомитесь с основными приёмами моделирования плечевых изделий и научитесь на основе базовой конструкции создавать разные фасоны."
+                 data-kk="Негізгі конструкция бойынша иық бұйымдарының әртүрлі фасондарын моделдеу. Бұл тарауда иық бұйымдарын моделдеудің негізгі тәсілдерімен танысып, негізгі конструкция бойынша әртүрлі фасондар жасауды үйренесіз.">
+                Моделирование различных фасонов плечевых изделий на основе базовой конструкции. В этой главе вы познакомитесь с основными приёмами моделирования плечевых изделий и научитесь на основе базовой конструкции создавать разные фасоны.
+              </p>
+              <div class="lesson-list">
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 1" data-kk="1-видео">Видео 1</span><span class="lesson-title" data-ru="Моделирование платья-трапеции" data-kk="Трапеция көйлегін моделдеу">Моделирование платья-трапеции</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 2" data-kk="2-видео">Видео 2</span><span class="lesson-title" data-ru="Моделирование платья на запах" data-kk="Иіліс көйлегін моделдеу">Моделирование платья на запах</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 3" data-kk="3-видео">Видео 3</span><span class="lesson-title" data-ru="Моделирование платья с драпировкой" data-kk="Драпировкалы көйлекті моделдеу">Моделирование платья с драпировкой</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 4" data-kk="4-видео">Видео 4</span><span class="lesson-title" data-ru="Моделирование рубашки" data-kk="Көйлекті моделдеу">Моделирование рубашки</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 5" data-kk="5-видео">Видео 5</span><span class="lesson-title" data-ru="Моделирование футболки с опущенным рукавом. Оверсайз" data-kk="Түсірілген жеңді футболканы моделдеу. Оверсайз">Моделирование футболки с опущенным рукавом. Оверсайз</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 6" data-kk="6-видео">Видео 6</span><span class="lesson-title" data-ru="Моделирование свитшота с рукавом реглан" data-kk="Реглан жеңді свитшотты моделдеу">Моделирование свитшота с рукавом реглан</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 7" data-kk="7-видео">Видео 7</span><span class="lesson-title" data-ru="Моделирование платья с рельефами" data-kk="Рельефті көйлекті моделдеу">Моделирование платья с рельефами</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+                <div class="lesson-row"><span class="lesson-num" data-ru="Видео 8" data-kk="8-видео">Видео 8</span><span class="lesson-title" data-ru="Разные варианты моделирования рукава" data-kk="Жеңді моделдеудің әртүрлі нұсқалары">Разные варианты моделирования рукава</span><span class="lesson-badge" data-ru="Скоро" data-kk="Жақында">Скоро</span></div>
+              </div>
+              <p class="feedback-note"><strong data-ru="Обратная связь." data-kk="Кері байланыс.">Обратная связь.</strong> <span data-ru="После завершения главы у вас есть возможность задать вопрос по материалу или отправить результат своей работы на проверку." data-kk="Тарауды аяқтағаннан кейін сізде материал бойынша сұрақ қою немесе жұмысыңыздың нәтижесін тексеруге жіберу мүмкіндігі бар.">После завершения главы у вас есть возможность задать вопрос по материалу или отправить результат своей работы на проверку.</span></p>
+            </div>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <section class="section section-divider">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <h2 data-ru="Итоговая аттестация" data-kk="Қорытынды аттестация">Итоговая аттестация</h2>
+          <p data-ru="В конце курса проводится проверка полученных знаний и навыков. Учащийся должен продемонстрировать:" data-kk="Курс соңында алынған білім мен дағдылар тексеріледі. Оқушы мыналарды көрсете білуі керек:">
+            В конце курса проводится проверка полученных знаний и навыков. Учащийся должен продемонстрировать:
+          </p>
+        </div>
+        <ul class="assessment-list reveal reveal-d1">
+          <li data-ru="правильное снятие мерок" data-kk="дұрыс өлшем алу">правильное снятие мерок</li>
+          <li data-ru="построение конструкции" data-kk="конструкция құру">построение конструкции</li>
+          <li data-ru="понимание основных принципов моделирования" data-kk="моделдеудің негізгі принциптерін түсіну">понимание основных принципов моделирования</li>
+          <li data-ru="выполнение раскроя" data-kk="пішуді орындау">выполнение раскроя</li>
+          <li data-ru="работу на швейном оборудовании" data-kk="швейлік жабдықта жұмыс істеу">работу на швейном оборудовании</li>
+          <li data-ru="выполнение основных технологических операций" data-kk="негізгі технологиялық операцияларды орындау">выполнение основных технологических операций</li>
+          <li data-ru="аккуратность обработки" data-kk="өңдеудің ұқыптылығы">аккуратность обработки</li>
+          <li data-ru="соблюдение технологической последовательности" data-kk="технологиялық реттілікті сақтау">соблюдение технологической последовательности</li>
+          <li data-ru="способность выявлять и исправлять ошибки" data-kk="қателерді анықтап, түзете білу">способность выявлять и исправлять ошибки</li>
+        </ul>
+        <p class="module-result reveal reveal-d2"><strong data-ru="Итоговый результат:" data-kk="Қорытынды нәтиже:">Итоговый результат:</strong> <span data-ru="по окончании курса учащийся получает практическую базу для дальнейшего обучения и работы в сфере шитья и швейного производства." data-kk="курсты аяқтағаннан кейін оқушы тігін ісі мен швейлік өндіріс саласында әрі қарай оқу және жұмыс істеу үшін практикалық база алады.">по окончании курса учащийся получает практическую базу для дальнейшего обучения и работы в сфере шитья и швейного производства.</span></p>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer>
+  <div class="wrap footer-row">
+    <div>© 2026 MaDE Studio, Алматы</div>
+    <div class="footer-links">
+      <a href="courses.html" data-ru="Курсы" data-kk="Курстар">Курсы</a>
+      <a href="atelier.html" data-ru="Ателье" data-kk="Ателье">Ателье</a>
+      <a href="shop.html" data-ru="Магазин" data-kk="Дүкен">Магазин</a>
+      <a href="contacts.html" data-ru="Контакты" data-kk="Байланыс">Контакты</a>
+      <a href="https://instagram.com/made_studio_kz" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://2gis.kz" target="_blank" rel="noopener">2ГИС</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  window.MADE_TITLES = {
+    ru: 'Личный кабинет — MaDE Studio',
+    kk: 'Жеке кабинет — MaDE Studio'
+  };
+</script>
+<script src="js/config.js"></script>
+<script src="js/site.js"></script>
+<script src="js/auth-widget.js"></script>
+<script src="js/cabinet.js"></script>
+</body>
+</html>
