@@ -239,12 +239,7 @@ nav.main-nav{display:flex;align-items:center;gap:36px;}
 .eye-toggle:hover{color:var(--wine);}
 .eye-toggle svg{width:18px;height:18px;display:block;}
 
-.change-password-toggle{
-  background:none;border:none;padding:0;
-  font-size:13px;color:var(--wine);
-  border-bottom:1px solid var(--wine);
-}
-.change-password-form{margin-top:14px;}
+.change-password-form{margin:-4px 0 18px;}
 .change-password-form label{display:block;margin-bottom:12px;font-size:12px;color:var(--clay);}
 .change-password-form label span{display:block;margin-bottom:5px;}
 .change-password-form input{
@@ -519,12 +514,23 @@ footer{padding:32px 0;}
   display:block;text-align:center;
   max-width:360px;margin:24px auto 0;
 }
-.account-logged-in p{font-size:45px;}
-.account-logged-in .username{
-  color:var(--wine);font-family:'Playfair Display',serif;
-  font-size:32px;margin-top:4px;
+.account-avatar-big{
+  width:76px;height:76px;border-radius:50%;
+  background:var(--wine);color:var(--paper-light);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Playfair Display',serif;font-size:32px;
+  margin:0 auto 24px;
 }
-.account-logged-in .btn{margin-top:24px;}
+.account-eyebrow{
+  font-size:13px;color:var(--clay);letter-spacing:.03em;
+  margin-bottom:8px;
+}
+.account-logged-in .username{
+  color:var(--wine);font-family:'Playfair Display',serif;font-style:italic;
+  font-size:40px;line-height:1.15;
+  padding-bottom:24px;margin-bottom:24px;border-bottom:1px solid var(--rule);
+}
+.account-logged-in .btn{width:auto;min-width:160px;}
 .account-resend{
   background:none;border:none;padding:0;margin-top:14px;
   font-size:13px;color:var(--clay);text-decoration:underline;

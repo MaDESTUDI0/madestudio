@@ -7,6 +7,7 @@
   var loggedInView = document.getElementById('loggedInView');
   var errorEl = document.getElementById('accountLoginError');
   var usernameEl = document.getElementById('accountUsername');
+  var avatarEl = document.getElementById('accountAvatarBig');
   var logoutBtn = document.getElementById('accountLogoutBtn');
 
   function api(path, opts) {
@@ -24,7 +25,9 @@
   function showLoggedIn(data) {
     loggedOutView.style.display = 'none';
     loggedInView.classList.add('visible');
-    usernameEl.textContent = data.name || data.username;
+    var label = data.name || data.username || '';
+    usernameEl.textContent = label;
+    if (avatarEl) avatarEl.textContent = label.trim().charAt(0).toUpperCase() || '?';
   }
 
   function showLoggedOut() {

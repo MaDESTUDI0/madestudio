@@ -37,17 +37,19 @@
         '<div class="avatar-panel-row">' +
           '<span class="avatar-panel-label" data-ru="Email" data-kk="Email">Email</span>' +
           '<span class="avatar-panel-value avatar-email"></span>' +
-          '<button type="button" class="eye-toggle" aria-label="Показать" title="Показать">' + EYE_OPEN + '</button>' +
+          '<button type="button" class="eye-toggle email-eye" aria-label="Показать" title="Показать">' + EYE_OPEN + '</button>' +
         '</div>' +
-        '<div class="change-password-wrap" hidden>' +
-          '<button type="button" class="change-password-toggle" data-ru="Изменить пароль" data-kk="Құпия сөзді өзгерту">Изменить пароль</button>' +
-          '<form class="change-password-form" hidden>' +
-            '<label><span data-ru="Текущий пароль" data-kk="Ағымдағы құпия сөз">Текущий пароль</span><input type="password" name="currentPassword" autocomplete="current-password" required></label>' +
-            '<label><span data-ru="Новый пароль" data-kk="Жаңа құпия сөз">Новый пароль</span><input type="password" name="newPassword" minlength="8" autocomplete="new-password" required></label>' +
-            '<button type="submit" class="btn btn-solid" data-ru="Сохранить" data-kk="Сақтау">Сохранить</button>' +
-            '<p class="change-password-note"></p>' +
-          '</form>' +
+        '<div class="avatar-panel-row avatar-panel-row--password">' +
+          '<span class="avatar-panel-label" data-ru="Пароль" data-kk="Құпия сөз">Пароль</span>' +
+          '<span class="avatar-panel-value">••••••••</span>' +
+          '<button type="button" class="eye-toggle password-eye" aria-label="Изменить пароль" title="Изменить пароль">' + EYE_OPEN + '</button>' +
         '</div>' +
+        '<form class="change-password-form" hidden>' +
+          '<label><span data-ru="Текущий пароль" data-kk="Ағымдағы құпия сөз">Текущий пароль</span><input type="password" name="currentPassword" autocomplete="current-password" required></label>' +
+          '<label><span data-ru="Новый пароль" data-kk="Жаңа құпия сөз">Новый пароль</span><input type="password" name="newPassword" minlength="8" autocomplete="new-password" required></label>' +
+          '<button type="submit" class="btn btn-solid" data-ru="Сохранить" data-kk="Сақтау">Сохранить</button>' +
+          '<p class="change-password-note"></p>' +
+        '</form>' +
         '<button type="button" class="btn btn-outline widget-logout" data-ru="Выйти" data-kk="Шығу">Выйти</button>' +
       '</div>';
 
@@ -86,13 +88,12 @@
   function wireWidget(widget) {
     var btn = widget.querySelector('.avatar-btn');
     var email = widget.querySelector('.avatar-email');
-    var eyeBtn = widget.querySelector('.eye-toggle');
-    var pwWrap = widget.querySelector('.change-password-wrap');
-    var pwToggle = widget.querySelector('.change-password-toggle');
+    var emailEye = widget.querySelector('.email-eye');
+    var passwordEye = widget.querySelector('.password-eye');
     var pwForm = widget.querySelector('.change-password-form');
     var pwNote = widget.querySelector('.change-password-note');
     var logoutBtn = widget.querySelector('.widget-logout');
-    var revealed = false;
+    var emailRevealed = false;
 
     btn.addEventListener('click', function(e){
       e.stopPropagation();
@@ -104,16 +105,21 @@
       }
     });
 
-    eyeBtn.addEventListener('click', function(){
-      revealed = !revealed;
-      email.textContent = revealed ? widget._fullEmail : maskEmail(widget._fullEmail);
-      pwWrap.hidden = !revealed;
-      eyeBtn.innerHTML = revealed ? EYE_CLOSED : EYE_OPEN;
-      eyeBtn.setAttribute('aria-label', revealed ? 'Скрыть' : 'Показать');
+    emailEye.addEventListener('click', function(){
+      emailRevealed = !emailRevealed;
+      email.textContent = emailRevealed ? widget._fullEmail : maskEmail(widget._fullEmail);
+      emailEye.innerHTML = emailRevealed ? EYE_CLOSED : EYE_OPEN;
+      emailEye.setAttribute('aria-label', emailRevealed ? 'Скрыть' : 'Показать');
     });
 
-    pwToggle.addEventListener('click', function(){
-      pwForm.hidden = !pwForm.hidden;
+    // The real password is never retrievable (only its hash is stored) —
+    // this eye can't reveal it, so it opens the change-password form
+    // instead, right below the row.
+    passwordEye.addEventListener('click', function(){
+      var opening = pwForm.hidden;
+      pwForm.hidden = !opening;
+      passwordEye.innerHTML = opening ? EYE_CLOSED : EYE_OPEN;
+      passwordEye.setAttribute('aria-label', opening ? 'Скрыть' : 'Изменить пароль');
     });
 
     pwForm.addEventListener('submit', function(e){
@@ -174,12 +180,12 @@
       widget._fullEmail = data.username || '';
       var emailEl = widget.querySelector('.avatar-email');
       emailEl.textContent = maskEmail(widget._fullEmail);
-      var pwWrap = widget.querySelector('.change-password-wrap');
-      pwWrap.hidden = true;
       widget.querySelector('.change-password-form').hidden = true;
-      var eyeBtn = widget.querySelector('.eye-toggle');
-      eyeBtn.innerHTML = EYE_OPEN;
-      eyeBtn.setAttribute('aria-label', 'Показать');
+      widget.querySelectorAll('.eye-toggle').forEach(function(eyeBtn){
+        eyeBtn.innerHTML = EYE_OPEN;
+      });
+      widget.querySelector('.email-eye').setAttribute('aria-label', 'Показать');
+      widget.querySelector('.password-eye').setAttribute('aria-label', 'Изменить пароль');
     });
 
     if (typeof window.MADE_APPLY_LANG === 'function') {

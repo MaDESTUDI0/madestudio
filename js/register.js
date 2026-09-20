@@ -9,6 +9,7 @@
   var step2Error = document.getElementById('registerStep2Error');
   var emailDisplay = document.getElementById('registerEmailDisplay');
   var successEmail = document.getElementById('registerSuccessEmail');
+  var successAvatar = document.getElementById('registerAvatarBig');
   var resendBtn = document.getElementById('resendCodeBtn');
 
   var currentEmail = '';
@@ -91,7 +92,9 @@
     })
       .then(function(data){
         step2.style.display = 'none';
-        successEmail.textContent = data.name || data.username;
+        var label = data.name || data.username || '';
+        successEmail.textContent = label;
+        if (successAvatar) successAvatar.textContent = label.trim().charAt(0).toUpperCase() || '?';
         success.classList.add('visible');
         if (typeof window.MADE_REFRESH_AUTH === 'function') window.MADE_REFRESH_AUTH();
       })
