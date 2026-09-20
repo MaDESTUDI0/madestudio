@@ -10,23 +10,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500;600&family=Pinyon+Script&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/site.css">
 <noscript><style>.reveal{opacity:1!important;transform:none!important;}</style></noscript>
-<style>
-  .account-wrap{max-width:420px;}
-  .account-form label{display:block;margin-bottom:18px;font-size:13px;color:var(--clay);}
-  .account-form label span{display:block;margin-bottom:6px;}
-  .account-form input{
-    width:100%;padding:12px 14px;border:1px solid var(--rule);border-radius:2px;
-    font-size:15px;color:var(--ink);background:var(--paper-light);
-  }
-  .account-form .btn{width:100%;margin-top:4px;}
-  .account-error{color:var(--wine);font-size:14px;margin-top:16px;display:none;}
-  .account-error.visible{display:block;}
-  .account-note{margin-top:28px;font-size:14px;color:var(--clay);border-top:1px solid var(--rule);padding-top:20px;}
-  .account-note a{color:var(--wine);border-bottom:1px solid var(--wine);padding-bottom:1px;}
-  .account-logged-in{display:none;}
-  .account-logged-in.visible{display:block;}
-  .account-logged-in .username{color:var(--wine);}
-</style>
 </head>
 <body data-page="login">
 
@@ -114,14 +97,9 @@
           <p data-key="section.4" id="accountLoginError" class="account-error" data-ru="Неверный логин или пароль." data-kk="Логин немесе құпия сөз қате.">Неверный логин или пароль.</p>
         </form>
 
-        <p data-key="section.5" class="account-note reveal reveal-d1"
-           data-ru="Аккаунтов пока нет в свободной регистрации — напишите нам, и мы создадим его вручную."
-           data-kk="Әзірге еркін тіркелу жоқ — бізге жазыңыз, аккаунтты қолмен жасаймыз.">
-          Аккаунтов пока нет в свободной регистрации — напишите нам, и мы создадим его вручную.
-          <br>
-          <a href="https://instagram.com/made_studio_kz" target="_blank" rel="noopener">Instagram</a>
-          ·
-          <a href="https://wa.me/77000000000" target="_blank" rel="noopener">WhatsApp</a>
+        <p class="account-note reveal reveal-d1">
+          <span data-key="section.5" data-ru="Нет аккаунта?" data-kk="Аккаунтыңыз жоқ па?">Нет аккаунта?</span>
+          <a data-key="section.6" href="register.html" data-ru="Зарегистрироваться" data-kk="Тіркелу">Зарегистрироваться</a>
         </p>
       </div>
 

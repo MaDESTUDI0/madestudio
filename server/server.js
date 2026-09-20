@@ -6,6 +6,7 @@ const cookieSession = require('cookie-session');
 
 const authRoutes = require('./routes/auth');
 const contentRoutes = require('./routes/content');
+const registerRoutes = require('./routes/register');
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -31,6 +32,7 @@ app.use(cookieSession({
 
 app.use('/api', authRoutes);
 app.use('/api', contentRoutes);
+app.use('/api', registerRoutes);
 
 // Serve the admin panel
 app.use('/admin', express.static(path.join(__dirname, '..', 'admin')));

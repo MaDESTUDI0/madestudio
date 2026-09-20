@@ -10,11 +10,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500;600&family=Pinyon+Script&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/site.css">
 <noscript><style>.reveal{opacity:1!important;transform:none!important;}</style></noscript>
-<style>
-  .register-actions{display:flex;gap:16px;flex-wrap:wrap;margin-top:28px;}
-  .register-note{margin-top:28px;font-size:14px;color:var(--clay);}
-  .register-note a{color:var(--wine);border-bottom:1px solid var(--wine);padding-bottom:1px;}
-</style>
 </head>
 <body data-page="register">
 
@@ -82,52 +77,62 @@
           data-kk="&lt;em&gt;Аккаунтқа&lt;/em&gt; қолжеткізіңіз">
         Получите доступ к <em>аккаунту</em>
       </h1>
-      <p data-key="page-hero.3" class="page-lead reveal reveal-d2" data-ru="Свободной регистрации пока нет — напишите нам, мы создадим аккаунт и пришлём данные для входа лично."
-         data-kk="Әзірге еркін тіркелу жоқ — бізге жазыңыз, аккаунтты жасап, кіру деректерін жеке жібереміз.">
-        Свободной регистрации пока нет — напишите нам, мы создадим аккаунт и пришлём данные для входа лично.
+      <p data-key="page-hero.3" class="page-lead reveal reveal-d2" data-ru="Укажите почту и пароль — пришлём код подтверждения на email."
+         data-kk="Поштаңыз бен құпия сөзді енгізіңіз — email-ге растау кодын жібереміз.">
+        Укажите почту и пароль — пришлём код подтверждения на email.
       </p>
     </div>
   </section>
 
   <section class="section">
-    <div class="wrap">
-      <div class="section-head reveal">
-        <h2 data-key="section.1" data-ru="Как это работает" data-kk="Бұл қалай жұмыс істейді">Как это работает</h2>
+    <div class="wrap account-wrap">
+
+      <form id="registerStep1" class="account-form reveal">
+        <label>
+          <span data-key="section.1" data-ru="Email" data-kk="Email">Email</span>
+          <input type="email" name="email" autocomplete="email" required>
+        </label>
+        <label>
+          <span data-key="section.2" data-ru="Пароль" data-kk="Құпия сөз">Пароль</span>
+          <input type="password" name="password" minlength="8" autocomplete="new-password" required>
+        </label>
+        <label>
+          <span data-key="section.3" data-ru="Повторите пароль" data-kk="Құпия сөзді қайталаңыз">Повторите пароль</span>
+          <input type="password" name="password2" minlength="8" autocomplete="new-password" required>
+        </label>
+        <button data-key="section.4" type="submit" class="btn btn-solid" data-ru="Получить код на почту" data-kk="Поштаға код алу">Получить код на почту</button>
+        <p id="registerStep1Error" class="account-error"></p>
+      </form>
+
+      <form id="registerStep2" class="account-form" style="display:none;">
+        <p class="account-step-note">
+          <span data-key="section.5" data-ru="Мы отправили код на" data-kk="Кодты мына мекенжайға жібердік:">Мы отправили код на</span>
+          <strong id="registerEmailDisplay"></strong>
+        </p>
+        <label>
+          <span data-key="section.6" data-ru="Код из письма" data-kk="Хаттағы код">Код из письма</span>
+          <input type="text" name="code" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="one-time-code" required>
+        </label>
+        <button data-key="section.7" type="submit" class="btn btn-solid" data-ru="Подтвердить и войти" data-kk="Растау және кіру">Подтвердить и войти</button>
+        <button data-key="section.8" type="button" id="resendCodeBtn" class="account-resend" data-ru="Отправить код ещё раз" data-kk="Кодты қайта жіберу">Отправить код ещё раз</button>
+        <p id="registerStep2Error" class="account-error"></p>
+      </form>
+
+      <div id="registerSuccess" class="account-logged-in">
+        <p data-key="section.9" data-ru="Аккаунт создан. Вы вошли как" data-kk="Аккаунт жасалды. Сіз кірдіңіз:">Аккаунт создан. Вы вошли как</p>
+        <p class="username" id="registerSuccessEmail"></p>
+        <a data-key="section.10" href="index.html" class="btn btn-outline" style="margin-top:20px;" data-ru="На главную" data-kk="Басты бетке">На главную</a>
       </div>
 
-      <div class="rule-list">
-        <div class="reveal">
-          <h3 data-key="program.1" data-ru="Напишите нам" data-kk="Бізге жазыңыз">Напишите нам</h3>
-          <p data-key="program.2" data-ru="В Instagram или WhatsApp — скажите, что хотите личный кабинет."
-             data-kk="Instagram немесе WhatsApp-та — жеке кабинет керек екенін айтыңыз.">
-            В Instagram или WhatsApp — скажите, что хотите личный кабинет.
-          </p>
-        </div>
-        <div class="reveal">
-          <h3 data-key="program.3" data-ru="Получите данные для входа" data-kk="Кіру деректерін алыңыз">Получите данные для входа</h3>
-          <p data-key="program.4" data-ru="Мы создадим аккаунт вручную и пришлём логин и пароль лично вам."
-             data-kk="Аккаунтты қолмен жасап, логин мен құпия сөзді жеке өзіңізге жібереміз.">
-            Мы создадим аккаунт вручную и пришлём логин и пароль лично вам.
-          </p>
-        </div>
-        <div class="reveal">
-          <h3 data-key="program.5" data-ru="Войдите в личный кабинет" data-kk="Жеке кабинетке кіріңіз">Войдите в личный кабинет</h3>
-          <p data-key="program.6" data-ru="Используйте полученные данные на странице входа."
-             data-kk="Алынған деректерді кіру бетінде қолданыңыз.">
-            Используйте полученные данные на странице входа.
-          </p>
-        </div>
-      </div>
-
-      <div class="register-actions reveal">
-        <a data-key="program.7" href="https://wa.me/77000000000" class="btn btn-solid" target="_blank" rel="noopener" data-ru="Написать в WhatsApp" data-kk="WhatsApp-қа жазу">Написать в WhatsApp</a>
-        <a data-key="program.8" href="https://instagram.com/made_studio_kz" class="btn btn-outline" target="_blank" rel="noopener" data-ru="Написать в Instagram" data-kk="Instagram-ға жазу">Написать в Instagram</a>
-      </div>
-
-      <p data-key="program.9" class="register-note reveal" data-ru="Уже есть аккаунт?" data-kk="Аккаунтыңыз бар ма?">
-        Уже есть аккаунт?
-        <a data-key="program.10" href="login.html" data-ru="Войти" data-kk="Кіру">Войти</a>
+      <p class="account-note reveal reveal-d1">
+        <span data-key="section.11" data-ru="Уже есть аккаунт?" data-kk="Аккаунтыңыз бар ма?">Уже есть аккаунт?</span>
+        <a data-key="section.12" href="login.html" data-ru="Войти" data-kk="Кіру">Войти</a>
       </p>
+      <p class="account-note">
+        <span data-key="section.13" data-ru="Не приходит письмо?" data-kk="Хат келмей ме?">Не приходит письмо?</span>
+        <a data-key="section.14" href="https://wa.me/77000000000" target="_blank" rel="noopener" data-ru="Напишите нам" data-kk="Бізге жазыңыз">Напишите нам</a>
+      </p>
+
     </div>
   </section>
 </main>
@@ -154,5 +159,6 @@
 </script>
 <script src="js/site.js"></script>
 <script src="js/content-loader.js"></script>
+<script src="js/register.js"></script>
 </body>
 </html>

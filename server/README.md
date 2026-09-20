@@ -37,6 +37,13 @@ into the HTML otherwise.
   (linked from "Войти" in the header). Any account in `users`
   (`role = 'customer'` or otherwise) can log in here; it just shows
   who's logged in for now; there's nothing behind it yet.
+- `register.html` + `js/register.js` + `server/routes/register.js` +
+  `server/mailer.js` — self-service sign-up: email + password →
+  6-digit code emailed to that address → entering it creates the
+  account (`role: 'customer'`) and logs the person in. Pending
+  sign-ups live in `pending_registrations` (code hashed, expires in
+  10 minutes, capped at 5 wrong attempts) until verified, so nothing
+  lands in `users` until the email is confirmed.
 
 ## Running locally
 
@@ -57,6 +64,13 @@ npm start               # http://localhost:4000
 Open `http://localhost:4000` for the public site (served by the same
 server) and `http://localhost:4000/admin` for the admin panel.
 
+Registration works without any email setup: if `SMTP_HOST` /
+`SMTP_USER` / `SMTP_PASS` are left blank in `.env`, the server prints
+the 6-digit verification code to the console instead of emailing it —
+useful for testing the flow locally. Fill those in with real SMTP
+credentials (a Gmail app password, or a transactional provider like
+Brevo/Mailgun/Resend) to actually send email.
+
 ## Owner account
 
 An owner account already exists in the local `server/data/made.db`
@@ -72,20 +86,22 @@ If those credentials are lost, delete the `owner` row from the
 instead of getting a random generated one). There's no self-service
 password change yet — for now, resetting means re-running that script.
 
-## Customer accounts (manual, for now)
+## Customer accounts
 
-There's no public sign-up. "Регистрация" was removed from the site —
-instead, someone asks for an account via DM (Instagram/WhatsApp) and
-the owner creates it by hand:
+Self-service now: `/register.html` → email + password → code emailed
+→ entering it creates the account and logs the person in. No owner
+involvement needed.
+
+For a second admin, or an account without going through email
+verification, it's still possible by hand:
 
 ```
 npm run create-user <username> <password>            # role defaults to "customer"
-npm run create-user <username> <password> owner       # a second admin, if ever needed
+npm run create-user <username> <password> owner       # a second admin
 ```
 
-The person then logs in at `/login.html` on the public site. Customer
-accounts cannot reach `/admin` or edit content — only `role: "owner"`
-can (enforced both in the API and in the admin UI).
+Customer accounts cannot reach `/admin` or edit content — only
+`role: "owner"` can (enforced both in the API and in the admin UI).
 
 ## Deploying
 
@@ -95,7 +111,9 @@ get the admin panel live, deploy the `server/` folder to a Node host
 Node 22.5+), then:
 
 1. Set real env vars there: `SESSION_SECRET`, `NODE_ENV=production`,
-   `ALLOWED_ORIGIN=https://madestudi0.github.io`.
+   `ALLOWED_ORIGIN=https://madestudi0.github.io`, and `SMTP_HOST` /
+   `SMTP_PORT` / `SMTP_USER` / `SMTP_PASS` / `SMTP_FROM` so
+   registration actually sends email instead of only logging the code.
 2. Run `npm run create-owner` once on that host (or copy
    `server/data/made.db` from local — it already has the owner account
    and all seeded content).
