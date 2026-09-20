@@ -267,22 +267,10 @@ nav.main-nav{display:flex;align-items:center;gap:36px;}
 .mobile-nav .mobile-extra{padding:16px 32px;display:flex;gap:16px;align-items:center;}
 
 /* ===== Homepage hero ===== */
-.hero{padding:72px 0 96px;position:relative;overflow:hidden;}
+.hero{padding:72px 0 96px;}
 .hero-grid{
-  position:relative;z-index:1;
   display:grid;grid-template-columns:1.1fr 1fr;gap:64px;align-items:center;
 }
-
-.hero-decor{position:absolute;inset:0;color:#6B1F2B;pointer-events:none;z-index:0;}
-.hero-decor svg{position:absolute;}
-.decor-arc{opacity:.14;}
-.decor-arc-1{top:-90px;left:-120px;width:420px;height:420px;}
-.decor-arc-2{bottom:-140px;right:-100px;width:360px;height:360px;}
-.decor-scissors{top:48px;left:8px;width:92px;height:92px;opacity:.55;transform:rotate(-8deg);}
-.decor-spool{bottom:36px;left:10px;width:62px;height:94px;opacity:.5;}
-.decor-tape{top:40px;right:8px;width:122px;height:150px;opacity:.5;}
-.decor-pins{top:270px;right:12px;width:82px;height:82px;opacity:.5;}
-.decor-pattern{bottom:18px;right:6px;width:110px;height:110px;opacity:.32;}
 .eyebrow{
   display:flex;align-items:center;gap:14px;
   font-size:13px;color:var(--clay);letter-spacing:.02em;
@@ -647,10 +635,6 @@ footer{padding:32px 0;}
 }
 
 /* ===== Responsive ===== */
-@media (max-width:1300px){
-  .hero-decor{display:none;}
-}
-
 @media (max-width:900px){
   .hero-grid{grid-template-columns:1fr;gap:48px;}
   .hero-visual{order:-1;}
