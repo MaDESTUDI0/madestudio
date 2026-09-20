@@ -35,6 +35,7 @@
       '<div class="avatar-panel">' +
         '<div class="avatar-panel-name"></div>' +
         '<a href="cabinet.html" class="btn btn-solid avatar-panel-course" data-ru="Программа курса" data-kk="Курс бағдарламасы">Программа курса</a>' +
+        '<a href="' + API_BASE + '/admin" target="_blank" rel="noopener" class="btn btn-outline avatar-panel-admin" hidden data-ru="Админ-панель" data-kk="Әкімші панелі">Админ-панель</a>' +
         '<div class="avatar-panel-row">' +
           '<span class="avatar-panel-label" data-ru="Email" data-kk="Email">Email</span>' +
           '<span class="avatar-panel-value avatar-email"></span>' +
@@ -236,6 +237,7 @@
       var letter = label.trim().charAt(0).toUpperCase() || '?';
       widget.querySelector('.avatar-letter').textContent = letter;
       widget.querySelector('.avatar-panel-name').textContent = label;
+      widget.querySelector('.avatar-panel-admin').hidden = data.role !== 'owner';
       widget._fullEmail = data.username || '';
       var emailEl = widget.querySelector('.avatar-email');
       emailEl.textContent = maskEmail(widget._fullEmail);

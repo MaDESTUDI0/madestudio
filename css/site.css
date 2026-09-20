@@ -190,7 +190,7 @@ nav.main-nav{display:flex;align-items:center;gap:36px;}
   font-family:'Playfair Display',serif;font-size:20px;color:var(--wine);
   margin-bottom:16px;
 }
-.avatar-panel-course{
+.avatar-panel-course,.avatar-panel-admin{
   display:block;width:100%;text-align:center;
   padding:10px;font-size:13px;margin-bottom:20px;
 }
