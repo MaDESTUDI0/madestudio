@@ -5,7 +5,8 @@ const { requireRole } = require('../middleware/auth');
 const router = express.Router();
 
 const KNOWN_PAGES = [
-  'index', 'courses', 'atelier', 'gallery', 'shop', 'reviews', 'about', 'contacts'
+  'index', 'courses', 'atelier', 'gallery', 'shop', 'reviews', 'about', 'contacts',
+  'login', 'register'
 ];
 
 router.get('/pages', (_req, res) => {

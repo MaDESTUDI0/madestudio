@@ -12,7 +12,7 @@ const path = require('path');
 const db = require('../db');
 
 const ROOT = path.join(__dirname, '..', '..');
-const PAGES = ['index', 'courses', 'atelier', 'gallery', 'shop', 'reviews', 'about', 'contacts'];
+const PAGES = ['index', 'courses', 'atelier', 'gallery', 'shop', 'reviews', 'about', 'contacts', 'login', 'register'];
 
 const LANDMARK_RULES = [
   [/\bpage-hero\b/, 'page-hero'],

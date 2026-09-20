@@ -9,7 +9,9 @@
     { id: 'shop', label: 'Магазин' },
     { id: 'reviews', label: 'Отзывы' },
     { id: 'about', label: 'О студии' },
-    { id: 'contacts', label: 'Контакты' }
+    { id: 'contacts', label: 'Контакты' },
+    { id: 'login', label: 'Вход' },
+    { id: 'register', label: 'Регистрация' }
   ];
 
   var loginScreen = document.getElementById('loginScreen');

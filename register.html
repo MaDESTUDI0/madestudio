@@ -3,15 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Контакты — MaDE Studio</title>
-<meta name="description" content="Свяжитесь с MaDE Studio в Алматы: WhatsApp, Instagram, 2ГИС.">
+<title>Регистрация — MaDE Studio</title>
+<meta name="description" content="Как получить аккаунт в личном кабинете MaDE Studio.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500;600&family=Pinyon+Script&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/site.css">
 <noscript><style>.reveal{opacity:1!important;transform:none!important;}</style></noscript>
+<style>
+  .register-actions{display:flex;gap:16px;flex-wrap:wrap;margin-top:28px;}
+  .register-note{margin-top:28px;font-size:14px;color:var(--clay);}
+  .register-note a{color:var(--wine);border-bottom:1px solid var(--wine);padding-bottom:1px;}
+</style>
 </head>
-<body data-page="contacts">
+<body data-page="register">
 
 <header>
   <div class="header-inner">
@@ -38,8 +43,7 @@
       </div>
 
       <a data-key="nav.7" href="login.html" class="header-login" data-ru="Войти" data-kk="Кіру">Войти</a>
-      <a data-key="nav.8" href="register.html" class="btn btn-outline header-cta" data-ru="Регистрация" data-kk="Тіркелу">Регистрация</a>
-      <a data-key="nav.9" href="courses.html#signup" class="btn btn-solid header-cta" data-ru="Записаться" data-kk="Жазылу">Записаться</a>
+      <a data-key="nav.8" href="courses.html#signup" class="btn btn-solid header-cta" data-ru="Записаться" data-kk="Жазылу">Записаться</a>
     </nav>
 
     <div class="mobile-bar">
@@ -63,9 +67,8 @@
     <a data-key="mobile-nav.5" href="reviews.html" data-ru="Отзывы" data-kk="Пікірлер">Отзывы</a>
     <a data-key="mobile-nav.6" href="about.html" data-ru="О студии" data-kk="Студия туралы">О студии</a>
     <a data-key="mobile-nav.7" href="login.html" class="header-login" data-ru="Войти" data-kk="Кіру">Войти</a>
-    <a data-key="mobile-nav.8" href="register.html" class="header-login" data-ru="Регистрация" data-kk="Тіркелу">Регистрация</a>
     <div class="mobile-extra">
-      <a data-key="mobile-nav.9" href="courses.html#signup" class="btn btn-solid" data-ru="Записаться" data-kk="Жазылу">Записаться</a>
+      <a data-key="mobile-nav.8" href="courses.html#signup" class="btn btn-solid" data-ru="Записаться" data-kk="Жазылу">Записаться</a>
     </div>
   </div>
 </header>
@@ -73,55 +76,58 @@
 <main>
   <section class="page-hero">
     <div class="wrap">
-      <div data-key="page-hero.1" class="eyebrow reveal" data-ru="Контакты" data-kk="Байланыс">Контакты</div>
+      <div data-key="page-hero.1" class="eyebrow reveal" data-ru="Регистрация" data-kk="Тіркелу">Регистрация</div>
       <h1 data-key="page-hero.2" class="page-title reveal reveal-d1" data-i18n-html
-          data-ru="Свяжитесь с &lt;em&gt;MaDE Studio&lt;/em&gt;"
-          data-kk="&lt;em&gt;MaDE Studio&lt;/em&gt;-мен байланысыңыз">
-        Свяжитесь с <em>MaDE Studio</em>
+          data-ru="Получите доступ к &lt;em&gt;аккаунту&lt;/em&gt;"
+          data-kk="&lt;em&gt;Аккаунтқа&lt;/em&gt; қолжеткізіңіз">
+        Получите доступ к <em>аккаунту</em>
       </h1>
-      <p data-key="page-hero.3" class="page-lead reveal reveal-d2" data-ru="Пишите в WhatsApp или Instagram — ответим и расскажем о ближайшем наборе."
-         data-kk="WhatsApp немесе Instagram-ға жазыңыз — жауап беріп, жақын арадағы топ туралы айтамыз.">
-        Пишите в WhatsApp или Instagram — ответим и расскажем о ближайшем наборе.
+      <p data-key="page-hero.3" class="page-lead reveal reveal-d2" data-ru="Свободной регистрации пока нет — напишите нам, мы создадим аккаунт и пришлём данные для входа лично."
+         data-kk="Әзірге еркін тіркелу жоқ — бізге жазыңыз, аккаунтты жасап, кіру деректерін жеке жібереміз.">
+        Свободной регистрации пока нет — напишите нам, мы создадим аккаунт и пришлём данные для входа лично.
       </p>
     </div>
   </section>
 
   <section class="section">
     <div class="wrap">
-      <div class="contact-grid reveal">
-        <div class="contact-item">
-          <span data-key="contacts.1" class="label" data-ru="WhatsApp" data-kk="WhatsApp">WhatsApp</span>
-          <a href="https://wa.me/77000000000" target="_blank" rel="noopener">+7 700 000 00 00</a>
-        </div>
-        <div class="contact-item">
-          <span class="label">Instagram</span>
-          <a href="https://instagram.com/made_studio_kz" target="_blank" rel="noopener">@made_studio_kz</a>
-        </div>
-        <div class="contact-item">
-          <span data-key="contacts.2" class="label" data-ru="Город" data-kk="Қала">Город</span>
-          <p data-key="contacts.3" data-ru="Алматы" data-kk="Алматы">Алматы</p>
-        </div>
-        <div class="contact-item">
-          <span class="label">2ГИС</span>
-          <a data-key="contacts.4" href="https://2gis.kz" target="_blank" rel="noopener" data-ru="Найти на карте" data-kk="Картадан табу">Найти на карте</a>
-        </div>
+      <div class="section-head reveal">
+        <h2 data-key="section.1" data-ru="Как это работает" data-kk="Бұл қалай жұмыс істейді">Как это работает</h2>
       </div>
-    </div>
-  </section>
 
-  <section class="enroll">
-    <div class="wrap enroll-grid">
-      <div class="reveal">
-        <h2 data-key="enroll.1" data-i18n-html
-            data-ru="Проще всего — &lt;em&gt;написать в WhatsApp&lt;/em&gt;"
-            data-kk="Ең оңайы — &lt;em&gt;WhatsApp-қа жазу&lt;/em&gt;">
-          Проще всего — <em>написать в WhatsApp</em>
-        </h2>
-        <p data-key="enroll.2" data-ru="Ответим в течение дня, расскажем про курс, ателье или магазин." data-kk="Бір күн ішінде жауап береміз, курс, ателье немесе дүкен туралы айтамыз.">
-          Ответим в течение дня, расскажем про курс, ателье или магазин.
-        </p>
+      <div class="rule-list">
+        <div class="reveal">
+          <h3 data-key="program.1" data-ru="Напишите нам" data-kk="Бізге жазыңыз">Напишите нам</h3>
+          <p data-key="program.2" data-ru="В Instagram или WhatsApp — скажите, что хотите личный кабинет."
+             data-kk="Instagram немесе WhatsApp-та — жеке кабинет керек екенін айтыңыз.">
+            В Instagram или WhatsApp — скажите, что хотите личный кабинет.
+          </p>
+        </div>
+        <div class="reveal">
+          <h3 data-key="program.3" data-ru="Получите данные для входа" data-kk="Кіру деректерін алыңыз">Получите данные для входа</h3>
+          <p data-key="program.4" data-ru="Мы создадим аккаунт вручную и пришлём логин и пароль лично вам."
+             data-kk="Аккаунтты қолмен жасап, логин мен құпия сөзді жеке өзіңізге жібереміз.">
+            Мы создадим аккаунт вручную и пришлём логин и пароль лично вам.
+          </p>
+        </div>
+        <div class="reveal">
+          <h3 data-key="program.5" data-ru="Войдите в личный кабинет" data-kk="Жеке кабинетке кіріңіз">Войдите в личный кабинет</h3>
+          <p data-key="program.6" data-ru="Используйте полученные данные на странице входа."
+             data-kk="Алынған деректерді кіру бетінде қолданыңыз.">
+            Используйте полученные данные на странице входа.
+          </p>
+        </div>
       </div>
-      <a data-key="enroll.3" href="https://wa.me/77000000000" class="btn reveal reveal-d1" target="_blank" rel="noopener" data-ru="Написать в WhatsApp" data-kk="WhatsApp-қа жазу">Написать в WhatsApp</a>
+
+      <div class="register-actions reveal">
+        <a data-key="program.7" href="https://wa.me/77000000000" class="btn btn-solid" target="_blank" rel="noopener" data-ru="Написать в WhatsApp" data-kk="WhatsApp-қа жазу">Написать в WhatsApp</a>
+        <a data-key="program.8" href="https://instagram.com/made_studio_kz" class="btn btn-outline" target="_blank" rel="noopener" data-ru="Написать в Instagram" data-kk="Instagram-ға жазу">Написать в Instagram</a>
+      </div>
+
+      <p data-key="program.9" class="register-note reveal" data-ru="Уже есть аккаунт?" data-kk="Аккаунтыңыз бар ма?">
+        Уже есть аккаунт?
+        <a data-key="program.10" href="login.html" data-ru="Войти" data-kk="Кіру">Войти</a>
+      </p>
     </div>
   </section>
 </main>
@@ -142,8 +148,8 @@
 
 <script>
   window.MADE_TITLES = {
-    ru: 'Контакты — MaDE Studio',
-    kk: 'Байланыс — MaDE Studio'
+    ru: 'Регистрация — MaDE Studio',
+    kk: 'Тіркелу — MaDE Studio'
   };
 </script>
 <script src="js/site.js"></script>
