@@ -39,6 +39,13 @@
           '<span class="avatar-panel-value avatar-email"></span>' +
           '<button type="button" class="eye-toggle email-eye" aria-label="Показать" title="Показать">' + EYE_OPEN + '</button>' +
         '</div>' +
+        '<button type="button" class="change-password-toggle" data-ru="Изменить пароль" data-kk="Құпия сөзді өзгерту">Изменить пароль</button>' +
+        '<form class="change-password-form" hidden>' +
+          '<label><span data-ru="Текущий пароль" data-kk="Ағымдағы құпия сөз">Текущий пароль</span><input type="password" name="currentPassword" autocomplete="current-password" required></label>' +
+          '<label><span data-ru="Новый пароль" data-kk="Жаңа құпия сөз">Новый пароль</span><input type="password" name="newPassword" minlength="8" autocomplete="new-password" required></label>' +
+          '<button type="submit" class="btn btn-solid" data-ru="Сохранить" data-kk="Сақтау">Сохранить</button>' +
+          '<p class="change-password-note"></p>' +
+        '</form>' +
         '<button type="button" class="btn btn-outline widget-logout" data-ru="Выйти" data-kk="Шығу">Выйти</button>' +
       '</div>';
 
@@ -79,6 +86,9 @@
     var panel = widget.querySelector('.avatar-panel');
     var email = widget.querySelector('.avatar-email');
     var emailEye = widget.querySelector('.email-eye');
+    var pwToggle = widget.querySelector('.change-password-toggle');
+    var pwForm = widget.querySelector('.change-password-form');
+    var pwNote = widget.querySelector('.change-password-note');
     var logoutBtn = widget.querySelector('.widget-logout');
     var emailRevealed = false;
 
@@ -102,6 +112,38 @@
       email.textContent = emailRevealed ? widget._fullEmail : maskEmail(widget._fullEmail);
       emailEye.innerHTML = emailRevealed ? EYE_CLOSED : EYE_OPEN;
       emailEye.setAttribute('aria-label', emailRevealed ? 'Скрыть' : 'Показать');
+    });
+
+    pwToggle.addEventListener('click', function(){
+      pwForm.hidden = !pwForm.hidden;
+    });
+
+    pwForm.addEventListener('submit', function(e){
+      e.preventDefault();
+      pwNote.className = 'change-password-note';
+      pwNote.textContent = '';
+      var fd = new FormData(pwForm);
+      api('/api/change-password', {
+        method: 'POST',
+        body: JSON.stringify({
+          currentPassword: fd.get('currentPassword'),
+          newPassword: fd.get('newPassword')
+        })
+      })
+        .then(function(){
+          pwNote.textContent = 'Пароль изменён.';
+          pwNote.className = 'change-password-note visible ok';
+          pwForm.reset();
+        })
+        .catch(function(err){
+          var msg = (err && err.error === 'invalid_credentials')
+            ? 'Текущий пароль неверен.'
+            : (err && err.error === 'weak_password')
+              ? 'Новый пароль должен быть не короче 8 символов.'
+              : 'Не получилось сохранить, попробуйте ещё раз.';
+          pwNote.textContent = msg;
+          pwNote.className = 'change-password-note visible err';
+        });
     });
 
     logoutBtn.addEventListener('click', function(){
