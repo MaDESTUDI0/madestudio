@@ -1,5 +1,176 @@
-﻿<!DOCTYPE html><html lang="ru"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>MaDE - О нас</title><link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="css/style.css"></head><body>
-<header class="header"><div class="container"><div class="header__left"><a href="index.html" class="logo">MaDE</a><nav class="nav"><a href="index.html" class="nav__link">Главная</a><a href="courses.html" class="nav__link">Обучение</a><a href="gallery.html" class="nav__link">Галерея</a><a href="shop.html" class="nav__link">Магазин</a><a href="about.html" class="nav__link">О MaDE</a></nav></div><div class="language-switcher"><button class="lang-btn lang-btn--active" data-lang="ru">РУ</button><button class="lang-btn" data-lang="kk">КК</button></div></div></header>
-<section class="about"><div class="container"><div class="about__content"><div class="about__images"><div class="about__image about__image--primary"></div><div class="about__image about__image--secondary"></div></div><div class="about__text"><h1 class="section-title">Как всё началось</h1><p class="about__paragraph">MaDE родилась из любви к творчеству в 2014 году. Мы начали как небольшое ателье, где создавали уникальные вещи для друзей и близких.</p><p class="about__paragraph">За 10 лет мы выпустили более 500 выпускников. Наша философия — практический подход к обучению, где теория применяется на реальных проектах.</p><p class="about__paragraph">Сегодня MaDE — это сообщество творческих людей, поддерживающих друг друга и растущих вместе.</p><div class="about__highlights"><div class="highlight"><div class="highlight__number">500+</div><div class="highlight__text">выпускников</div></div><div class="highlight"><div class="highlight__number">10+</div><div class="highlight__text">лет опыта</div></div></div></div></div></div></section>
-<footer class="footer"><div class="container"><div class="footer__content"><div class="footer__column"><h4 class="footer__title">О компании</h4><ul class="footer__list"><li><a href="about.html" class="footer__link">О MaDE</a></li></ul></div><div class="footer__column"><h4 class="footer__title">Обучение</h4><ul class="footer__list"><li><a href="courses.html" class="footer__link">Курсы</a></li></ul></div><div class="footer__column"><h4 class="footer__title">Сообщество</h4><ul class="footer__list"><li><a href="gallery.html" class="footer__link">Галерея</a></li></ul></div><div class="footer__column"><h4 class="footer__title">Контакты</h4><ul class="footer__list"><li><a href="mailto:hello@made.com" class="footer__link">hello@made.com</a></li></ul></div></div><div class="footer__bottom"><p>&copy; 2024 MaDE</p></div></div></footer>
-<script src="js/script.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>О студии — MaDE Studio</title>
+<meta name="description" content="MaDE Studio — школа шитья и моделирования и ателье в Алматы. Учим строить выкройку с нуля, по своим меркам, без готовых лекал.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500;600&family=Pinyon+Script&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/site.css">
+<noscript><style>.reveal{opacity:1!important;transform:none!important;}</style></noscript>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a href="index.html" aria-label="MaDE Studio — главная">
+      <svg class="logo-svg" viewBox="0 0 160 40" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="MaDE">
+        <text x="0" y="30" font-family="'Pinyon Script', cursive" font-size="36" fill="#5E1F2B">MaDE</text>
+      </svg>
+    </a>
+
+    <nav class="main-nav">
+      <div class="nav-links" data-i18n-group>
+        <a href="courses.html" data-ru="Курсы" data-kk="Курстар">Курсы</a>
+        <a href="atelier.html" data-ru="Ателье" data-kk="Ателье">Ателье</a>
+        <a href="gallery.html" data-ru="Работы" data-kk="Жұмыстар">Работы</a>
+        <a href="shop.html" data-ru="Магазин" data-kk="Дүкен">Магазин</a>
+        <a href="reviews.html" data-ru="Отзывы" data-kk="Пікірлер">Отзывы</a>
+        <a href="about.html" class="is-current" data-ru="О студии" data-kk="Студия туралы">О студии</a>
+      </div>
+
+      <div class="lang-switch" role="group" aria-label="Язык / Тіл">
+        <button type="button" data-lang="ru" class="active">Рус</button>
+        <span class="sep">/</span>
+        <button type="button" data-lang="kk">Қаз</button>
+      </div>
+
+      <div class="header-auth">
+        <a href="#" class="header-login" data-ru="Войти" data-kk="Кіру">Войти</a>
+        <a href="#" class="header-login" data-ru="Регистрация" data-kk="Тіркелу">Регистрация</a>
+      </div>
+      <a href="courses.html#signup" class="btn btn-solid header-cta" data-ru="Записаться" data-kk="Жазылу">Записаться</a>
+    </nav>
+
+    <div class="mobile-bar">
+      <div class="lang-switch mobile-lang-switch" role="group" aria-label="Язык / Тіл">
+        <button type="button" data-lang="ru" class="active">Рус</button>
+        <span class="sep">/</span>
+        <button type="button" data-lang="kk">Қаз</button>
+      </div>
+
+      <button class="burger" id="burgerBtn" aria-expanded="false" aria-controls="mobileNav" aria-label="Меню">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="mobile-nav" id="mobileNav" data-i18n-group>
+    <a href="courses.html" data-ru="Курсы" data-kk="Курстар">Курсы</a>
+    <a href="atelier.html" data-ru="Ателье" data-kk="Ателье">Ателье</a>
+    <a href="gallery.html" data-ru="Работы" data-kk="Жұмыстар">Работы</a>
+    <a href="shop.html" data-ru="Магазин" data-kk="Дүкен">Магазин</a>
+    <a href="reviews.html" data-ru="Отзывы" data-kk="Пікірлер">Отзывы</a>
+    <a href="about.html" class="is-current" data-ru="О студии" data-kk="Студия туралы">О студии</a>
+    <a href="#" class="header-login" data-ru="Войти" data-kk="Кіру">Войти</a>
+    <a href="#" class="header-login" data-ru="Регистрация" data-kk="Тіркелу">Регистрация</a>
+    <div class="mobile-extra">
+      <a href="courses.html#signup" class="btn btn-solid" data-ru="Записаться" data-kk="Жазылу">Записаться</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="page-hero">
+    <div class="wrap">
+      <div class="eyebrow reveal" data-ru="О студии" data-kk="Студия туралы">О студии</div>
+      <h1 class="page-title reveal reveal-d1" data-i18n-html
+          data-ru="Школа шитья и ателье &lt;em&gt;в Алматы&lt;/em&gt;"
+          data-kk="Алматыдағы тігін мектебі &lt;em&gt;және ателье&lt;/em&gt;"
+      >Школа шитья и ателье <em>в Алматы</em></h1>
+      <p class="page-lead reveal reveal-d2" data-ru="MaDE Studio учит строить выкройку с нуля — по своим меркам, без готовых лекал."
+         data-kk="MaDE Studio выкройканы нөлден құруды үйретеді — өз өлшемдеріңіз бойынша, дайын лекалсыз.">
+        MaDE Studio учит строить выкройку с нуля — по своим меркам, без готовых лекал.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap split">
+      <div class="split-media reveal">
+        <img src="images/about-portrait.jpg" alt="Мастер MaDE Studio за швейной машиной" loading="lazy">
+      </div>
+      <div class="reveal reveal-d1">
+        <h2 data-ru="Как мы учим" data-kk="Біз қалай үйретеміз">Как мы учим</h2>
+        <p data-ru="На курсе «Тігу және модельдеу» не выдаём готовые лекала — учим рассчитывать и строить выкройку самостоятельно, по фигуре каждой ученицы."
+           data-kk="«Тігу және модельдеу» курсында дайын лекал бермейміз — әр оқушының дене пішініне сай выкройканы өзі есептеп, құруды үйретеміз.">
+          На курсе «Тігу және модельдеу» не выдаём готовые лекала — учим рассчитывать и строить выкройку самостоятельно, по фигуре каждой ученицы.
+        </p>
+        <p data-ru="Группы небольшие, до 4 человек: мастер успевает объяснить каждый этап и проверить посадку изделия лично."
+           data-kk="Топтар шағын, 4 адамға дейін: ұстаз әр кезеңді түсіндіріп, бұйымның отыруын жеке тексеруге үлгереді.">
+          Группы небольшие, до 4 человек: мастер успевает объяснить каждый этап и проверить посадку изделия лично.
+        </p>
+        <p data-ru="Кроме курса, в студии работает ателье — индивидуальный пошив и реставрация одежды, и магазин авторских материалов для дома."
+           data-kk="Курстан бөлек, студияда ателье жұмыс істейді — жеке тігу және киімді реставрациялау, сондай-ақ үйге арналған авторлық материалдар дүкені.">
+          Кроме курса, в студии работает ателье — индивидуальный пошив и реставрация одежды, и магазин авторских материалов для дома.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-divider">
+    <div class="wrap col-3">
+      <div class="direction reveal">
+        <h2 data-ru="Двуязычно" data-kk="Екі тілде">Двуязычно</h2>
+        <p data-ru="Ведём занятия на казахском и русском — ученицам удобно на любом из языков." data-kk="Сабақтарды қазақ және орыс тілдерінде жүргіземіз — оқушыға қай тілде ыңғайлы, сол тілде.">
+          Ведём занятия на казахском и русском — ученицам удобно на любом из языков.
+        </p>
+      </div>
+      <div class="direction reveal reveal-d1">
+        <h2 data-ru="Малые группы" data-kk="Шағын топтар">Малые группы</h2>
+        <p data-ru="До 4 человек в потоке — время мастера распределяется на всех поровну." data-kk="Топта 4 адамға дейін — ұстаздың уақыты бәріне бірдей бөлінеді.">
+          До 4 человек в потоке — время мастера распределяется на всех поровну.
+        </p>
+      </div>
+      <div class="direction reveal reveal-d2">
+        <h2 data-ru="От мерок до вещи" data-kk="Өлшемнен затқа дейін">От мерок до вещи</h2>
+        <p data-ru="Каждая ученица проходит весь путь: от снятия мерок до готового изделия на себе." data-kk="Әр оқушы толық жолдан өтеді: өлшем алудан бастап өзіне дайын бұйымға дейін.">
+          Каждая ученица проходит весь путь: от снятия мерок до готового изделия на себе.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="enroll">
+    <div class="wrap enroll-grid">
+      <div class="reveal">
+        <h2 data-i18n-html
+            data-ru="Набор в группу — &lt;em&gt;каждый месяц&lt;/em&gt;"
+            data-kk="Топқа қабылдау — &lt;em&gt;ай сайын&lt;/em&gt;">
+          Набор в группу — <em>каждый месяц</em>
+        </h2>
+        <p data-ru="Напишите в WhatsApp — расскажем о ближайшем наборе и формате занятий."
+           data-kk="WhatsApp-қа жазыңыз — жақын арадағы топ пен сабақ форматы туралы айтамыз.">
+          Напишите в WhatsApp — расскажем о ближайшем наборе и формате занятий.
+        </p>
+      </div>
+      <a href="https://wa.me/77000000000" class="btn reveal reveal-d1" target="_blank" rel="noopener" data-ru="Написать в WhatsApp" data-kk="WhatsApp-қа жазу">Написать в WhatsApp</a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap footer-row">
+    <div>© 2026 MaDE Studio, Алматы</div>
+    <div class="footer-links">
+      <a href="courses.html" data-ru="Курсы" data-kk="Курстар">Курсы</a>
+      <a href="atelier.html" data-ru="Ателье" data-kk="Ателье">Ателье</a>
+      <a href="shop.html" data-ru="Магазин" data-kk="Дүкен">Магазин</a>
+      <a href="contacts.html" data-ru="Контакты" data-kk="Байланыс">Контакты</a>
+      <a href="https://instagram.com/made_studio_kz" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://2gis.kz" target="_blank" rel="noopener">2ГИС</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  window.MADE_TITLES = {
+    ru: 'О студии — MaDE Studio',
+    kk: 'Студия туралы — MaDE Studio'
+  };
+</script>
+<script src="js/site.js"></script>
+</body>
+</html>

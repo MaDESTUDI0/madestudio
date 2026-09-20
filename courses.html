@@ -1,5 +1,215 @@
-﻿<!DOCTYPE html><html lang="ru"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>MaDE - Курсы</title><link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="css/style.css"></head><body>
-<header class="header"><div class="container"><div class="header__left"><a href="index.html" class="logo">MaDE</a><nav class="nav"><a href="index.html" class="nav__link">Главная</a><a href="courses.html" class="nav__link">Обучение</a><a href="gallery.html" class="nav__link">Галерея</a><a href="shop.html" class="nav__link">Магазин</a><a href="about.html" class="nav__link">О MaDE</a></nav></div><div class="language-switcher"><button class="lang-btn lang-btn--active" data-lang="ru">РУ</button><button class="lang-btn" data-lang="kk">КК</button></div></div></header>
-<section style="padding: 120px 0;"><div class="container"><h1 class="section-title">Наши курсы</h1><div class="courses__grid"><div class="course-card course-card--featured"><div class="course-card__image"></div><div class="course-card__content"><div class="course-card__badge">БАЗОВЫЙ</div><h3 class="course-card__title">Дизайн интерьера: основы</h3><p>Полный курс для начинающих</p><div class="course-card__meta"><span>8 недель</span><span>Очный</span></div><div class="course-card__price">18 000 ₽</div><button class="cta-button cta-button--small">Записаться</button></div></div><div class="course-card"><div class="course-card__image"></div><div class="course-card__content"><div class="course-card__badge course-card__badge--medium">СРЕДНИЙ</div><h3>Шитье и кройка</h3><div class="course-card__price">24 000 ₽</div><button class="cta-button cta-button--small">Записаться</button></div></div><div class="course-card"><div class="course-card__image"></div><div class="course-card__content"><div class="course-card__badge course-card__badge--advanced">ПРОДВИНУТЫЙ</div><h3>Цифровой дизайн</h3><div class="course-card__price">32 000 ₽</div><button class="cta-button cta-button--small">Записаться</button></div></div><div class="course-card"><div class="course-card__image"></div><div class="course-card__content"><div class="course-card__badge course-card__badge--medium">СРЕДНИЙ</div><h3>Графический дизайн</h3><div class="course-card__price">28 000 ₽</div><button class="cta-button cta-button--small">Записаться</button></div></div><div class="course-card"><div class="course-card__image"></div><div class="course-card__content"><div class="course-card__badge">БАЗОВЫЙ</div><h3>Типографика</h3><div class="course-card__price">16 000 ₽</div><button class="cta-button cta-button--small">Записаться</button></div></div><div class="course-card"><div class="course-card__image"></div><div class="course-card__content"><div class="course-card__badge course-card__badge--intensive">ИНТЕНСИВ</div><h3>Выходной интенсив</h3><div class="course-card__price">5 000 ₽</div><button class="cta-button cta-button--small">Записаться</button></div></div></div></div></section>
-<footer class="footer"><div class="container"><div class="footer__content"><div class="footer__column"><h4 class="footer__title">О компании</h4><ul class="footer__list"><li><a href="about.html" class="footer__link">О MaDE</a></li></ul></div><div class="footer__column"><h4 class="footer__title">Обучение</h4><ul class="footer__list"><li><a href="courses.html" class="footer__link">Курсы</a></li></ul></div><div class="footer__column"><h4 class="footer__title">Сообщество</h4><ul class="footer__list"><li><a href="gallery.html" class="footer__link">Галерея</a></li></ul></div><div class="footer__column"><h4 class="footer__title">Контакты</h4><ul class="footer__list"><li><a href="mailto:hello@made.com" class="footer__link">hello@made.com</a></li></ul></div></div><div class="footer__bottom"><p>&copy; 2024 MaDE</p></div></div></footer>
-<script src="js/script.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Курсы шитья и моделирования — MaDE Studio</title>
+<meta name="description" content="Групповой курс «Тігу және модельдеу» в Алматы: строим выкройку с нуля по вашим меркам. Группы до 4 человек, 2 занятия в неделю, начало в 11:00.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500;600&family=Pinyon+Script&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/site.css">
+<noscript><style>.reveal{opacity:1!important;transform:none!important;}</style></noscript>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a href="index.html" aria-label="MaDE Studio — главная">
+      <svg class="logo-svg" viewBox="0 0 160 40" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="MaDE">
+        <text x="0" y="30" font-family="'Pinyon Script', cursive" font-size="36" fill="#5E1F2B">MaDE</text>
+      </svg>
+    </a>
+
+    <nav class="main-nav">
+      <div class="nav-links" data-i18n-group>
+        <a href="courses.html" class="is-current" data-ru="Курсы" data-kk="Курстар">Курсы</a>
+        <a href="atelier.html" data-ru="Ателье" data-kk="Ателье">Ателье</a>
+        <a href="gallery.html" data-ru="Работы" data-kk="Жұмыстар">Работы</a>
+        <a href="shop.html" data-ru="Магазин" data-kk="Дүкен">Магазин</a>
+        <a href="reviews.html" data-ru="Отзывы" data-kk="Пікірлер">Отзывы</a>
+        <a href="about.html" data-ru="О студии" data-kk="Студия туралы">О студии</a>
+      </div>
+
+      <div class="lang-switch" role="group" aria-label="Язык / Тіл">
+        <button type="button" data-lang="ru" class="active">Рус</button>
+        <span class="sep">/</span>
+        <button type="button" data-lang="kk">Қаз</button>
+      </div>
+
+      <div class="header-auth">
+        <a href="#" class="header-login" data-ru="Войти" data-kk="Кіру">Войти</a>
+        <a href="#" class="header-login" data-ru="Регистрация" data-kk="Тіркелу">Регистрация</a>
+      </div>
+      <a href="#signup" class="btn btn-solid header-cta" data-ru="Записаться" data-kk="Жазылу">Записаться</a>
+    </nav>
+
+    <div class="mobile-bar">
+      <div class="lang-switch mobile-lang-switch" role="group" aria-label="Язык / Тіл">
+        <button type="button" data-lang="ru" class="active">Рус</button>
+        <span class="sep">/</span>
+        <button type="button" data-lang="kk">Қаз</button>
+      </div>
+
+      <button class="burger" id="burgerBtn" aria-expanded="false" aria-controls="mobileNav" aria-label="Меню">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="mobile-nav" id="mobileNav" data-i18n-group>
+    <a href="courses.html" class="is-current" data-ru="Курсы" data-kk="Курстар">Курсы</a>
+    <a href="atelier.html" data-ru="Ателье" data-kk="Ателье">Ателье</a>
+    <a href="gallery.html" data-ru="Работы" data-kk="Жұмыстар">Работы</a>
+    <a href="shop.html" data-ru="Магазин" data-kk="Дүкен">Магазин</a>
+    <a href="reviews.html" data-ru="Отзывы" data-kk="Пікірлер">Отзывы</a>
+    <a href="about.html" data-ru="О студии" data-kk="Студия туралы">О студии</a>
+    <a href="#" class="header-login" data-ru="Войти" data-kk="Кіру">Войти</a>
+    <a href="#" class="header-login" data-ru="Регистрация" data-kk="Тіркелу">Регистрация</a>
+    <div class="mobile-extra">
+      <a href="#signup" class="btn btn-solid" data-ru="Записаться" data-kk="Жазылу">Записаться</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="page-hero">
+    <div class="wrap">
+      <div class="eyebrow reveal" data-ru="Курсы · Тігу және модельдеу" data-kk="Курстар · Тігу және модельдеу">Курсы · Тігу және модельдеу</div>
+      <h1 class="page-title reveal reveal-d1" data-i18n-html
+          data-ru="Строим выкройку &lt;em&gt;с нуля&lt;/em&gt; — по вашей фигуре"
+          data-kk="Выкройканы &lt;em&gt;нөлден&lt;/em&gt; — дене пішініңізге сай саламыз">
+        Строим выкройку <em>с нуля</em> — по вашей фигуре
+      </h1>
+      <p class="page-lead reveal reveal-d2" data-ru="Групповой курс «Тігу және модельдеу»: от снятия мерок до готового изделия. Без готовых лекал — учимся строить выкройку самостоятельно."
+         data-kk="«Тігу және модельдеу» топтық курсы: өлшем алудан дайын бұйымға дейін. Дайын лекалсыз — выкройканы өзіміз құруды үйренеміз.">
+        Групповой курс «Тігу және модельдеу»: от снятия мерок до готового изделия. Без готовых лекал — учимся строить выкройку самостоятельно.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap split">
+      <div class="split-media reveal">
+        <img src="images/course-process.jpg" alt="Занятие в мастерской MaDE Studio" loading="lazy">
+      </div>
+      <div class="reveal reveal-d1">
+        <h2 data-ru="Как проходят занятия" data-kk="Сабақтар қалай өтеді">Как проходят занятия</h2>
+        <p data-ru="Каждая ученица строит выкройку по собственным меркам — сначала на бумаге, затем на ткани. Никаких готовых лекал «на глаз»: только расчёт и примерка."
+           data-kk="Әр оқушы выкройканы өз өлшемдері бойынша құрады — алдымен қағазда, кейін матада. Дайын лекал жоқ: тек есептеу мен өлшеп көру.">
+          Каждая ученица строит выкройку по собственным меркам — сначала на бумаге, затем на ткани. Никаких готовых лекал «на глаз»: только расчёт и примерка.
+        </p>
+        <p data-ru="Группы небольшие — до 4 человек, поэтому мастер успевает подойти к каждой на всех этапах: от расчётов до финальной строчки."
+           data-kk="Топтар шағын — 4 адамға дейін, сондықтан ұстаз әр оқушыға барлық кезеңде — есептеуден соңғы тігіске дейін — уақыт бөледі.">
+          Группы небольшие — до 4 человек, поэтому мастер успевает подойти к каждой на всех этапах: от расчётов до финальной строчки.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-divider">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <h2 data-ru="Программа курса" data-kk="Курс бағдарламасы">Программа курса</h2>
+        <p data-ru="Четыре этапа — от мерок до готового изделия на себе." data-kk="Төрт кезең — өлшемнен өзіңізге дайын бұйымға дейін.">Четыре этапа — от мерок до готового изделия на себе.</p>
+      </div>
+
+      <div class="rule-list">
+        <div class="reveal">
+          <h3 data-ru="Мерки и расчёт" data-kk="Өлшем және есептеу">Мерки и расчёт</h3>
+          <p data-ru="Снимаем мерки, строим базовую выкройку по вашей фигуре — без стандартных таблиц размеров."
+             data-kk="Өлшем аламыз, дене пішініңіз бойынша негізгі выкройканы саламыз — стандартты өлшем кестесінсіз.">
+            Снимаем мерки, строим базовую выкройку по вашей фигуре — без стандартных таблиц размеров.
+          </p>
+        </div>
+        <div class="reveal">
+          <h3 data-ru="Раскрой и примерка" data-kk="Пішу және өлшеп көру">Раскрой и примерка</h3>
+          <p data-ru="Переносим выкройку на ткань, раскраиваем и примеряем — корректируем посадку до пошива."
+             data-kk="Выкройканы матаға түсіреміз, пішеміз және өлшеп көреміз — тігуден бұрын отыруын түзетеміз.">
+            Переносим выкройку на ткань, раскраиваем и примеряем — корректируем посадку до пошива.
+          </p>
+        </div>
+        <div class="reveal">
+          <h3 data-ru="Пошив изделия" data-kk="Бұйымды тігу">Пошив изделия</h3>
+          <p data-ru="Обрабатываем швы и детали, собираем изделие целиком под руководством мастера."
+             data-kk="Тігістер мен бөлшектерді өңдейміз, ұстаздың басшылығымен бұйымды толық жинаймыз.">
+            Обрабатываем швы и детали, собираем изделие целиком под руководством мастера.
+          </p>
+        </div>
+        <div class="reveal">
+          <h3 data-ru="Финальная примерка" data-kk="Соңғы өлшеп көру">Финальная примерка</h3>
+          <p data-ru="Примеряем готовое изделие на себе, разбираем посадку и получаем рекомендации на будущее."
+             data-kk="Дайын бұйымды өзіңізге өлшеп көреміз, отыруын талдаймыз және болашаққа кеңес аламыз.">
+            Примеряем готовое изделие на себе, разбираем посадку и получаем рекомендации на будущее.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-divider">
+    <div class="wrap">
+      <div class="fact-strip reveal">
+        <div class="fact">
+          <span class="fact-num">4</span>
+          <span class="fact-label" data-ru="места в группе" data-kk="топтағы орын">места в группе</span>
+        </div>
+        <div class="fact">
+          <span class="fact-num">2</span>
+          <span class="fact-label" data-ru="занятия в неделю" data-kk="аптасына сабақ">занятия в неделю</span>
+        </div>
+        <div class="fact">
+          <span class="fact-num">11:00</span>
+          <span class="fact-label" data-ru="начало" data-kk="сабақтың басталуы">начало</span>
+        </div>
+      </div>
+      <p class="page-lead reveal reveal-d1" style="margin-top:28px;font-size:15px;"
+         data-ru="Нужен не курс, а пошив одного изделия? Смотрите «Ателье» — индивидуальный пошив и реставрация."
+         data-kk="Курс емес, бір бұйым тігу керек пе? «Ателье» бөлімін қараңыз — жеке тігу және реставрация.">
+        Нужен не курс, а пошив одного изделия? Смотрите «Ателье» — индивидуальный пошив и реставрация.
+      </p>
+      <a href="atelier.html" class="reveal reveal-d1" style="display:inline-block;margin-top:10px;font-size:14px;color:var(--wine);border-bottom:1px solid var(--wine);padding-bottom:2px;" data-ru="Перейти в Ателье" data-kk="Ателье бөліміне өту">Перейти в Ателье</a>
+    </div>
+  </section>
+
+  <section class="enroll" id="signup">
+    <div class="wrap enroll-grid">
+      <div class="reveal">
+        <h2 data-i18n-html
+            data-ru="Набор в группу — &lt;em&gt;каждый месяц&lt;/em&gt;"
+            data-kk="Топқа қабылдау — &lt;em&gt;ай сайын&lt;/em&gt;">
+          Набор в группу — <em>каждый месяц</em>
+        </h2>
+        <p data-ru="Мест в потоке немного — до 4 человек. Напишите в WhatsApp, расскажем о ближайшей дате старта и стоимости."
+           data-kk="Топта орын аз — 4 адамға дейін. WhatsApp-қа жазыңыз, жақын арадағы бастау күні мен құнын айтамыз.">
+          Мест в потоке немного — до 4 человек. Напишите в WhatsApp, расскажем о ближайшей дате старта и стоимости.
+        </p>
+      </div>
+      <a href="https://wa.me/77000000000" class="btn reveal reveal-d1" target="_blank" rel="noopener" data-ru="Написать в WhatsApp" data-kk="WhatsApp-қа жазу">Написать в WhatsApp</a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap footer-row">
+    <div>© 2026 MaDE Studio, Алматы</div>
+    <div class="footer-links">
+      <a href="courses.html" data-ru="Курсы" data-kk="Курстар">Курсы</a>
+      <a href="atelier.html" data-ru="Ателье" data-kk="Ателье">Ателье</a>
+      <a href="shop.html" data-ru="Магазин" data-kk="Дүкен">Магазин</a>
+      <a href="contacts.html" data-ru="Контакты" data-kk="Байланыс">Контакты</a>
+      <a href="https://instagram.com/made_studio_kz" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://2gis.kz" target="_blank" rel="noopener">2ГИС</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  window.MADE_TITLES = {
+    ru: 'Курсы шитья и моделирования — MaDE Studio',
+    kk: 'Тігу және модельдеу курстары — MaDE Studio'
+  };
+</script>
+<script src="js/site.js"></script>
+</body>
+</html>

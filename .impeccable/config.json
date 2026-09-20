@@ -47,6 +47,51 @@
         ],
         "createdAt": "2026-09-18T08:40:34.024Z",
         "reason": "false positive: .fact and .direction already have 20px/40px insets via :first-child/:last-child rules, detector's static heuristic misses the pseudo-class logic"
+      },
+      {
+        "rule": "low-contrast",
+        "value": "*",
+        "files": [
+          "*.html"
+        ],
+        "createdAt": "2026-09-20T11:25:47.507Z",
+        "reason": "user-specified palette: --clay (#A8846A) on --paper/--paper-light is the designated secondary/caption text color across the whole site per explicit design spec"
+      },
+      {
+        "rule": "hero-eyebrow-chip",
+        "value": "*",
+        "files": [
+          "*.html"
+        ],
+        "createdAt": "2026-09-20T11:29:26.272Z",
+        "reason": "user spec explicitly requires this eyebrow/breadcrumb label with horizontal rule above every page title"
+      },
+      {
+        "rule": "overused-font",
+        "value": "inter",
+        "files": [
+          "*.html"
+        ],
+        "createdAt": "2026-09-20T11:29:26.553Z",
+        "reason": "user spec explicitly names Inter as the body typeface site-wide"
+      },
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": [
+          "*.html"
+        ],
+        "createdAt": "2026-09-20T11:29:26.810Z",
+        "reason": "user-specified palette value --paper:#EDE6DB used site-wide"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "*.html"
+        ],
+        "createdAt": "2026-09-20T11:29:27.086Z",
+        "reason": "false positive: .direction/.fact insets are set via :first-child/:last-child rules in css/site.css, detector's static heuristic misses pseudo-class logic"
       }
     ]
   }
