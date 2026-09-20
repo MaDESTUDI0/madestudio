@@ -87,6 +87,7 @@
 
   function wireWidget(widget) {
     var btn = widget.querySelector('.avatar-btn');
+    var panel = widget.querySelector('.avatar-panel');
     var email = widget.querySelector('.avatar-email');
     var emailEye = widget.querySelector('.email-eye');
     var passwordEye = widget.querySelector('.password-eye');
@@ -94,6 +95,11 @@
     var pwNote = widget.querySelector('.change-password-note');
     var logoutBtn = widget.querySelector('.widget-logout');
     var emailRevealed = false;
+
+    // Without this, any click inside the panel (the eye toggles, form
+    // fields, the submit button) bubbles up to the document-level
+    // closeAllPanels() listener below and closes the panel instantly.
+    panel.addEventListener('click', function(e){ e.stopPropagation(); });
 
     btn.addEventListener('click', function(e){
       e.stopPropagation();
