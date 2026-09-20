@@ -1,6 +1,7 @@
 const express = require('express');
-const db = require('../db');
+const { pool } = require('../db');
 const { requireRole } = require('../middleware/auth');
+const asyncHandler = require('../asyncHandler');
 
 const router = express.Router();
 
@@ -13,48 +14,44 @@ router.get('/pages', (_req, res) => {
   res.json({ pages: KNOWN_PAGES });
 });
 
-router.get('/content/:page', (req, res) => {
+router.get('/content/:page', asyncHandler(async (req, res) => {
   const { page } = req.params;
-  const rows = db.prepare('SELECT key, ru, kk FROM content WHERE page = ? ORDER BY key').all(page);
+  const { rows } = await pool.query('SELECT key, ru, kk FROM content WHERE page = $1 ORDER BY key', [page]);
   const out = {};
   rows.forEach((row) => {
     out[row.key] = { ru: row.ru, kk: row.kk };
   });
   res.json(out);
-});
+}));
 
-router.put('/content/:page', requireRole('owner'), (req, res) => {
+router.put('/content/:page', requireRole('owner'), asyncHandler(async (req, res) => {
   const { page } = req.params;
   const body = req.body || {};
-
-  const upsert = db.prepare(`
-    INSERT INTO content (page, key, ru, kk, updated_at)
-    VALUES (@page, @key, @ru, @kk, datetime('now'))
-    ON CONFLICT(page, key) DO UPDATE SET
-      ru = excluded.ru,
-      kk = excluded.kk,
-      updated_at = excluded.updated_at
-  `);
-
   const entries = Object.entries(body);
 
-  db.exec('BEGIN');
+  const client = await pool.connect();
   try {
-    entries.forEach(([key, val]) => {
-      upsert.run({
-        page,
-        key,
-        ru: (val && val.ru) || '',
-        kk: (val && val.kk) || ''
-      });
-    });
-    db.exec('COMMIT');
+    await client.query('BEGIN');
+    for (const [key, val] of entries) {
+      await client.query(
+        `INSERT INTO content (page, key, ru, kk, updated_at)
+         VALUES ($1, $2, $3, $4, now())
+         ON CONFLICT (page, key) DO UPDATE SET
+           ru = EXCLUDED.ru,
+           kk = EXCLUDED.kk,
+           updated_at = EXCLUDED.updated_at`,
+        [page, key, (val && val.ru) || '', (val && val.kk) || '']
+      );
+    }
+    await client.query('COMMIT');
   } catch (err) {
-    db.exec('ROLLBACK');
+    await client.query('ROLLBACK');
     throw err;
+  } finally {
+    client.release();
   }
 
   res.json({ ok: true, updated: entries.length });
-});
+}));
 
 module.exports = router;

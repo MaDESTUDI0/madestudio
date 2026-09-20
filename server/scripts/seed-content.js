@@ -7,9 +7,10 @@
  *  4. Upserts the current RU/KK text into the content table, so the
  *     admin panel edits the exact copy already live on the site.
  */
+require('dotenv').config({ path: require('path').join(__dirname, '..', '.env') });
 const fs = require('fs');
 const path = require('path');
-const db = require('../db');
+const { pool, migrate } = require('../db');
 
 const ROOT = path.join(__dirname, '..', '..');
 const PAGES = ['index', 'courses', 'atelier', 'gallery', 'shop', 'reviews', 'about', 'contacts', 'login', 'register'];
@@ -56,7 +57,7 @@ function parseAttrs(raw) {
   return attrs;
 }
 
-function processPage(pageName) {
+async function processPage(pageName) {
   const filePath = path.join(ROOT, `${pageName}.html`);
   let html = fs.readFileSync(filePath, 'utf8');
 
@@ -98,19 +99,36 @@ function processPage(pageName) {
 
   fs.writeFileSync(filePath, html, 'utf8');
 
-  const upsert = db.prepare(`
-    INSERT INTO content (page, key, ru, kk, updated_at)
-    VALUES (@page, @key, @ru, @kk, datetime('now'))
-    ON CONFLICT(page, key) DO NOTHING
-  `);
-  db.exec('BEGIN');
-  found.forEach((f) => {
-    upsert.run({ page: pageName, key: f.key, ru: f.ru, kk: f.kk });
-  });
-  db.exec('COMMIT');
+  const client = await pool.connect();
+  try {
+    await client.query('BEGIN');
+    for (const f of found) {
+      await client.query(
+        `INSERT INTO content (page, key, ru, kk, updated_at)
+         VALUES ($1, $2, $3, $4, now())
+         ON CONFLICT (page, key) DO NOTHING`,
+        [pageName, f.key, f.ru, f.kk]
+      );
+    }
+    await client.query('COMMIT');
+  } catch (err) {
+    await client.query('ROLLBACK');
+    throw err;
+  } finally {
+    client.release();
+  }
 
   console.log(`${pageName}.html: ${found.length} fields keyed and seeded.`);
 }
 
-PAGES.forEach(processPage);
-console.log('Done.');
+async function main() {
+  await migrate();
+  for (const page of PAGES) {
+    await processPage(page);
+  }
+  console.log('Done.');
+}
+
+main()
+  .catch((err) => { console.error(err); process.exitCode = 1; })
+  .finally(() => pool.end());

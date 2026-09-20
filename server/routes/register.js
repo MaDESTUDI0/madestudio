@@ -1,7 +1,8 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
-const db = require('../db');
+const { pool } = require('../db');
 const { sendVerificationEmail } = require('../mailer');
+const asyncHandler = require('../asyncHandler');
 
 const router = express.Router();
 
@@ -38,7 +39,7 @@ function generateCode() {
   return String(Math.floor(100000 + Math.random() * 900000));
 }
 
-router.post('/register/start', async (req, res) => {
+router.post('/register/start', asyncHandler(async (req, res) => {
   const ip = req.ip;
   if (tooManyFromIp(ip)) {
     return res.status(429).json({ error: 'too_many_attempts' });
@@ -55,31 +56,36 @@ router.post('/register/start', async (req, res) => {
 
   const normalizedEmail = String(email).trim().toLowerCase();
 
-  const existingUser = db.prepare('SELECT id FROM users WHERE username = ?').get(normalizedEmail);
-  if (existingUser) {
+  const { rows: existingRows } = await pool.query('SELECT id FROM users WHERE username = $1', [normalizedEmail]);
+  if (existingRows[0]) {
     return res.status(409).json({ error: 'already_registered' });
   }
 
-  const pending = db.prepare('SELECT * FROM pending_registrations WHERE email = ?').get(normalizedEmail);
-  if (pending && Date.now() - Date.parse(pending.last_sent_at + 'Z') < RESEND_COOLDOWN_MS) {
+  const { rows: pendingRows } = await pool.query(
+    'SELECT * FROM pending_registrations WHERE email = $1',
+    [normalizedEmail]
+  );
+  const pending = pendingRows[0];
+  if (pending && Date.now() - pending.last_sent_at.getTime() < RESEND_COOLDOWN_MS) {
     return res.status(429).json({ error: 'cooldown' });
   }
 
   const code = generateCode();
   const codeHash = bcrypt.hashSync(code, 10);
   const passwordHash = bcrypt.hashSync(password, 12);
-  const expiresAt = new Date(Date.now() + CODE_TTL_MS).toISOString();
+  const expiresAt = new Date(Date.now() + CODE_TTL_MS);
 
-  db.prepare(`
-    INSERT INTO pending_registrations (email, password_hash, code_hash, attempts, expires_at, last_sent_at)
-    VALUES (@email, @password_hash, @code_hash, 0, @expires_at, datetime('now'))
-    ON CONFLICT(email) DO UPDATE SET
-      password_hash = excluded.password_hash,
-      code_hash = excluded.code_hash,
-      attempts = 0,
-      expires_at = excluded.expires_at,
-      last_sent_at = datetime('now')
-  `).run({ email: normalizedEmail, password_hash: passwordHash, code_hash: codeHash, expires_at: expiresAt });
+  await pool.query(
+    `INSERT INTO pending_registrations (email, password_hash, code_hash, attempts, expires_at, last_sent_at)
+     VALUES ($1, $2, $3, 0, $4, now())
+     ON CONFLICT (email) DO UPDATE SET
+       password_hash = EXCLUDED.password_hash,
+       code_hash = EXCLUDED.code_hash,
+       attempts = 0,
+       expires_at = EXCLUDED.expires_at,
+       last_sent_at = now()`,
+    [normalizedEmail, passwordHash, codeHash, expiresAt]
+  );
 
   try {
     await sendVerificationEmail(normalizedEmail, code);
@@ -89,32 +95,34 @@ router.post('/register/start', async (req, res) => {
   }
 
   res.json({ ok: true });
-});
+}));
 
-router.post('/register/resend', async (req, res) => {
+router.post('/register/resend', asyncHandler(async (req, res) => {
   const { email } = req.body || {};
   if (!email || !EMAIL_RE.test(email)) {
     return res.status(400).json({ error: 'invalid_email' });
   }
   const normalizedEmail = String(email).trim().toLowerCase();
 
-  const pending = db.prepare('SELECT * FROM pending_registrations WHERE email = ?').get(normalizedEmail);
+  const { rows } = await pool.query('SELECT * FROM pending_registrations WHERE email = $1', [normalizedEmail]);
+  const pending = rows[0];
   if (!pending) {
     return res.status(404).json({ error: 'no_pending_registration' });
   }
-  if (Date.now() - Date.parse(pending.last_sent_at + 'Z') < RESEND_COOLDOWN_MS) {
+  if (Date.now() - pending.last_sent_at.getTime() < RESEND_COOLDOWN_MS) {
     return res.status(429).json({ error: 'cooldown' });
   }
 
   const code = generateCode();
   const codeHash = bcrypt.hashSync(code, 10);
-  const expiresAt = new Date(Date.now() + CODE_TTL_MS).toISOString();
+  const expiresAt = new Date(Date.now() + CODE_TTL_MS);
 
-  db.prepare(`
-    UPDATE pending_registrations
-    SET code_hash = @code_hash, attempts = 0, expires_at = @expires_at, last_sent_at = datetime('now')
-    WHERE email = @email
-  `).run({ email: normalizedEmail, code_hash: codeHash, expires_at: expiresAt });
+  await pool.query(
+    `UPDATE pending_registrations
+     SET code_hash = $2, attempts = 0, expires_at = $3, last_sent_at = now()
+     WHERE email = $1`,
+    [normalizedEmail, codeHash, expiresAt]
+  );
 
   try {
     await sendVerificationEmail(normalizedEmail, code);
@@ -124,9 +132,9 @@ router.post('/register/resend', async (req, res) => {
   }
 
   res.json({ ok: true });
-});
+}));
 
-router.post('/register/verify', (req, res) => {
+router.post('/register/verify', asyncHandler(async (req, res) => {
   const ip = req.ip;
   if (tooManyFromIp(ip)) {
     return res.status(429).json({ error: 'too_many_attempts' });
@@ -138,45 +146,48 @@ router.post('/register/verify', (req, res) => {
   }
   const normalizedEmail = String(email).trim().toLowerCase();
 
-  const pending = db.prepare('SELECT * FROM pending_registrations WHERE email = ?').get(normalizedEmail);
+  const { rows } = await pool.query('SELECT * FROM pending_registrations WHERE email = $1', [normalizedEmail]);
+  const pending = rows[0];
   if (!pending) {
     return res.status(404).json({ error: 'no_pending_registration' });
   }
 
-  if (Date.now() > Date.parse(pending.expires_at + 'Z')) {
-    db.prepare('DELETE FROM pending_registrations WHERE email = ?').run(normalizedEmail);
+  if (Date.now() > pending.expires_at.getTime()) {
+    await pool.query('DELETE FROM pending_registrations WHERE email = $1', [normalizedEmail]);
     return res.status(410).json({ error: 'code_expired' });
   }
 
   if (pending.attempts >= MAX_ATTEMPTS) {
-    db.prepare('DELETE FROM pending_registrations WHERE email = ?').run(normalizedEmail);
+    await pool.query('DELETE FROM pending_registrations WHERE email = $1', [normalizedEmail]);
     return res.status(429).json({ error: 'too_many_attempts' });
   }
 
   if (!bcrypt.compareSync(String(code), pending.code_hash)) {
     registerIpHit(ip);
-    db.prepare('UPDATE pending_registrations SET attempts = attempts + 1 WHERE email = ?').run(normalizedEmail);
+    await pool.query('UPDATE pending_registrations SET attempts = attempts + 1 WHERE email = $1', [normalizedEmail]);
     return res.status(401).json({ error: 'invalid_code' });
   }
 
   // Code correct — create the account and log the user in.
-  const insert = db.prepare('INSERT INTO users (username, password_hash, role) VALUES (?, ?, ?)');
   let userId;
   try {
-    const result = insert.run(normalizedEmail, pending.password_hash, 'customer');
-    userId = result.lastInsertRowid;
+    const { rows: inserted } = await pool.query(
+      'INSERT INTO users (username, password_hash, role) VALUES ($1, $2, $3) RETURNING id',
+      [normalizedEmail, pending.password_hash, 'customer']
+    );
+    userId = inserted[0].id;
   } catch (err) {
     // Extremely unlikely race: account created between start() and verify().
     return res.status(409).json({ error: 'already_registered' });
   }
 
-  db.prepare('DELETE FROM pending_registrations WHERE email = ?').run(normalizedEmail);
+  await pool.query('DELETE FROM pending_registrations WHERE email = $1', [normalizedEmail]);
 
   req.session.userId = userId;
   req.session.username = normalizedEmail;
   req.session.role = 'customer';
 
   res.json({ ok: true, username: normalizedEmail, role: 'customer' });
-});
+}));
 
 module.exports = router;

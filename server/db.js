@@ -1,40 +1,48 @@
-const path = require('path');
-const fs = require('fs');
-const { DatabaseSync } = require('node:sqlite');
+const { Pool } = require('pg');
 
-const DATA_DIR = path.join(__dirname, 'data');
-if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
+const connectionString = process.env.DATABASE_URL;
+if (!connectionString) {
+  console.error('Missing DATABASE_URL in server/.env — refusing to start without a database.');
+  process.exit(1);
+}
 
-const DB_PATH = path.join(DATA_DIR, 'made.db');
-const db = new DatabaseSync(DB_PATH);
+// Render's free Postgres (and most managed providers) require SSL but use
+// a self-signed chain, so we skip CA verification rather than fail to
+// connect. Set PGSSL=disable for a plain local Postgres with no TLS.
+const pool = new Pool({
+  connectionString,
+  ssl: process.env.PGSSL === 'disable' ? false : { rejectUnauthorized: false }
+});
 
-db.exec(`
-  CREATE TABLE IF NOT EXISTS users (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    username TEXT UNIQUE NOT NULL,
-    password_hash TEXT NOT NULL,
-    role TEXT NOT NULL DEFAULT 'owner',
-    created_at TEXT NOT NULL DEFAULT (datetime('now'))
-  );
+async function migrate() {
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS users (
+      id SERIAL PRIMARY KEY,
+      username TEXT UNIQUE NOT NULL,
+      password_hash TEXT NOT NULL,
+      role TEXT NOT NULL DEFAULT 'owner',
+      created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+    );
 
-  CREATE TABLE IF NOT EXISTS content (
-    page TEXT NOT NULL,
-    key TEXT NOT NULL,
-    ru TEXT NOT NULL DEFAULT '',
-    kk TEXT NOT NULL DEFAULT '',
-    updated_at TEXT NOT NULL DEFAULT (datetime('now')),
-    PRIMARY KEY (page, key)
-  );
+    CREATE TABLE IF NOT EXISTS content (
+      page TEXT NOT NULL,
+      key TEXT NOT NULL,
+      ru TEXT NOT NULL DEFAULT '',
+      kk TEXT NOT NULL DEFAULT '',
+      updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+      PRIMARY KEY (page, key)
+    );
 
-  CREATE TABLE IF NOT EXISTS pending_registrations (
-    email TEXT PRIMARY KEY,
-    password_hash TEXT NOT NULL,
-    code_hash TEXT NOT NULL,
-    attempts INTEGER NOT NULL DEFAULT 0,
-    expires_at TEXT NOT NULL,
-    last_sent_at TEXT NOT NULL DEFAULT (datetime('now')),
-    created_at TEXT NOT NULL DEFAULT (datetime('now'))
-  );
-`);
+    CREATE TABLE IF NOT EXISTS pending_registrations (
+      email TEXT PRIMARY KEY,
+      password_hash TEXT NOT NULL,
+      code_hash TEXT NOT NULL,
+      attempts INTEGER NOT NULL DEFAULT 0,
+      expires_at TIMESTAMPTZ NOT NULL,
+      last_sent_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+      created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+    );
+  `);
+}
 
-module.exports = db;
+module.exports = { pool, migrate };

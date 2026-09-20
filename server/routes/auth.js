@@ -1,6 +1,7 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
-const db = require('../db');
+const { pool } = require('../db');
+const asyncHandler = require('../asyncHandler');
 
 const router = express.Router();
 
@@ -28,7 +29,7 @@ function registerFailure(ip) {
   }
 }
 
-router.post('/login', (req, res) => {
+router.post('/login', asyncHandler(async (req, res) => {
   const ip = req.ip;
   if (tooManyAttempts(ip)) {
     return res.status(429).json({ error: 'too_many_attempts' });
@@ -39,7 +40,8 @@ router.post('/login', (req, res) => {
     return res.status(400).json({ error: 'missing_credentials' });
   }
 
-  const user = db.prepare('SELECT * FROM users WHERE username = ?').get(username);
+  const { rows } = await pool.query('SELECT * FROM users WHERE username = $1', [username]);
+  const user = rows[0];
   if (!user || !bcrypt.compareSync(password, user.password_hash)) {
     registerFailure(ip);
     return res.status(401).json({ error: 'invalid_credentials' });
@@ -50,7 +52,7 @@ router.post('/login', (req, res) => {
   req.session.username = user.username;
   req.session.role = user.role;
   res.json({ ok: true, username: user.username, role: user.role });
-});
+}));
 
 router.post('/logout', (req, res) => {
   req.session = null;

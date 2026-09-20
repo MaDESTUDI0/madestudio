@@ -5,7 +5,7 @@
   "description": "Backend for MaDE Studio: content API + admin panel + owner auth",
   "main": "server.js",
   "engines": {
-    "node": ">=22.5.0"
+    "node": ">=18.0.0"
   },
   "scripts": {
     "start": "node server.js",
@@ -20,6 +20,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
-    "nodemailer": "^10.0.10"
+    "nodemailer": "^10.0.10",
+    "pg": "^8.13.0"
   }
 }

@@ -1,21 +1,23 @@
 require('dotenv').config({ path: require('path').join(__dirname, '..', '.env') });
 const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
-const db = require('../db');
+const { pool, migrate } = require('../db');
 
 function randomPassword(len = 16) {
   return crypto.randomBytes(len).toString('base64url').slice(0, len);
 }
 
-function createOwner() {
+async function createOwner() {
+  await migrate();
+
   const username = process.env.OWNER_USERNAME || 'owner';
   let password = process.env.OWNER_PASSWORD;
   let generated = false;
 
-  const existing = db.prepare('SELECT id FROM users WHERE username = ?').get(username);
-  if (existing) {
+  const { rows } = await pool.query('SELECT id FROM users WHERE username = $1', [username]);
+  if (rows[0]) {
     console.log(`Owner account "${username}" already exists — skipping.`);
-    console.log('To reset the password, delete the user from server/data/made.db or set a new OWNER_PASSWORD and re-run with --force.');
+    console.log('To reset the password, delete the user from the database or set a new OWNER_PASSWORD and re-run.');
     return;
   }
 
@@ -25,8 +27,10 @@ function createOwner() {
   }
 
   const hash = bcrypt.hashSync(password, 12);
-  db.prepare('INSERT INTO users (username, password_hash, role) VALUES (?, ?, ?)')
-    .run(username, hash, 'owner');
+  await pool.query(
+    'INSERT INTO users (username, password_hash, role) VALUES ($1, $2, $3)',
+    [username, hash, 'owner']
+  );
 
   console.log('Owner account created.');
   console.log('  Username:', username);
@@ -37,4 +41,6 @@ function createOwner() {
   }
 }
 
-createOwner();
+createOwner()
+  .catch((err) => { console.error(err); process.exitCode = 1; })
+  .finally(() => pool.end());
