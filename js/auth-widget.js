@@ -40,17 +40,12 @@
           '<button type="button" class="eye-toggle email-eye" aria-label="Показать" title="Показать">' + EYE_OPEN + '</button>' +
         '</div>' +
         '<button type="button" class="change-password-toggle" data-ru="Изменить пароль" data-kk="Құпия сөзді өзгерту">Изменить пароль</button>' +
-        '<form class="change-password-form" hidden>' +
+        '<form class="change-password-form" data-stage="start" hidden>' +
           '<label><span data-ru="Текущий пароль" data-kk="Ағымдағы құпия сөз">Текущий пароль</span><input type="password" name="currentPassword" autocomplete="current-password" required></label>' +
           '<label><span data-ru="Новый пароль" data-kk="Жаңа құпия сөз">Новый пароль</span><input type="password" name="newPassword" minlength="8" autocomplete="new-password" required></label>' +
-          '<button type="submit" class="btn btn-solid" data-ru="Получить код на почту" data-kk="Поштаға код алу">Получить код на почту</button>' +
           '<p class="change-password-note"></p>' +
-        '</form>' +
-        '<form class="change-password-code-form" hidden>' +
-          '<p class="account-step-note" data-ru="Мы отправили код на вашу почту" data-kk="Кодты поштаңызға жібердік">Мы отправили код на вашу почту</p>' +
-          '<label><span data-ru="Код из письма" data-kk="Хаттағы код">Код из письма</span><input type="text" name="code" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="one-time-code" required></label>' +
-          '<button type="submit" class="btn btn-solid" data-ru="Подтвердить" data-kk="Растау">Подтвердить</button>' +
-          '<p class="change-password-note"></p>' +
+          '<label class="change-password-code-row" hidden><span data-ru="Код из письма" data-kk="Хаттағы код">Код из письма</span><input type="text" name="code" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="one-time-code"></label>' +
+          '<button type="submit" class="btn btn-solid" data-ru="Далее" data-kk="Келесі">Далее</button>' +
         '</form>' +
         '<button type="button" class="btn btn-outline widget-logout" data-ru="Выйти" data-kk="Шығу">Выйти</button>' +
       '</div>';
@@ -95,9 +90,22 @@
     var pwToggle = widget.querySelector('.change-password-toggle');
     var pwForm = widget.querySelector('.change-password-form');
     var pwNote = pwForm.querySelector('.change-password-note');
-    var codeForm = widget.querySelector('.change-password-code-form');
-    var codeNote = codeForm.querySelector('.change-password-note');
+    var codeRow = pwForm.querySelector('.change-password-code-row');
+    var codeInput = pwForm.querySelector('input[name="code"]');
+    var pwSubmitBtn = pwForm.querySelector('button[type="submit"]');
     var logoutBtn = widget.querySelector('.widget-logout');
+
+    function resetPasswordForm() {
+      pwForm.reset();
+      pwForm.dataset.stage = 'start';
+      codeRow.hidden = true;
+      codeInput.required = false;
+      pwSubmitBtn.hidden = false;
+      pwSubmitBtn.textContent = 'Далее';
+      pwSubmitBtn.setAttribute('data-ru', 'Далее');
+      pwNote.textContent = '';
+      pwNote.className = 'change-password-note';
+    }
     var emailRevealed = false;
 
     // Without this, any click inside the panel (the eye toggles, form
@@ -124,11 +132,41 @@
 
     pwToggle.addEventListener('click', function(){
       pwForm.hidden = !pwForm.hidden;
-      codeForm.hidden = true;
+      if (!pwForm.hidden) resetPasswordForm();
     });
 
     pwForm.addEventListener('submit', function(e){
       e.preventDefault();
+
+      if (pwForm.dataset.stage === 'verify') {
+        pwNote.className = 'change-password-note';
+        pwNote.textContent = '';
+        var code = codeInput.value;
+
+        api('/api/change-password/verify', {
+          method: 'POST',
+          body: JSON.stringify({ code: code })
+        })
+          .then(function(){
+            pwNote.textContent = 'Пароль изменён.';
+            pwNote.className = 'change-password-note visible ok';
+            codeRow.hidden = true;
+            pwSubmitBtn.hidden = true;
+          })
+          .catch(function(err){
+            var msg = (err && err.error === 'invalid_code')
+              ? 'Неверный код.'
+              : (err && err.error === 'code_expired')
+                ? 'Код устарел — начните заново.'
+                : (err && err.error === 'too_many_attempts')
+                  ? 'Слишком много попыток — начните заново.'
+                  : 'Не получилось подтвердить, попробуйте ещё раз.';
+            pwNote.textContent = msg;
+            pwNote.className = 'change-password-note visible err';
+          });
+        return;
+      }
+
       pwNote.className = 'change-password-note';
       pwNote.textContent = '';
       var fd = new FormData(pwForm);
@@ -142,15 +180,20 @@
       })
         .then(function(data){
           if (data.requiresCode) {
-            pwForm.hidden = true;
-            codeForm.hidden = false;
-            codeForm.querySelector('input[name="code"]').focus();
+            pwForm.dataset.stage = 'verify';
+            pwNote.textContent = 'Код был отправлен на почту — введите его в поле.';
+            pwNote.className = 'change-password-note visible ok';
+            codeRow.hidden = false;
+            codeInput.required = true;
+            codeInput.focus();
+            pwSubmitBtn.textContent = 'Сменить пароль';
+            pwSubmitBtn.setAttribute('data-ru', 'Сменить пароль');
             return;
           }
           // No email on file (e.g. owner account) — already applied.
           pwNote.textContent = 'Пароль изменён.';
           pwNote.className = 'change-password-note visible ok';
-          pwForm.reset();
+          pwSubmitBtn.hidden = true;
         })
         .catch(function(err){
           var msg = (err && err.error === 'invalid_credentials')
@@ -162,36 +205,6 @@
                 : 'Не получилось сохранить, попробуйте ещё раз.';
           pwNote.textContent = msg;
           pwNote.className = 'change-password-note visible err';
-        });
-    });
-
-    codeForm.addEventListener('submit', function(e){
-      e.preventDefault();
-      codeNote.className = 'change-password-note';
-      codeNote.textContent = '';
-      var fd = new FormData(codeForm);
-
-      api('/api/change-password/verify', {
-        method: 'POST',
-        body: JSON.stringify({ code: fd.get('code') })
-      })
-        .then(function(){
-          codeForm.hidden = true;
-          pwNote.textContent = 'Пароль изменён.';
-          pwNote.className = 'change-password-note visible ok';
-          pwForm.reset();
-          codeForm.reset();
-        })
-        .catch(function(err){
-          var msg = (err && err.error === 'invalid_code')
-            ? 'Неверный код.'
-            : (err && err.error === 'code_expired')
-              ? 'Код устарел — начните заново.'
-              : (err && err.error === 'too_many_attempts')
-                ? 'Слишком много попыток — начните заново.'
-                : 'Не получилось подтвердить, попробуйте ещё раз.';
-          codeNote.textContent = msg;
-          codeNote.className = 'change-password-note visible err';
         });
     });
 
@@ -229,7 +242,6 @@
       emailEye.innerHTML = EYE_OPEN;
       emailEye.setAttribute('aria-label', 'Показать');
       widget.querySelector('.change-password-form').hidden = true;
-      widget.querySelector('.change-password-code-form').hidden = true;
     });
 
     if (typeof window.MADE_APPLY_LANG === 'function') {
