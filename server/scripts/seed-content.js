@@ -46,12 +46,27 @@ function landmarkFor(tagName, id, classValue) {
   return null; // no change
 }
 
+// Regex-parsing raw file text (not a real HTML parser) means attribute
+// values come out still entity-encoded, e.g. "&lt;em&gt;" as six literal
+// characters. A browser's attribute parser would have decoded that to a
+// literal "<em>" already — decode the same way here so DB values match
+// what element.getAttribute() naturally returns, or data-i18n-html
+// elements double-escape when content-loader.js re-injects them.
+function decodeEntities(str) {
+  return str
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&amp;/g, '&');
+}
+
 function parseAttrs(raw) {
   const attrs = {};
   const re = /([a-zA-Z][a-zA-Z0-9-]*)\s*=\s*"([^"]*)"/g;
   let m;
   while ((m = re.exec(raw))) {
-    attrs[m[1]] = m[2];
+    attrs[m[1]] = decodeEntities(m[2]);
   }
   attrs._hasI18nHtml = /\bdata-i18n-html\b(?!\s*=)/.test(raw);
   return attrs;

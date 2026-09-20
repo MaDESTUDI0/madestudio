@@ -14,11 +14,24 @@ const { pool, migrate } = require('../db');
 const ROOT = path.join(__dirname, '..', '..');
 const pages = process.argv.slice(2);
 
+// See seed-content.js for why this decode is needed: regex-parsing raw
+// file text leaves entities like "&lt;em&gt;" un-decoded, unlike a real
+// HTML attribute parser, which would cause data-i18n-html fields to
+// double-escape once content-loader.js re-injects them client-side.
+function decodeEntities(str) {
+  return str
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&amp;/g, '&');
+}
+
 function parseAttrs(raw) {
   const attrs = {};
   const re = /([a-zA-Z][a-zA-Z0-9-]*)\s*=\s*"([^"]*)"/g;
   let m;
-  while ((m = re.exec(raw))) attrs[m[1]] = m[2];
+  while ((m = re.exec(raw))) attrs[m[1]] = decodeEntities(m[2]);
   return attrs;
 }
 
