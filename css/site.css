@@ -114,9 +114,14 @@ nav.main-nav{display:flex;align-items:center;gap:36px;}
 .lang-switch{display:flex;align-items:center;gap:6px;font-size:13px;}
 .lang-switch button{
   background:none;border:none;color:var(--clay);
+  font-weight:300;
   padding:2px 3px;border-bottom:1px solid transparent;
+  transition:color .3s ease,border-color .3s ease,font-weight .3s ease;
 }
-.lang-switch button.active{color:var(--wine);border-bottom-color:var(--wine);}
+.lang-switch button.active{
+  color:var(--wine);font-weight:600;
+  border-bottom-color:var(--wine);
+}
 .lang-switch .sep{color:var(--rule);}
 
 .btn{
