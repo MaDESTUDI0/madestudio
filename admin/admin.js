@@ -1,18 +1,147 @@
 (function(){
   var API_BASE = window.MADE_API_BASE || '';
 
-  var PAGES = [
-    { id: 'index', label: 'Главная' },
-    { id: 'courses', label: 'Курсы' },
-    { id: 'atelier', label: 'Ателье' },
-    { id: 'gallery', label: 'Работы' },
-    { id: 'shop', label: 'Магазин' },
-    { id: 'reviews', label: 'Отзывы' },
-    { id: 'about', label: 'О студии' },
-    { id: 'contacts', label: 'Контакты' },
-    { id: 'login', label: 'Вход' },
-    { id: 'register', label: 'Регистрация' }
-  ];
+  var STRINGS = {
+    ru: {
+      adminPanel: 'Админ-панель',
+      loginLabel: 'Логин',
+      passwordLabel: 'Пароль',
+      loginBtn: 'Войти',
+      wrongCredentials: 'Неверный логин или пароль.',
+      noAccess: 'У этого аккаунта нет доступа к админ-панели.',
+      headerBrand: 'MaDE · Админка',
+      loggedInAs: 'вы вошли как ',
+      logout: 'Выйти',
+      saveChanges: 'Сохранить изменения',
+      unsavedChanges: 'Есть несохранённые изменения',
+      saving: 'Сохраняем…',
+      saved: 'Сохранено',
+      saveError: 'Ошибка сохранения',
+      loading: 'Загрузка…',
+      noFieldsOnPage: 'На этой странице пока нет полей.',
+      loadContentError: 'Не удалось загрузить контент.',
+      russian: 'Русский',
+      kazakh: 'Қазақша',
+      pageLabels: {
+        index: 'Главная', courses: 'Курсы', atelier: 'Ателье', gallery: 'Работы',
+        shop: 'Магазин', reviews: 'Отзывы', about: 'О студии', contacts: 'Контакты',
+        login: 'Вход', register: 'Регистрация'
+      },
+      lekalaNav: 'Наборы лекал',
+      galleryNav: 'Фото галереи',
+      ordersNav: 'Заказы',
+      lekalaHint: 'Позиции набора лекал — фасон и размеры одной строкой, например «Рубашка, 44–60 размер». Показываются на сайте в карточке «Наборы лекал», покупатели могут собрать несколько в заказ. Файл — то, что автоматически уйдёт покупателю на почту после того, как вы подтвердите оплату в разделе «Заказы».',
+      lekalaLabelPlaceholder: 'Например: Платье, 42–50 размер',
+      lekalaPricePlaceholder: 'Цена, ₸',
+      add: 'Добавить',
+      noItemsYet: 'Пока нет ни одной позиции.',
+      loadListError: 'Не удалось загрузить список.',
+      hasFile: 'файл есть',
+      noFile: 'без файла',
+      del: 'Удалить',
+      adding: 'Добавляем…',
+      added: 'Добавлено',
+      addError: 'Не получилось добавить',
+      ordersHint: 'Заказы на наборы лекал. Когда увидите оплату у себя в банке — нажмите «Подтвердить оплату»: покупателю автоматически уйдёт письмо с файлами.',
+      noOrders: 'Заказов пока нет.',
+      loadOrdersError: 'Не удалось загрузить заказы.',
+      statusPending: 'Ожидает оплаты',
+      statusPaid: 'Оплачен, файлы отправлены',
+      total: 'Итого',
+      confirmPayment: 'Подтвердить оплату',
+      sending: 'Отправляем…',
+      retryFailed: 'Не получилось, повторить',
+      galleryHint: 'Фото, которые вы сюда добавите, появятся на странице «Работы» — в разделе «Работы MaDE» или «Работы учениц», в зависимости от выбора.',
+      sectionLabel: 'Раздел',
+      madeWorks: 'Работы MaDE',
+      studentWorks: 'Работы учениц',
+      captionLabel: 'Подпись (необязательно)',
+      captionPlaceholder: 'Например: Вечернее платье с вышивкой',
+      photoLabel: 'Фото',
+      upload: 'Загрузить',
+      uploading: 'Загружаем…',
+      uploaded: 'Загружено',
+      uploadError: 'Не получилось загрузить',
+      noPhotosYet: 'Пока нет загруженных фото.',
+      photosListError: 'Не удалось загрузить список.',
+      categoryMade: 'MaDE',
+      categoryStudent: 'Ученицы'
+    },
+    kk: {
+      adminPanel: 'Әкімші панелі',
+      loginLabel: 'Логин',
+      passwordLabel: 'Құпия сөз',
+      loginBtn: 'Кіру',
+      wrongCredentials: 'Логин немесе құпия сөз қате.',
+      noAccess: 'Бұл аккаунттың әкімші панеліне қатынасы жоқ.',
+      headerBrand: 'MaDE · Әкімші',
+      loggedInAs: 'сіз кірдіңіз: ',
+      logout: 'Шығу',
+      saveChanges: 'Өзгерістерді сақтау',
+      unsavedChanges: 'Сақталмаған өзгерістер бар',
+      saving: 'Сақталуда…',
+      saved: 'Сақталды',
+      saveError: 'Сақтау қатесі',
+      loading: 'Жүктелуде…',
+      noFieldsOnPage: 'Бұл бетте әзірге ешқандай өріс жоқ.',
+      loadContentError: 'Мазмұнды жүктеу мүмкін болмады.',
+      russian: 'Орысша',
+      kazakh: 'Қазақша',
+      pageLabels: {
+        index: 'Басты бет', courses: 'Курстар', atelier: 'Ателье', gallery: 'Жұмыстар',
+        shop: 'Дүкен', reviews: 'Пікірлер', about: 'Студия туралы', contacts: 'Байланыс',
+        login: 'Кіру', register: 'Тіркелу'
+      },
+      lekalaNav: 'Лекал жинақтары',
+      galleryNav: 'Галерея фотосуреттері',
+      ordersNav: 'Тапсырыстар',
+      lekalaHint: 'Лекал жинағының позициялары — фасон мен өлшемдер бір жолда, мысалы «Көйлек, 44–60 өлшем». Сайтта «Лекал жинақтары» карточкасында көрсетіледі, сатып алушылар бірнешеуін тапсырысқа жинай алады. Файл — «Тапсырыстар» бөлімінде төлемді растағаннан кейін сатып алушыға автоматты түрде поштаға кететін нәрсе.',
+      lekalaLabelPlaceholder: 'Мысалы: Көйлек, 42–50 өлшем',
+      lekalaPricePlaceholder: 'Бағасы, ₸',
+      add: 'Қосу',
+      noItemsYet: 'Әзірге бірде-бір позиция жоқ.',
+      loadListError: 'Тізімді жүктеу мүмкін болмады.',
+      hasFile: 'файл бар',
+      noFile: 'файлсыз',
+      del: 'Жою',
+      adding: 'Қосылуда…',
+      added: 'Қосылды',
+      addError: 'Қосу мүмкін болмады',
+      ordersHint: 'Лекал жинақтарына тапсырыстар. Банкіде төлемді көргенде — «Төлемді растау» түймесін басыңыз: сатып алушыға файлдары бар хат автоматты түрде жіберіледі.',
+      noOrders: 'Әзірге тапсырыстар жоқ.',
+      loadOrdersError: 'Тапсырыстарды жүктеу мүмкін болмады.',
+      statusPending: 'Төлемді күтуде',
+      statusPaid: 'Төленді, файлдар жіберілді',
+      total: 'Барлығы',
+      confirmPayment: 'Төлемді растау',
+      sending: 'Жіберілуде…',
+      retryFailed: 'Сәтсіз аяқталды, қайталаңыз',
+      galleryHint: 'Осында қосатын фотосуреттер «Жұмыстар» бетінде — «MaDE жұмыстары» немесе «Оқушылардың жұмыстары» бөлімінде, таңдауыңызға байланысты пайда болады.',
+      sectionLabel: 'Бөлім',
+      madeWorks: 'MaDE жұмыстары',
+      studentWorks: 'Оқушылардың жұмыстары',
+      captionLabel: 'Жазба (міндетті емес)',
+      captionPlaceholder: 'Мысалы: Кестелі кешкі көйлек',
+      photoLabel: 'Фотосурет',
+      upload: 'Жүктеу',
+      uploading: 'Жүктелуде…',
+      uploaded: 'Жүктелді',
+      uploadError: 'Жүктеу мүмкін болмады',
+      noPhotosYet: 'Әзірге жүктелген фотосурет жоқ.',
+      photosListError: 'Тізімді жүктеу мүмкін болмады.',
+      categoryMade: 'MaDE',
+      categoryStudent: 'Оқушылар'
+    }
+  };
+
+  var lang = 'ru';
+  try { lang = localStorage.getItem('made_admin_lang') || 'ru'; } catch (e) {}
+
+  function t(key) {
+    return STRINGS[lang][key];
+  }
+
+  var PAGE_IDS = ['index', 'courses', 'atelier', 'gallery', 'shop', 'reviews', 'about', 'contacts', 'login', 'register'];
 
   var LEKALA_ID = 'lekala-items';
   var GALLERY_ID = 'gallery-photos-view';
@@ -44,6 +173,7 @@
   var currentPage = null;
   var originalContent = {};
   var dirtyKeys = {};
+  var lastUsername = null;
 
   function api(path, opts) {
     opts = opts || {};
@@ -58,10 +188,68 @@
     });
   }
 
+  // Applies the current `lang` to every static UI string (the login
+  // screen, header chrome, form labels/placeholders) and re-renders
+  // whichever view is currently open so its dynamically generated
+  // text (nav, field groups, lists) picks up the new language too.
+  function applyLang() {
+    document.querySelectorAll('.lang-switch button').forEach(function(btn){
+      btn.classList.toggle('active', btn.dataset.lang === lang);
+    });
+
+    document.getElementById('loginSub').textContent = t('adminPanel');
+    document.getElementById('loginLabelText').textContent = t('loginLabel');
+    document.getElementById('passwordLabelText').textContent = t('passwordLabel');
+    document.getElementById('loginSubmitBtn').textContent = t('loginBtn');
+    document.getElementById('headerBrand').textContent = t('headerBrand');
+    logoutBtn.textContent = t('logout');
+    saveBtn.textContent = t('saveChanges');
+    document.getElementById('lekalaHint').textContent = t('lekalaHint');
+    document.getElementById('lekalaLabelInput').placeholder = t('lekalaLabelPlaceholder');
+    document.getElementById('lekalaPriceInput').placeholder = t('lekalaPricePlaceholder');
+    document.getElementById('lekalaAddBtn').textContent = t('add');
+    document.getElementById('ordersHint').textContent = t('ordersHint');
+    document.getElementById('galleryHint').textContent = t('galleryHint');
+    document.getElementById('gallerySectionLabel').textContent = t('sectionLabel');
+    document.getElementById('galleryOptMade').textContent = t('madeWorks');
+    document.getElementById('galleryOptStudent').textContent = t('studentWorks');
+    document.getElementById('galleryCaptionLabel').textContent = t('captionLabel');
+    document.getElementById('galleryAltInput').placeholder = t('captionPlaceholder');
+    document.getElementById('galleryPhotoLabel').textContent = t('photoLabel');
+    document.getElementById('galleryUploadBtn').textContent = t('upload');
+
+    if (whoami.dataset.username) {
+      whoami.textContent = t('loggedInAs') + whoami.dataset.username;
+    }
+
+    if (currentPage && PAGE_IDS.indexOf(currentPage) !== -1) {
+      loadPage(currentPage);
+    } else if (currentPage === LEKALA_ID) {
+      openLekala();
+    } else if (currentPage === GALLERY_ID) {
+      openGalleryView();
+    } else if (currentPage === ORDERS_ID) {
+      openOrders();
+    } else {
+      renderNav();
+    }
+  }
+
+  document.querySelectorAll('.lang-switch').forEach(function(group){
+    group.addEventListener('click', function(e){
+      var btn = e.target.closest('button[data-lang]');
+      if (!btn) return;
+      lang = btn.dataset.lang;
+      try { localStorage.setItem('made_admin_lang', lang); } catch (err) {}
+      applyLang();
+    });
+  });
+
   function showApp(username) {
     loginScreen.hidden = true;
     app.hidden = false;
-    whoami.textContent = username ? ('вы вошли как ' + username) : '';
+    whoami.dataset.username = username || '';
+    whoami.textContent = username ? (t('loggedInAs') + username) : '';
   }
 
   function showLogin() {
@@ -71,13 +259,13 @@
 
   function renderNav() {
     pageNav.innerHTML = '';
-    PAGES.forEach(function(p){
+    PAGE_IDS.forEach(function(id){
       var btn = document.createElement('button');
       btn.type = 'button';
-      btn.textContent = p.label;
-      btn.dataset.page = p.id;
-      if (p.id === currentPage) btn.classList.add('active');
-      btn.addEventListener('click', function(){ loadPage(p.id); });
+      btn.textContent = STRINGS[lang].pageLabels[id];
+      btn.dataset.page = id;
+      if (id === currentPage) btn.classList.add('active');
+      btn.addEventListener('click', function(){ loadPage(id); });
       pageNav.appendChild(btn);
     });
 
@@ -87,7 +275,7 @@
 
     var lekalaBtn = document.createElement('button');
     lekalaBtn.type = 'button';
-    lekalaBtn.textContent = 'Наборы лекал';
+    lekalaBtn.textContent = t('lekalaNav');
     lekalaBtn.dataset.page = LEKALA_ID;
     if (currentPage === LEKALA_ID) lekalaBtn.classList.add('active');
     lekalaBtn.addEventListener('click', openLekala);
@@ -95,7 +283,7 @@
 
     var galleryBtn = document.createElement('button');
     galleryBtn.type = 'button';
-    galleryBtn.textContent = 'Фото галереи';
+    galleryBtn.textContent = t('galleryNav');
     galleryBtn.dataset.page = GALLERY_ID;
     if (currentPage === GALLERY_ID) galleryBtn.classList.add('active');
     galleryBtn.addEventListener('click', openGalleryView);
@@ -103,7 +291,7 @@
 
     var ordersBtn = document.createElement('button');
     ordersBtn.type = 'button';
-    ordersBtn.textContent = 'Заказы';
+    ordersBtn.textContent = t('ordersNav');
     ordersBtn.dataset.page = ORDERS_ID;
     if (currentPage === ORDERS_ID) ordersBtn.classList.add('active');
     ordersBtn.addEventListener('click', openOrders);
@@ -128,7 +316,7 @@
     fieldsList.innerHTML = '';
     var keys = Object.keys(content);
     if (!keys.length) {
-      fieldsList.innerHTML = '<p class="empty-note">На этой странице пока нет полей.</p>';
+      fieldsList.innerHTML = '<p class="empty-note">' + t('noFieldsOnPage') + '</p>';
       return;
     }
 
@@ -181,18 +369,18 @@
         var cols = document.createElement('div');
         cols.className = 'field-cols';
 
-        ['ru', 'kk'].forEach(function(lang){
+        ['ru', 'kk'].forEach(function(fieldLang){
           var col = document.createElement('div');
           var label = document.createElement('label');
-          label.textContent = lang === 'ru' ? 'Русский' : 'Қазақша';
+          label.textContent = fieldLang === 'ru' ? t('russian') : t('kazakh');
           var ta = document.createElement('textarea');
-          ta.value = val[lang] || '';
+          ta.value = val[fieldLang] || '';
           ta.dataset.key = key;
-          ta.dataset.lang = lang;
+          ta.dataset.lang = fieldLang;
           ta.addEventListener('input', function(){
             ta.classList.add('changed');
             dirtyKeys[key] = dirtyKeys[key] || { ru: content[key].ru, kk: content[key].kk };
-            dirtyKeys[key][lang] = ta.value;
+            dirtyKeys[key][fieldLang] = ta.value;
             updateSaveState();
           });
           col.appendChild(label);
@@ -212,7 +400,7 @@
   function updateSaveState() {
     var hasChanges = Object.keys(dirtyKeys).length > 0;
     saveBtn.disabled = !hasChanges;
-    saveStatus.textContent = hasChanges ? 'Есть несохранённые изменения' : '';
+    saveStatus.textContent = hasChanges ? t('unsavedChanges') : '';
     saveStatus.className = 'save-status';
   }
 
@@ -225,9 +413,8 @@
     lekalaView.hidden = true;
     galleryView.hidden = true;
     ordersView.hidden = true;
-    var meta = PAGES.find(function(p){ return p.id === pageId; });
-    pageTitle.textContent = meta ? meta.label : pageId;
-    fieldsList.innerHTML = '<p class="empty-note">Загрузка…</p>';
+    pageTitle.textContent = STRINGS[lang].pageLabels[pageId] || pageId;
+    fieldsList.innerHTML = '<p class="empty-note">' + t('loading') + '</p>';
     updateSaveState();
 
     api('/api/content/' + encodeURIComponent(pageId))
@@ -237,14 +424,14 @@
       })
       .catch(function(err){
         if (err && err.unauthorized) { showLogin(); return; }
-        fieldsList.innerHTML = '<p class="empty-note">Не удалось загрузить контент.</p>';
+        fieldsList.innerHTML = '<p class="empty-note">' + t('loadContentError') + '</p>';
       });
   }
 
   function renderLekalaItems(items) {
     lekalaList.innerHTML = '';
     if (!items.length) {
-      lekalaList.innerHTML = '<li class="empty-note">Пока нет ни одной позиции.</li>';
+      lekalaList.innerHTML = '<li class="empty-note">' + t('noItemsYet') + '</li>';
       return;
     }
     items.forEach(function(item){
@@ -253,12 +440,12 @@
       var span = document.createElement('span');
       var bits = [item.label];
       if (item.price) bits.push(Number(item.price).toLocaleString('ru-RU') + ' ₸');
-      bits.push(item.hasFile ? 'файл есть' : 'без файла');
+      bits.push(item.hasFile ? t('hasFile') : t('noFile'));
       span.textContent = bits.join(' — ');
       var del = document.createElement('button');
       del.type = 'button';
       del.className = 'lekala-delete';
-      del.textContent = 'Удалить';
+      del.textContent = t('del');
       del.addEventListener('click', function(){
         del.disabled = true;
         api('/api/lekala-items/' + item.id, { method: 'DELETE' })
@@ -275,12 +462,12 @@
   }
 
   function loadLekalaItems() {
-    lekalaList.innerHTML = '<li class="empty-note">Загрузка…</li>';
+    lekalaList.innerHTML = '<li class="empty-note">' + t('loading') + '</li>';
     api('/api/lekala-items')
       .then(renderLekalaItems)
       .catch(function(err){
         if (err && err.unauthorized) { showLogin(); return; }
-        lekalaList.innerHTML = '<li class="empty-note">Не удалось загрузить список.</li>';
+        lekalaList.innerHTML = '<li class="empty-note">' + t('loadListError') + '</li>';
       });
   }
 
@@ -300,10 +487,9 @@
   function renderGalleryPhotos(photos) {
     galleryPhotosGrid.innerHTML = '';
     if (!photos.length) {
-      galleryPhotosGrid.innerHTML = '<p class="empty-note">Пока нет загруженных фото.</p>';
+      galleryPhotosGrid.innerHTML = '<p class="empty-note">' + t('noPhotosYet') + '</p>';
       return;
     }
-    var CATEGORY_LABEL = { made: 'MaDE', student: 'Ученицы' };
     photos.forEach(function(photo){
       var card = document.createElement('div');
       card.className = 'gallery-upload-card';
@@ -316,11 +502,11 @@
       var meta = document.createElement('div');
       meta.className = 'gallery-upload-card-meta';
       var label = document.createElement('span');
-      label.textContent = CATEGORY_LABEL[photo.category] || photo.category;
+      label.textContent = photo.category === 'made' ? t('categoryMade') : (photo.category === 'student' ? t('categoryStudent') : photo.category);
       var del = document.createElement('button');
       del.type = 'button';
       del.className = 'lekala-delete';
-      del.textContent = 'Удалить';
+      del.textContent = t('del');
       del.addEventListener('click', function(){
         del.disabled = true;
         api('/api/gallery-photos/' + photo.id, { method: 'DELETE' })
@@ -339,12 +525,12 @@
   }
 
   function loadGalleryPhotos() {
-    galleryPhotosGrid.innerHTML = '<p class="empty-note">Загрузка…</p>';
+    galleryPhotosGrid.innerHTML = '<p class="empty-note">' + t('loading') + '</p>';
     api('/api/gallery-photos')
       .then(renderGalleryPhotos)
       .catch(function(err){
         if (err && err.unauthorized) { showLogin(); return; }
-        galleryPhotosGrid.innerHTML = '<p class="empty-note">Не удалось загрузить список.</p>';
+        galleryPhotosGrid.innerHTML = '<p class="empty-note">' + t('photosListError') + '</p>';
       });
   }
 
@@ -366,7 +552,7 @@
     var fileInput = galleryUploadForm.elements.photo;
     if (!fileInput.files[0]) return;
 
-    galleryUploadStatus.textContent = 'Загружаем…';
+    galleryUploadStatus.textContent = t('uploading');
     galleryUploadStatus.className = 'save-status';
 
     var formData = new FormData(galleryUploadForm);
@@ -383,13 +569,13 @@
       })
       .then(function(){
         galleryUploadForm.reset();
-        galleryUploadStatus.textContent = 'Загружено';
+        galleryUploadStatus.textContent = t('uploaded');
         galleryUploadStatus.className = 'save-status ok';
         loadGalleryPhotos();
       })
       .catch(function(err){
         if (err && err.unauthorized) { showLogin(); return; }
-        galleryUploadStatus.textContent = 'Не получилось загрузить';
+        galleryUploadStatus.textContent = t('uploadError');
         galleryUploadStatus.className = 'save-status err';
       });
   });
@@ -399,7 +585,7 @@
     var label = lekalaForm.elements.label.value.trim();
     if (!label) return;
 
-    lekalaStatus.textContent = 'Добавляем…';
+    lekalaStatus.textContent = t('adding');
     lekalaStatus.className = 'save-status';
 
     var formData = new FormData(lekalaForm);
@@ -416,13 +602,13 @@
       })
       .then(function(){
         lekalaForm.reset();
-        lekalaStatus.textContent = 'Добавлено';
+        lekalaStatus.textContent = t('added');
         lekalaStatus.className = 'save-status ok';
         loadLekalaItems();
       })
       .catch(function(err){
         if (err && err.unauthorized) { showLogin(); return; }
-        lekalaStatus.textContent = 'Не получилось добавить';
+        lekalaStatus.textContent = t('addError');
         lekalaStatus.className = 'save-status err';
       });
   });
@@ -430,10 +616,9 @@
   function renderOrders(orders) {
     ordersList.innerHTML = '';
     if (!orders.length) {
-      ordersList.innerHTML = '<p class="empty-note">Заказов пока нет.</p>';
+      ordersList.innerHTML = '<p class="empty-note">' + t('noOrders') + '</p>';
       return;
     }
-    var STATUS_LABEL = { pending: 'Ожидает оплаты', paid: 'Оплачен, файлы отправлены' };
     orders.forEach(function(order){
       var card = document.createElement('div');
       card.className = 'order-card';
@@ -444,7 +629,7 @@
       who.textContent = (order.name ? order.name + ' — ' : '') + order.email;
       var status = document.createElement('span');
       status.className = 'order-status order-status-' + order.status;
-      status.textContent = STATUS_LABEL[order.status] || order.status;
+      status.textContent = order.status === 'paid' ? t('statusPaid') : (order.status === 'pending' ? t('statusPending') : order.status);
       head.appendChild(who);
       head.appendChild(status);
       card.appendChild(head);
@@ -463,7 +648,7 @@
       if (total) {
         var totalP = document.createElement('p');
         totalP.className = 'order-total';
-        totalP.textContent = 'Итого: ' + total.toLocaleString('ru-RU') + ' ₸';
+        totalP.textContent = t('total') + ': ' + total.toLocaleString('ru-RU') + ' ₸';
         card.appendChild(totalP);
       }
 
@@ -471,16 +656,16 @@
         var confirmBtn = document.createElement('button');
         confirmBtn.type = 'button';
         confirmBtn.className = 'btn-solid';
-        confirmBtn.textContent = 'Подтвердить оплату';
+        confirmBtn.textContent = t('confirmPayment');
         confirmBtn.addEventListener('click', function(){
           confirmBtn.disabled = true;
-          confirmBtn.textContent = 'Отправляем…';
+          confirmBtn.textContent = t('sending');
           api('/api/orders/' + order.id + '/confirm', { method: 'POST' })
             .then(loadOrders)
             .catch(function(err){
               if (err && err.unauthorized) { showLogin(); return; }
               confirmBtn.disabled = false;
-              confirmBtn.textContent = 'Не получилось, повторить';
+              confirmBtn.textContent = t('retryFailed');
             });
         });
         card.appendChild(confirmBtn);
@@ -491,12 +676,12 @@
   }
 
   function loadOrders() {
-    ordersList.innerHTML = '<p class="empty-note">Загрузка…</p>';
+    ordersList.innerHTML = '<p class="empty-note">' + t('loading') + '</p>';
     api('/api/orders')
       .then(renderOrders)
       .catch(function(err){
         if (err && err.unauthorized) { showLogin(); return; }
-        ordersList.innerHTML = '<p class="empty-note">Не удалось загрузить заказы.</p>';
+        ordersList.innerHTML = '<p class="empty-note">' + t('loadOrdersError') + '</p>';
       });
   }
 
@@ -514,7 +699,7 @@
   saveBtn.addEventListener('click', function(){
     if (!Object.keys(dirtyKeys).length) return;
     saveBtn.disabled = true;
-    saveStatus.textContent = 'Сохраняем…';
+    saveStatus.textContent = t('saving');
     saveStatus.className = 'save-status';
 
     api('/api/content/' + encodeURIComponent(currentPage), {
@@ -522,7 +707,7 @@
       body: JSON.stringify(dirtyKeys)
     })
       .then(function(){
-        saveStatus.textContent = 'Сохранено';
+        saveStatus.textContent = t('saved');
         saveStatus.className = 'save-status ok';
         dirtyKeys = {};
         document.querySelectorAll('.field textarea.changed').forEach(function(ta){
@@ -531,7 +716,7 @@
       })
       .catch(function(err){
         if (err && err.unauthorized) { showLogin(); return; }
-        saveStatus.textContent = 'Ошибка сохранения';
+        saveStatus.textContent = t('saveError');
         saveStatus.className = 'save-status err';
         saveBtn.disabled = false;
       });
@@ -550,16 +735,16 @@
     })
       .then(function(data){
         if (data.role !== 'owner') {
-          loginError.textContent = 'У этого аккаунта нет доступа к админ-панели.';
+          loginError.textContent = t('noAccess');
           loginError.hidden = false;
           api('/api/logout', { method: 'POST' });
           return;
         }
         showApp(data.username);
-        loadPage(PAGES[0].id);
+        loadPage(PAGE_IDS[0]);
       })
       .catch(function(){
-        loginError.textContent = 'Неверный логин или пароль.';
+        loginError.textContent = t('wrongCredentials');
         loginError.hidden = false;
       });
   });
@@ -570,12 +755,14 @@
     });
   });
 
+  applyLang();
+
   // On load, check if already authenticated (existing session cookie)
   api('/api/me')
     .then(function(data){
       if (data.role !== 'owner') { showLogin(); return; }
       showApp(data.username);
-      loadPage(PAGES[0].id);
+      loadPage(PAGE_IDS[0]);
     })
     .catch(function(){
       showLogin();

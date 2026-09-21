@@ -10,6 +10,10 @@
 }
 
 *{margin:0;padding:0;box-sizing:border-box;}
+/* A component's own display:flex/grid/... rule can outrank the UA
+   [hidden] rule on a specificity tie, silently showing it anyway
+   (.login-screen/.app here) — keeps hidden authoritative always. */
+[hidden]{display:none !important;}
 body{
   font-family:'Inter',sans-serif;
   color:var(--ink);
@@ -34,8 +38,19 @@ input,textarea{font-family:inherit;}
 
 /* Login */
 .login-screen{
+  position:relative;
   min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;
 }
+#loginLangSwitch{position:absolute;top:24px;right:24px;}
+
+.lang-switch{display:flex;align-items:center;gap:6px;font-size:13px;}
+.lang-switch button{
+  background:none;border:none;color:var(--clay);font-weight:300;
+  padding:2px 3px;border-bottom:1px solid transparent;
+  transition:color .2s ease,border-color .2s ease,font-weight .2s ease;
+}
+.lang-switch button.active{color:var(--wine);font-weight:600;border-bottom-color:var(--wine);}
+.lang-switch .sep{color:var(--rule);}
 .login-card{
   background:var(--paper-light);border:1px solid var(--rule);border-radius:2px;
   padding:40px 36px;width:100%;max-width:360px;
@@ -58,6 +73,7 @@ input,textarea{font-family:inherit;}
   padding:16px 28px;border-bottom:1px solid var(--rule);background:var(--paper-light);
 }
 .admin-header-left{display:flex;align-items:center;gap:14px;}
+.admin-header-right{display:flex;align-items:center;gap:20px;}
 .brand{font-family:'Playfair Display',serif;font-size:18px;color:var(--wine);}
 .whoami{font-size:13px;color:var(--clay);}
 

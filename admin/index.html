@@ -11,18 +11,23 @@
 <body>
 
 <div id="loginScreen" class="login-screen">
+  <div class="lang-switch" id="loginLangSwitch" role="group" aria-label="Язык / Тіл">
+    <button type="button" data-lang="ru" class="active">Рус</button>
+    <span class="sep">/</span>
+    <button type="button" data-lang="kk">Қаз</button>
+  </div>
   <form id="loginForm" class="login-card">
     <h1>MaDE</h1>
-    <p class="sub">Админ-панель</p>
+    <p class="sub" id="loginSub">Админ-панель</p>
     <label>
-      <span>Логин</span>
+      <span id="loginLabelText">Логин</span>
       <input type="text" name="username" autocomplete="username" required>
     </label>
     <label>
-      <span>Пароль</span>
+      <span id="passwordLabelText">Пароль</span>
       <input type="password" name="password" autocomplete="current-password" required>
     </label>
-    <button type="submit" class="btn-solid">Войти</button>
+    <button type="submit" class="btn-solid" id="loginSubmitBtn">Войти</button>
     <p id="loginError" class="error" hidden></p>
   </form>
 </div>
@@ -30,10 +35,17 @@
 <div id="app" class="app" hidden>
   <header class="admin-header">
     <div class="admin-header-left">
-      <span class="brand">MaDE · Админка</span>
+      <span class="brand" id="headerBrand">MaDE · Админка</span>
       <span id="whoami" class="whoami"></span>
     </div>
-    <button id="logoutBtn" class="btn-outline">Выйти</button>
+    <div class="admin-header-right">
+      <div class="lang-switch" id="appLangSwitch" role="group" aria-label="Язык / Тіл">
+        <button type="button" data-lang="ru" class="active">Рус</button>
+        <span class="sep">/</span>
+        <button type="button" data-lang="kk">Қаз</button>
+      </div>
+      <button id="logoutBtn" class="btn-outline">Выйти</button>
+    </div>
   </header>
 
   <div class="layout">
@@ -50,41 +62,41 @@
       <div id="fieldsList" class="fields-list"></div>
 
       <div id="lekalaView" class="lekala-view" hidden>
-        <p class="lekala-hint">Позиции набора лекал — фасон и размеры одной строкой, например «Рубашка, 44–60 размер». Показываются на сайте в карточке «Наборы лекал», покупатели могут собрать несколько в заказ. Файл — то, что автоматически уйдёт покупателю на почту после того, как вы подтвердите оплату в разделе «Заказы».</p>
+        <p class="lekala-hint" id="lekalaHint">Позиции набора лекал — фасон и размеры одной строкой, например «Рубашка, 44–60 размер». Показываются на сайте в карточке «Наборы лекал», покупатели могут собрать несколько в заказ. Файл — то, что автоматически уйдёт покупателю на почту после того, как вы подтвердите оплату в разделе «Заказы».</p>
         <ul id="lekalaList" class="lekala-list"></ul>
         <form id="lekalaForm" class="lekala-form">
-          <input type="text" name="label" placeholder="Например: Платье, 42–50 размер" required>
-          <input type="number" name="price" placeholder="Цена, ₸" min="0" step="1">
+          <input type="text" name="label" id="lekalaLabelInput" placeholder="Например: Платье, 42–50 размер" required>
+          <input type="number" name="price" id="lekalaPriceInput" placeholder="Цена, ₸" min="0" step="1">
           <input type="file" name="file" accept="application/pdf,image/jpeg,image/png,application/zip">
-          <button type="submit" class="btn-solid">Добавить</button>
+          <button type="submit" class="btn-solid" id="lekalaAddBtn">Добавить</button>
         </form>
         <p id="lekalaStatus" class="save-status"></p>
       </div>
 
       <div id="ordersView" class="orders-view" hidden>
-        <p class="lekala-hint">Заказы на наборы лекал. Когда увидите оплату у себя в банке — нажмите «Подтвердить оплату»: покупателю автоматически уйдёт письмо с файлами.</p>
+        <p class="lekala-hint" id="ordersHint">Заказы на наборы лекал. Когда увидите оплату у себя в банке — нажмите «Подтвердить оплату»: покупателю автоматически уйдёт письмо с файлами.</p>
         <div id="ordersList" class="orders-list"></div>
       </div>
 
       <div id="galleryView" class="gallery-upload-view" hidden>
-        <p class="lekala-hint">Фото, которые вы сюда добавите, появятся на странице «Работы» — в разделе «Работы MaDE» или «Работы учениц», в зависимости от выбора.</p>
+        <p class="lekala-hint" id="galleryHint">Фото, которые вы сюда добавите, появятся на странице «Работы» — в разделе «Работы MaDE» или «Работы учениц», в зависимости от выбора.</p>
         <form id="galleryUploadForm" class="gallery-upload-form">
           <label>
-            <span>Раздел</span>
+            <span id="gallerySectionLabel">Раздел</span>
             <select name="category" required>
-              <option value="made">Работы MaDE</option>
-              <option value="student">Работы учениц</option>
+              <option value="made" id="galleryOptMade">Работы MaDE</option>
+              <option value="student" id="galleryOptStudent">Работы учениц</option>
             </select>
           </label>
           <label>
-            <span>Подпись (необязательно)</span>
-            <input type="text" name="alt" placeholder="Например: Вечернее платье с вышивкой">
+            <span id="galleryCaptionLabel">Подпись (необязательно)</span>
+            <input type="text" name="alt" id="galleryAltInput" placeholder="Например: Вечернее платье с вышивкой">
           </label>
           <label>
-            <span>Фото</span>
+            <span id="galleryPhotoLabel">Фото</span>
             <input type="file" name="photo" accept="image/jpeg,image/png,image/webp" required>
           </label>
-          <button type="submit" class="btn-solid">Загрузить</button>
+          <button type="submit" class="btn-solid" id="galleryUploadBtn">Загрузить</button>
         </form>
         <p id="galleryUploadStatus" class="save-status"></p>
         <div id="galleryPhotosGrid" class="gallery-upload-grid"></div>
