@@ -591,7 +591,15 @@ footer{padding:32px 0;}
   -webkit-mask-image:radial-gradient(ellipse 150% 80% at 10% 0%,#000 28%,transparent 82%);
   mask-image:radial-gradient(ellipse 150% 80% at 10% 0%,#000 28%,transparent 82%);
 }
-@media (max-width:1300px){.location-decor{display:none;}}
+.location-decor-right{
+  position:absolute;right:0;bottom:0;width:300px;height:280px;
+  background-image:url('../images/decor-atelier-hero.jpg');
+  background-size:cover;background-position:center;
+  pointer-events:none;z-index:0;opacity:.5;
+  -webkit-mask-image:radial-gradient(ellipse 150% 85% at 90% 100%,#000 28%,transparent 82%);
+  mask-image:radial-gradient(ellipse 150% 85% at 90% 100%,#000 28%,transparent 82%);
+}
+@media (max-width:1300px){.location-decor,.location-decor-right{display:none;}}
 .location-grid{display:grid;grid-template-columns:1fr 1.3fr;gap:64px;align-items:stretch;}
 .location-info h2{font-size:clamp(26px,3vw,36px);margin:10px 0 28px;}
 .location-list{border-top:1px solid var(--rule);margin-bottom:28px;}
