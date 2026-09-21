@@ -291,25 +291,11 @@ nav.main-nav{display:flex;align-items:center;gap:36px;}
   opacity:.95;
 }
 .decor-photo-topright{
-  top:0;right:0;width:390px;height:340px;
+  top:0;bottom:0;right:0;width:460px;
   background-image:url('../images/decor-topright.jpg');
-  -webkit-mask-image:radial-gradient(ellipse 70% 96% at 58% 30%,#000 42%,transparent 90%);
-  mask-image:radial-gradient(ellipse 70% 96% at 58% 30%,#000 42%,transparent 90%);
-  opacity:.85;
-}
-.decor-photo-bottom{
-  bottom:0;right:0;width:410px;height:320px;
-  background-image:url('../images/decor-bottom.jpg');
-  -webkit-mask-image:radial-gradient(ellipse 68% 260% at 55% 100%,#000 40%,transparent 95%);
-  mask-image:radial-gradient(ellipse 68% 260% at 55% 100%,#000 40%,transparent 95%);
-  opacity:.9;
-}
-.decor-photo-bottom::after{
-  content:"";position:absolute;inset:0;
-  background-image:inherit;background-size:cover;background-position:center;
-  filter:blur(3px);
-  -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 28%,transparent 60%);
-  mask-image:linear-gradient(to bottom,#000 0%,#000 28%,transparent 60%);
+  -webkit-mask-image:radial-gradient(ellipse 62% 400% at 74% 50%,#000 42%,transparent 95%);
+  mask-image:radial-gradient(ellipse 62% 400% at 74% 50%,#000 42%,transparent 95%);
+  opacity:.95;
 }
 .eyebrow{
   display:flex;align-items:center;gap:14px;
