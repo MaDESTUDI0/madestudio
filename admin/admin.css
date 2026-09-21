@@ -121,11 +121,23 @@ input,textarea{font-family:inherit;}
 }
 .lekala-delete{background:none;border:none;color:var(--clay);font-size:12.5px;text-decoration:underline;}
 .lekala-delete:hover{color:var(--wine);}
-.lekala-form{display:flex;gap:10px;}
+.lekala-form{display:flex;flex-wrap:wrap;gap:10px;}
 .lekala-form input{
-  flex:1;padding:10px 12px;border:1px solid var(--rule);border-radius:2px;
+  padding:10px 12px;border:1px solid var(--rule);border-radius:2px;
   font-size:14px;color:var(--ink);background:var(--paper);
 }
+.lekala-form input[name="label"]{flex:2;min-width:200px;}
+.lekala-form input[name="price"]{flex:0 0 110px;}
+.lekala-form input[name="file"]{flex:1 1 220px;}
+
+.orders-list{display:flex;flex-direction:column;gap:14px;max-width:640px;}
+.order-card{border:1px solid var(--rule);border-radius:2px;padding:16px 18px;background:var(--paper-light);}
+.order-card-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-size:14px;}
+.order-status{font-size:12px;color:var(--clay);}
+.order-status-paid{color:#3d7a4d;}
+.order-items{list-style:none;font-size:13.5px;color:var(--ink);margin-bottom:8px;}
+.order-items li{padding:3px 0;}
+.order-total{font-family:'Playfair Display',serif;color:var(--wine);font-size:15px;margin-bottom:12px;}
 
 .gallery-upload-view{max-width:760px;}
 .gallery-upload-form{

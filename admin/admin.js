@@ -16,6 +16,7 @@
 
   var LEKALA_ID = 'lekala-items';
   var GALLERY_ID = 'gallery-photos-view';
+  var ORDERS_ID = 'orders-view';
 
   var loginScreen = document.getElementById('loginScreen');
   var loginForm = document.getElementById('loginForm');
@@ -37,6 +38,8 @@
   var galleryUploadForm = document.getElementById('galleryUploadForm');
   var galleryUploadStatus = document.getElementById('galleryUploadStatus');
   var galleryPhotosGrid = document.getElementById('galleryPhotosGrid');
+  var ordersView = document.getElementById('ordersView');
+  var ordersList = document.getElementById('ordersList');
 
   var currentPage = null;
   var originalContent = {};
@@ -97,6 +100,14 @@
     if (currentPage === GALLERY_ID) galleryBtn.classList.add('active');
     galleryBtn.addEventListener('click', openGalleryView);
     pageNav.appendChild(galleryBtn);
+
+    var ordersBtn = document.createElement('button');
+    ordersBtn.type = 'button';
+    ordersBtn.textContent = 'Заказы';
+    ordersBtn.dataset.page = ORDERS_ID;
+    if (currentPage === ORDERS_ID) ordersBtn.classList.add('active');
+    ordersBtn.addEventListener('click', openOrders);
+    pageNav.appendChild(ordersBtn);
   }
 
   function fieldLabel(key) {
@@ -165,6 +176,7 @@
     fieldsList.hidden = false;
     lekalaView.hidden = true;
     galleryView.hidden = true;
+    ordersView.hidden = true;
     var meta = PAGES.find(function(p){ return p.id === pageId; });
     pageTitle.textContent = meta ? meta.label : pageId;
     fieldsList.innerHTML = '<p class="empty-note">Загрузка…</p>';
@@ -191,7 +203,10 @@
       var li = document.createElement('li');
       li.className = 'lekala-row';
       var span = document.createElement('span');
-      span.textContent = item.label;
+      var bits = [item.label];
+      if (item.price) bits.push(Number(item.price).toLocaleString('ru-RU') + ' ₸');
+      bits.push(item.hasFile ? 'файл есть' : 'без файла');
+      span.textContent = bits.join(' — ');
       var del = document.createElement('button');
       del.type = 'button';
       del.className = 'lekala-delete';
@@ -228,6 +243,7 @@
     fieldsList.hidden = true;
     lekalaView.hidden = false;
     galleryView.hidden = true;
+    ordersView.hidden = true;
     lekalaStatus.textContent = '';
     lekalaStatus.className = 'save-status';
     loadLekalaItems();
@@ -291,6 +307,7 @@
     fieldsList.hidden = true;
     lekalaView.hidden = true;
     galleryView.hidden = false;
+    ordersView.hidden = true;
     galleryUploadStatus.textContent = '';
     galleryUploadStatus.className = 'save-status';
     loadGalleryPhotos();
@@ -331,19 +348,26 @@
 
   lekalaForm.addEventListener('submit', function(e){
     e.preventDefault();
-    var input = lekalaForm.elements.label;
-    var label = input.value.trim();
+    var label = lekalaForm.elements.label.value.trim();
     if (!label) return;
 
     lekalaStatus.textContent = 'Добавляем…';
     lekalaStatus.className = 'save-status';
 
-    api('/api/lekala-items', {
+    var formData = new FormData(lekalaForm);
+
+    fetch(API_BASE + '/api/lekala-items', {
       method: 'POST',
-      body: JSON.stringify({ label: label })
+      credentials: 'include',
+      body: formData
     })
+      .then(function(res){
+        if (res.status === 401) throw { unauthorized: true };
+        if (!res.ok) throw new Error('add_failed');
+        return res.json();
+      })
       .then(function(){
-        input.value = '';
+        lekalaForm.reset();
         lekalaStatus.textContent = 'Добавлено';
         lekalaStatus.className = 'save-status ok';
         loadLekalaItems();
@@ -354,6 +378,90 @@
         lekalaStatus.className = 'save-status err';
       });
   });
+
+  function renderOrders(orders) {
+    ordersList.innerHTML = '';
+    if (!orders.length) {
+      ordersList.innerHTML = '<p class="empty-note">Заказов пока нет.</p>';
+      return;
+    }
+    var STATUS_LABEL = { pending: 'Ожидает оплаты', paid: 'Оплачен, файлы отправлены' };
+    orders.forEach(function(order){
+      var card = document.createElement('div');
+      card.className = 'order-card';
+
+      var head = document.createElement('div');
+      head.className = 'order-card-head';
+      var who = document.createElement('span');
+      who.textContent = (order.name ? order.name + ' — ' : '') + order.email;
+      var status = document.createElement('span');
+      status.className = 'order-status order-status-' + order.status;
+      status.textContent = STATUS_LABEL[order.status] || order.status;
+      head.appendChild(who);
+      head.appendChild(status);
+      card.appendChild(head);
+
+      var items = document.createElement('ul');
+      items.className = 'order-items';
+      var total = 0;
+      order.items.forEach(function(item){
+        var li = document.createElement('li');
+        li.textContent = item.label + (item.price ? ' — ' + Number(item.price).toLocaleString('ru-RU') + ' ₸' : '');
+        items.appendChild(li);
+        total += Number(item.price) || 0;
+      });
+      card.appendChild(items);
+
+      if (total) {
+        var totalP = document.createElement('p');
+        totalP.className = 'order-total';
+        totalP.textContent = 'Итого: ' + total.toLocaleString('ru-RU') + ' ₸';
+        card.appendChild(totalP);
+      }
+
+      if (order.status === 'pending') {
+        var confirmBtn = document.createElement('button');
+        confirmBtn.type = 'button';
+        confirmBtn.className = 'btn-solid';
+        confirmBtn.textContent = 'Подтвердить оплату';
+        confirmBtn.addEventListener('click', function(){
+          confirmBtn.disabled = true;
+          confirmBtn.textContent = 'Отправляем…';
+          api('/api/orders/' + order.id + '/confirm', { method: 'POST' })
+            .then(loadOrders)
+            .catch(function(err){
+              if (err && err.unauthorized) { showLogin(); return; }
+              confirmBtn.disabled = false;
+              confirmBtn.textContent = 'Не получилось, повторить';
+            });
+        });
+        card.appendChild(confirmBtn);
+      }
+
+      ordersList.appendChild(card);
+    });
+  }
+
+  function loadOrders() {
+    ordersList.innerHTML = '<p class="empty-note">Загрузка…</p>';
+    api('/api/orders')
+      .then(renderOrders)
+      .catch(function(err){
+        if (err && err.unauthorized) { showLogin(); return; }
+        ordersList.innerHTML = '<p class="empty-note">Не удалось загрузить заказы.</p>';
+      });
+  }
+
+  function openOrders() {
+    currentPage = ORDERS_ID;
+    renderNav();
+    editorHead.hidden = true;
+    fieldsList.hidden = true;
+    lekalaView.hidden = true;
+    galleryView.hidden = true;
+    ordersView.hidden = false;
+    loadOrders();
+  }
 
   saveBtn.addEventListener('click', function(){
     if (!Object.keys(dirtyKeys).length) return;

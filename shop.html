@@ -146,8 +146,13 @@
           <p data-key="shop.10" data-ru="Готовые лекала базовых изделий — если хочется шить сразу, без построения выкройки." data-kk="Негізгі бұйымдардың дайын лекалдары — выkройка құрмай-ақ бірден тігкіңіз келсе.">
             Готовые лекала базовых изделий — если хочется шить сразу, без построения выкройки.
           </p>
-          <ul id="lekalaItemsList" class="course-tags" aria-label="Доступные фасоны" hidden></ul>
-          <div class="product-meta">
+          <ul id="lekalaItemsList" class="course-tags lekala-picker" aria-label="Доступные фасоны" hidden></ul>
+          <div id="lekalaCartBar" class="lekala-cart-bar" hidden>
+            <span id="lekalaCartTotal"></span>
+            <button type="button" id="lekalaOrderBtn" class="product-cta" disabled>Оформить заказ</button>
+          </div>
+          <p id="lekalaOrderStatus" class="lekala-order-status"></p>
+          <div class="product-meta" id="lekalaFallbackMeta">
             <span data-key="shop.11" class="product-price" data-ru="Цена по запросу" data-kk="Бағасы сұрау бойынша">Цена по запросу</span>
             <a data-key="shop.12" href="https://wa.me/77000000000" class="product-cta" target="_blank" rel="noopener" data-ru="Написать в WhatsApp" data-kk="WhatsApp-қа жазу">Написать в WhatsApp</a>
           </div>

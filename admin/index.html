@@ -50,13 +50,20 @@
       <div id="fieldsList" class="fields-list"></div>
 
       <div id="lekalaView" class="lekala-view" hidden>
-        <p class="lekala-hint">Позиции набора лекал — фасон и размеры одной строкой, например «Рубашка, 44–60 размер». Показываются на сайте в карточке «Наборы лекал».</p>
+        <p class="lekala-hint">Позиции набора лекал — фасон и размеры одной строкой, например «Рубашка, 44–60 размер». Показываются на сайте в карточке «Наборы лекал», покупатели могут собрать несколько в заказ. Файл — то, что автоматически уйдёт покупателю на почту после того, как вы подтвердите оплату в разделе «Заказы».</p>
         <ul id="lekalaList" class="lekala-list"></ul>
         <form id="lekalaForm" class="lekala-form">
           <input type="text" name="label" placeholder="Например: Платье, 42–50 размер" required>
+          <input type="number" name="price" placeholder="Цена, ₸" min="0" step="1">
+          <input type="file" name="file" accept="application/pdf,image/jpeg,image/png,application/zip">
           <button type="submit" class="btn-solid">Добавить</button>
         </form>
         <p id="lekalaStatus" class="save-status"></p>
+      </div>
+
+      <div id="ordersView" class="orders-view" hidden>
+        <p class="lekala-hint">Заказы на наборы лекал. Когда увидите оплату у себя в банке — нажмите «Подтвердить оплату»: покупателю автоматически уйдёт письмо с файлами.</p>
+        <div id="ordersList" class="orders-list"></div>
       </div>
 
       <div id="galleryView" class="gallery-upload-view" hidden>

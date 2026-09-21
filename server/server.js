@@ -11,6 +11,7 @@ const contentRoutes = require('./routes/content');
 const registerRoutes = require('./routes/register');
 const lekalaRoutes = require('./routes/lekala');
 const galleryRoutes = require('./routes/gallery');
+const ordersRoutes = require('./routes/orders');
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -69,6 +70,7 @@ app.use('/api', contentRoutes);
 app.use('/api', registerRoutes);
 app.use('/api', lekalaRoutes);
 app.use('/api', galleryRoutes);
+app.use('/api', ordersRoutes);
 
 // Serve the admin panel
 app.use('/admin', express.static(path.join(__dirname, '..', 'admin')));

@@ -68,8 +68,28 @@ async function migrate() {
       created_at TIMESTAMPTZ NOT NULL DEFAULT now()
     );
 
+    CREATE TABLE IF NOT EXISTS orders (
+      id SERIAL PRIMARY KEY,
+      user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+      status TEXT NOT NULL DEFAULT 'pending',
+      created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+      confirmed_at TIMESTAMPTZ
+    );
+
+    CREATE TABLE IF NOT EXISTS order_items (
+      id SERIAL PRIMARY KEY,
+      order_id INTEGER NOT NULL REFERENCES orders(id) ON DELETE CASCADE,
+      lekala_item_id INTEGER REFERENCES lekala_items(id) ON DELETE SET NULL,
+      label TEXT NOT NULL,
+      price NUMERIC
+    );
+
     ALTER TABLE users ADD COLUMN IF NOT EXISTS name TEXT;
     ALTER TABLE pending_registrations ADD COLUMN IF NOT EXISTS name TEXT;
+    ALTER TABLE lekala_items ADD COLUMN IF NOT EXISTS price NUMERIC;
+    ALTER TABLE lekala_items ADD COLUMN IF NOT EXISTS file_name TEXT;
+    ALTER TABLE lekala_items ADD COLUMN IF NOT EXISTS file_mime TEXT;
+    ALTER TABLE lekala_items ADD COLUMN IF NOT EXISTS file_data BYTEA;
   `);
 }
 
