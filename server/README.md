@@ -1,4 +1,4 @@
-# MaDE Studio — backend + admin panel
+# MaDE — backend + admin panel
 
 Adds an editable-content layer on top of the static site in the repo
 root: a small Express/Postgres server, a REST API, and an admin panel

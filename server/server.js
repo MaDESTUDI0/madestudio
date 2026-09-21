@@ -81,7 +81,7 @@ app.use((err, _req, res, _next) => {
 migrate()
   .then(() => {
     app.listen(PORT, () => {
-      console.log(`MaDE Studio server running on http://localhost:${PORT}`);
+      console.log(`MaDE server running on http://localhost:${PORT}`);
       console.log(`Admin panel:            http://localhost:${PORT}/admin`);
     });
   })

@@ -2,7 +2,7 @@
   "name": "made-studio-server",
   "version": "1.0.0",
   "private": true,
-  "description": "Backend for MaDE Studio: content API + admin panel + owner auth",
+  "description": "Backend for MaDE: content API + admin panel + owner auth",
   "main": "server.js",
   "engines": {
     "node": ">=18.0.0"

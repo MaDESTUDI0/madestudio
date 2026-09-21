@@ -26,7 +26,7 @@ if (configured) {
  * flow is still testable end to end.
  */
 async function sendVerificationEmail(email, code) {
-  const subject = 'Код подтверждения — MaDE Studio';
+  const subject = 'Код подтверждения — MaDE';
   const text = `Ваш код подтверждения: ${code}\n\nОн действует 10 минут. Если вы не запрашивали регистрацию — просто проигнорируйте это письмо.`;
   const html = `
     <div style="font-family:sans-serif;color:#241D19;">
