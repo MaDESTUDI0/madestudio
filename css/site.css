@@ -478,6 +478,16 @@ footer{padding:32px 0;}
 .course-price{font-family:'Playfair Display',serif;color:var(--wine);font-size:20px;}
 .course-card-cta{color:var(--wine);border-bottom:1px solid var(--wine);padding-bottom:2px;font-size:14px;}
 
+/* ===== Gallery filters ===== */
+.gallery-filters{display:flex;gap:28px;margin-bottom:32px;border-bottom:1px solid var(--rule);padding-bottom:20px;}
+.gallery-filter{
+  background:none;border:none;color:var(--clay);
+  font-size:14px;padding-bottom:4px;border-bottom:1px solid transparent;
+  transition:color .3s ease,border-color .3s ease;
+}
+.gallery-filter:hover{color:var(--wine);}
+.gallery-filter.active{color:var(--wine);border-bottom-color:var(--wine);}
+
 /* ===== Gallery grid ===== */
 .gallery-grid{
   display:grid;grid-template-columns:repeat(3,1fr);gap:24px;

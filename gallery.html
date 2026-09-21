@@ -90,20 +90,41 @@
 
   <section class="section">
     <div class="wrap">
+      <div class="gallery-filters reveal" role="group" aria-label="Фильтр работ">
+        <button type="button" class="gallery-filter active" data-filter="all" data-ru="Все работы" data-kk="Барлық жұмыстар">Все работы</button>
+        <button type="button" class="gallery-filter" data-filter="made" data-ru="Работы MaDE" data-kk="MaDE жұмыстары">Работы MaDE</button>
+        <button type="button" class="gallery-filter" data-filter="student" data-ru="Работы учениц" data-kk="Оқушылардың жұмыстары">Работы учениц</button>
+      </div>
+
       <div class="gallery-grid">
-        <div class="gallery-item gallery-item--tall reveal">
+        <div class="gallery-item gallery-item--tall reveal" data-category="made">
+          <img src="images/owner-1.jpg" alt="Бордовое вечернее платье с бисерной отделкой — работа MaDE" loading="lazy">
+        </div>
+        <div class="gallery-item reveal reveal-d1" data-category="made">
+          <img src="images/owner-2.jpg" alt="Кружевной комплект тёмно-синего цвета — работа MaDE" loading="lazy">
+        </div>
+        <div class="gallery-item reveal reveal-d2" data-category="made">
+          <img src="images/owner-3.jpg" alt="Платье из вышитой сетки с цветочным узором — работа MaDE" loading="lazy">
+        </div>
+        <div class="gallery-item reveal" data-category="made">
+          <img src="images/owner-4.jpg" alt="Свадебное платье с драпировкой — работа MaDE" loading="lazy">
+        </div>
+        <div class="gallery-item reveal reveal-d1" data-category="made">
+          <img src="images/owner-5.jpg" alt="Вечернее платье с пайетками и накидкой — работа MaDE" loading="lazy">
+        </div>
+        <div class="gallery-item reveal" data-category="student">
           <img src="images/work-1.jpg" alt="Платье в цветочный принт, сшитое ученицей MaDE" loading="lazy">
         </div>
-        <div class="gallery-item reveal reveal-d1">
+        <div class="gallery-item reveal reveal-d1" data-category="student">
           <img src="images/work-2.jpg" alt="Комплект в цветочный принт, работа ученицы MaDE" loading="lazy">
         </div>
-        <div class="gallery-item reveal reveal-d2">
+        <div class="gallery-item reveal reveal-d2" data-category="student">
           <img src="images/work-3.jpg" alt="Оверсайз-рубашка, сшитая на курсе MaDE" loading="lazy">
         </div>
-        <div class="gallery-item reveal">
+        <div class="gallery-item reveal" data-category="student">
           <img src="images/work-4.jpg" alt="Брючный костюм с блузой, сшитый ученицей MaDE" loading="lazy">
         </div>
-        <div class="gallery-item reveal reveal-d1">
+        <div class="gallery-item reveal reveal-d1" data-category="student">
           <img src="images/work-5.jpg" alt="Праздничный костюм с вышивкой, сшитый на курсе MaDE" loading="lazy">
         </div>
       </div>
@@ -151,5 +172,6 @@
 <script src="js/site.js"></script>
 <script src="js/content-loader.js"></script>
 <script src="js/auth-widget.js"></script>
+<script src="js/gallery-filter.js"></script>
 </body>
 </html>
