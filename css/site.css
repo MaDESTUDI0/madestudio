@@ -492,7 +492,7 @@ footer{padding:32px 0;}
 .gallery-grid{
   display:grid;grid-template-columns:repeat(3,1fr);gap:24px;
 }
-.gallery-item{aspect-ratio:4/5;overflow:hidden;border-radius:2px;position:relative;transition:opacity .3s ease;}
+.gallery-item{aspect-ratio:4/5;overflow:hidden;border-radius:2px;position:relative;}
 .gallery-item img{
   width:100%;height:100%;object-fit:cover;
   transition:transform .5s cubic-bezier(.25,.7,.3,1);
