@@ -25,7 +25,7 @@
       pageLabels: {
         index: 'Главная', courses: 'Курсы', atelier: 'Ателье', gallery: 'Работы',
         shop: 'Магазин', reviews: 'Отзывы', about: 'О студии', contacts: 'Контакты',
-        login: 'Вход', register: 'Регистрация'
+        login: 'Вход', register: 'Регистрация', cabinet: 'Личный кабинет'
       },
       groupLabels: {
         'nav': 'Меню (десктоп)',
@@ -45,7 +45,11 @@
         'shop': 'Товары',
         'contacts': 'Контакты',
         'empty': 'Пустое состояние',
-        'video': 'Видео (ссылка)'
+        'video': 'Видео (ссылка)',
+        'video-lesson-m1': 'Видео уроков — Модуль 1',
+        'video-lesson-m2': 'Видео уроков — Модуль 2',
+        'video-lesson-m3': 'Видео уроков — Модуль 3',
+        'video-lesson-m4': 'Видео уроков — Модуль 4'
       },
       lekalaNav: 'Наборы лекал',
       galleryNav: 'Фото галереи',
@@ -110,7 +114,7 @@
       pageLabels: {
         index: 'Басты бет', courses: 'Курстар', atelier: 'Ателье', gallery: 'Жұмыстар',
         shop: 'Дүкен', reviews: 'Пікірлер', about: 'Студия туралы', contacts: 'Байланыс',
-        login: 'Кіру', register: 'Тіркелу'
+        login: 'Кіру', register: 'Тіркелу', cabinet: 'Жеке кабинет'
       },
       groupLabels: {
         'nav': 'Мәзір (десктоп)',
@@ -130,7 +134,11 @@
         'shop': 'Тауарлар',
         'contacts': 'Байланыс',
         'empty': 'Бос күй',
-        'video': 'Бейне (сілтеме)'
+        'video': 'Бейне (сілтеме)',
+        'video-lesson-m1': 'Сабақ бейнелері — 1-модуль',
+        'video-lesson-m2': 'Сабақ бейнелері — 2-модуль',
+        'video-lesson-m3': 'Сабақ бейнелері — 3-модуль',
+        'video-lesson-m4': 'Сабақ бейнелері — 4-модуль'
       },
       lekalaNav: 'Лекал жинақтары',
       galleryNav: 'Галерея фотосуреттері',
@@ -181,7 +189,7 @@
     return STRINGS[lang][key];
   }
 
-  var PAGE_IDS = ['index', 'courses', 'atelier', 'gallery', 'shop', 'reviews', 'about', 'contacts', 'login', 'register'];
+  var PAGE_IDS = ['index', 'courses', 'atelier', 'gallery', 'shop', 'reviews', 'about', 'contacts', 'login', 'register', 'cabinet'];
 
   var LEKALA_ID = 'lekala-items';
   var GALLERY_ID = 'gallery-photos-view';
@@ -338,7 +346,100 @@
     pageNav.appendChild(ordersBtn);
   }
 
+  // Lesson titles for the cabinet's "video-lesson-mN.n" fields, so each
+  // of the ~86 individual video-link fields shows its actual lesson
+  // name instead of just a bare key + number.
+  var LESSON_TITLES = {
+    "video-lesson-m1.1": "Швейная машина и оверлок",
+    "video-lesson-m1.2": "Иглы и нитки, виды молний — как выбирать фурнитуру и оборудование",
+    "video-lesson-m1.3": "Основные виды швов — практика",
+    "video-lesson-m1.4": "Ровная строчка, расечки, закрепка",
+    "video-lesson-m1.5": "Обработка срезов",
+    "video-lesson-m1.6": "Французский шов",
+    "video-lesson-m1.7": "Московский шов",
+    "video-lesson-m1.8": "Роликовый шов",
+    "video-lesson-m1.9": "Кант",
+    "video-lesson-m1.10": "Обработка косой бейкой",
+    "video-lesson-m1.11": "Раскрой ткани. Долевая, поперечная и косая нить",
+    "video-lesson-m2.1": "Снятие мерок по юбке",
+    "video-lesson-m2.2": "Конструкция юбки",
+    "video-lesson-m2.3": "Моделирование юбки-трапеции",
+    "video-lesson-m2.4": "Раскрой ткани и сборка изделия на примерку. ВТО",
+    "video-lesson-m2.5": "Обработка на оверлоке и сборка на швейной машине. Выточка",
+    "video-lesson-m2.6": "Обработка потайной молнии",
+    "video-lesson-m2.7": "Обработка шлицы",
+    "video-lesson-m2.8": "Обработка пояса",
+    "video-lesson-m2.9": "Расчёт радиуса юбки-полусолнце. Раскрой ткани: нюансы и особенности",
+    "video-lesson-m2.10": "Расчёт коэффициента растяжения резинки. Установка и обработка резинки",
+    "video-lesson-m2.11": "Моделирование юбки-трапеции",
+    "video-lesson-m2.12": "Моделирование юбки-солнце",
+    "video-lesson-m2.13": "Моделирование юбки-полусолнце",
+    "video-lesson-m2.14": "Моделирование юбки на запах",
+    "video-lesson-m2.15": "Моделирование юбки с драпировкой",
+    "video-lesson-m2.16": "Моделирование юбки по косой",
+    "video-lesson-m2.17": "Моделирование юбки-карандаш",
+    "video-lesson-m2.18": "Моделирование ярусной юбки",
+    "video-lesson-m2.19": "Моделирование юбки-годе",
+    "video-lesson-m2.20": "Моделирование классической юбки",
+    "video-lesson-m3.1": "Снятие мерок для брюк",
+    "video-lesson-m3.2": "Построение конструкции брюк",
+    "video-lesson-m3.3": "Моделирование брюк палаццо. Работа со складками",
+    "video-lesson-m3.4": "Раскрой ткани и сборка изделия на примерку. Долевая нить",
+    "video-lesson-m3.5": "Передние боковые карманы",
+    "video-lesson-m3.6": "Задний карман с листочкой. Подзор",
+    "video-lesson-m3.7": "Сборка брюк",
+    "video-lesson-m3.8": "Обработка застёжки. Гульфик и молния",
+    "video-lesson-m3.9": "Пояс и шлёвки",
+    "video-lesson-m3.10": "Обработка низа брюк. Потайной шов",
+    "video-lesson-m3.11": "Моделирование прямых джинсов",
+    "video-lesson-m3.12": "Раскрой ткани и сборка изделия на примерку",
+    "video-lesson-m3.13": "Обработка передних карманов",
+    "video-lesson-m3.14": "Обработка задних накладных карманов",
+    "video-lesson-m3.15": "Сборка джинсов. Двойной шаговый шов",
+    "video-lesson-m3.16": "Обработка швов на оверлоке",
+    "video-lesson-m3.17": "Пояс и шлёвки",
+    "video-lesson-m3.18": "Обработка низа джинсов",
+    "video-lesson-m3.19": "Моделирование брюк палаццо — 2 варианта",
+    "video-lesson-m3.20": "Моделирование брюк клёш",
+    "video-lesson-m3.21": "Моделирование брюк-бананов",
+    "video-lesson-m3.22": "Моделирование брюк-кюлотов",
+    "video-lesson-m4.1": "Снятие мерок для плечевых изделий и рукава",
+    "video-lesson-m4.2": "Построение полочки",
+    "video-lesson-m4.3": "Построение спинки",
+    "video-lesson-m4.4": "Построение рукава",
+    "video-lesson-m4.5": "Моделирование платья-трапеции с рельефом",
+    "video-lesson-m4.6": "Раскрой и сборка изделия на примерку",
+    "video-lesson-m4.7": "Боковые карманы в шве",
+    "video-lesson-m4.8": "Сборка изделия",
+    "video-lesson-m4.9": "Притачивание рукава с посадкой",
+    "video-lesson-m4.10": "Обработка потайной молнии на спинке",
+    "video-lesson-m4.11": "Обработка обтачкой и обработка низа изделия",
+    "video-lesson-m4.12": "Моделирование оверсайз-рубашки с кокеткой и планкой",
+    "video-lesson-m4.13": "Моделирование и построение рукава",
+    "video-lesson-m4.14": "Подготовка ткани, ВТО и раскрой деталей. Сборка на примерку",
+    "video-lesson-m4.15": "Построение воротника",
+    "video-lesson-m4.16": "Раскрой воротника и манжет",
+    "video-lesson-m4.17": "Сборка изделия с рукавом",
+    "video-lesson-m4.18": "Установка планки",
+    "video-lesson-m4.19": "Установка воротника",
+    "video-lesson-m4.20": "Обработка разреза рукава",
+    "video-lesson-m4.21": "Установка манжет",
+    "video-lesson-m4.22": "Нагрудный накладной карман",
+    "video-lesson-m4.23": "Обработка низа рубашки",
+    "video-lesson-m4.24": "Обработка петель",
+    "video-lesson-m4.25": "Пришивание пуговиц",
+    "video-lesson-m4.26": "Моделирование платья-трапеции",
+    "video-lesson-m4.27": "Моделирование платья на запах",
+    "video-lesson-m4.28": "Моделирование платья с драпировкой",
+    "video-lesson-m4.29": "Моделирование рубашки",
+    "video-lesson-m4.30": "Моделирование футболки с опущенным рукавом. Оверсайз",
+    "video-lesson-m4.31": "Моделирование свитшота с рукавом реглан",
+    "video-lesson-m4.32": "Моделирование платья с рельефами",
+    "video-lesson-m4.33": "Разные варианты моделирования рукава"
+  };
+
   function fieldLabel(key) {
+    if (LESSON_TITLES[key]) return LESSON_TITLES[key];
     return key;
   }
 
