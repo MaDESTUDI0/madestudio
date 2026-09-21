@@ -15,6 +15,7 @@
   ];
 
   var LEKALA_ID = 'lekala-items';
+  var GALLERY_ID = 'gallery-photos-view';
 
   var loginScreen = document.getElementById('loginScreen');
   var loginForm = document.getElementById('loginForm');
@@ -32,6 +33,10 @@
   var lekalaList = document.getElementById('lekalaList');
   var lekalaForm = document.getElementById('lekalaForm');
   var lekalaStatus = document.getElementById('lekalaStatus');
+  var galleryView = document.getElementById('galleryView');
+  var galleryUploadForm = document.getElementById('galleryUploadForm');
+  var galleryUploadStatus = document.getElementById('galleryUploadStatus');
+  var galleryPhotosGrid = document.getElementById('galleryPhotosGrid');
 
   var currentPage = null;
   var originalContent = {};
@@ -84,6 +89,14 @@
     if (currentPage === LEKALA_ID) lekalaBtn.classList.add('active');
     lekalaBtn.addEventListener('click', openLekala);
     pageNav.appendChild(lekalaBtn);
+
+    var galleryBtn = document.createElement('button');
+    galleryBtn.type = 'button';
+    galleryBtn.textContent = 'Фото галереи';
+    galleryBtn.dataset.page = GALLERY_ID;
+    if (currentPage === GALLERY_ID) galleryBtn.classList.add('active');
+    galleryBtn.addEventListener('click', openGalleryView);
+    pageNav.appendChild(galleryBtn);
   }
 
   function fieldLabel(key) {
@@ -151,6 +164,7 @@
     editorHead.hidden = false;
     fieldsList.hidden = false;
     lekalaView.hidden = true;
+    galleryView.hidden = true;
     var meta = PAGES.find(function(p){ return p.id === pageId; });
     pageTitle.textContent = meta ? meta.label : pageId;
     fieldsList.innerHTML = '<p class="empty-note">Загрузка…</p>';
@@ -213,10 +227,107 @@
     editorHead.hidden = true;
     fieldsList.hidden = true;
     lekalaView.hidden = false;
+    galleryView.hidden = true;
     lekalaStatus.textContent = '';
     lekalaStatus.className = 'save-status';
     loadLekalaItems();
   }
+
+  function renderGalleryPhotos(photos) {
+    galleryPhotosGrid.innerHTML = '';
+    if (!photos.length) {
+      galleryPhotosGrid.innerHTML = '<p class="empty-note">Пока нет загруженных фото.</p>';
+      return;
+    }
+    var CATEGORY_LABEL = { made: 'MaDE', student: 'Ученицы' };
+    photos.forEach(function(photo){
+      var card = document.createElement('div');
+      card.className = 'gallery-upload-card';
+
+      var img = document.createElement('img');
+      img.src = API_BASE + '/api/gallery-photos/' + photo.id + '/image';
+      img.alt = photo.alt || '';
+      card.appendChild(img);
+
+      var meta = document.createElement('div');
+      meta.className = 'gallery-upload-card-meta';
+      var label = document.createElement('span');
+      label.textContent = CATEGORY_LABEL[photo.category] || photo.category;
+      var del = document.createElement('button');
+      del.type = 'button';
+      del.className = 'lekala-delete';
+      del.textContent = 'Удалить';
+      del.addEventListener('click', function(){
+        del.disabled = true;
+        api('/api/gallery-photos/' + photo.id, { method: 'DELETE' })
+          .then(loadGalleryPhotos)
+          .catch(function(err){
+            if (err && err.unauthorized) { showLogin(); return; }
+            del.disabled = false;
+          });
+      });
+      meta.appendChild(label);
+      meta.appendChild(del);
+      card.appendChild(meta);
+
+      galleryPhotosGrid.appendChild(card);
+    });
+  }
+
+  function loadGalleryPhotos() {
+    galleryPhotosGrid.innerHTML = '<p class="empty-note">Загрузка…</p>';
+    api('/api/gallery-photos')
+      .then(renderGalleryPhotos)
+      .catch(function(err){
+        if (err && err.unauthorized) { showLogin(); return; }
+        galleryPhotosGrid.innerHTML = '<p class="empty-note">Не удалось загрузить список.</p>';
+      });
+  }
+
+  function openGalleryView() {
+    currentPage = GALLERY_ID;
+    renderNav();
+    editorHead.hidden = true;
+    fieldsList.hidden = true;
+    lekalaView.hidden = true;
+    galleryView.hidden = false;
+    galleryUploadStatus.textContent = '';
+    galleryUploadStatus.className = 'save-status';
+    loadGalleryPhotos();
+  }
+
+  galleryUploadForm.addEventListener('submit', function(e){
+    e.preventDefault();
+    var fileInput = galleryUploadForm.elements.photo;
+    if (!fileInput.files[0]) return;
+
+    galleryUploadStatus.textContent = 'Загружаем…';
+    galleryUploadStatus.className = 'save-status';
+
+    var formData = new FormData(galleryUploadForm);
+
+    fetch(API_BASE + '/api/gallery-photos', {
+      method: 'POST',
+      credentials: 'include',
+      body: formData
+    })
+      .then(function(res){
+        if (res.status === 401) throw { unauthorized: true };
+        if (!res.ok) throw new Error('upload_failed');
+        return res.json();
+      })
+      .then(function(){
+        galleryUploadForm.reset();
+        galleryUploadStatus.textContent = 'Загружено';
+        galleryUploadStatus.className = 'save-status ok';
+        loadGalleryPhotos();
+      })
+      .catch(function(err){
+        if (err && err.unauthorized) { showLogin(); return; }
+        galleryUploadStatus.textContent = 'Не получилось загрузить';
+        galleryUploadStatus.className = 'save-status err';
+      });
+  });
 
   lekalaForm.addEventListener('submit', function(e){
     e.preventDefault();

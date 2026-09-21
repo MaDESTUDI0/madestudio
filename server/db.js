@@ -59,6 +59,15 @@ async function migrate() {
       created_at TIMESTAMPTZ NOT NULL DEFAULT now()
     );
 
+    CREATE TABLE IF NOT EXISTS gallery_photos (
+      id SERIAL PRIMARY KEY,
+      category TEXT NOT NULL,
+      alt TEXT NOT NULL DEFAULT '',
+      mime TEXT NOT NULL,
+      data BYTEA NOT NULL,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+    );
+
     ALTER TABLE users ADD COLUMN IF NOT EXISTS name TEXT;
     ALTER TABLE pending_registrations ADD COLUMN IF NOT EXISTS name TEXT;
   `);

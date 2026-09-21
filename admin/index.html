@@ -58,6 +58,30 @@
         </form>
         <p id="lekalaStatus" class="save-status"></p>
       </div>
+
+      <div id="galleryView" class="gallery-upload-view" hidden>
+        <p class="lekala-hint">Фото, которые вы сюда добавите, появятся на странице «Работы» — в разделе «Работы MaDE» или «Работы учениц», в зависимости от выбора.</p>
+        <form id="galleryUploadForm" class="gallery-upload-form">
+          <label>
+            <span>Раздел</span>
+            <select name="category" required>
+              <option value="made">Работы MaDE</option>
+              <option value="student">Работы учениц</option>
+            </select>
+          </label>
+          <label>
+            <span>Подпись (необязательно)</span>
+            <input type="text" name="alt" placeholder="Например: Вечернее платье с вышивкой">
+          </label>
+          <label>
+            <span>Фото</span>
+            <input type="file" name="photo" accept="image/jpeg,image/png,image/webp" required>
+          </label>
+          <button type="submit" class="btn-solid">Загрузить</button>
+        </form>
+        <p id="galleryUploadStatus" class="save-status"></p>
+        <div id="galleryPhotosGrid" class="gallery-upload-grid"></div>
+      </div>
     </main>
   </div>
 </div>

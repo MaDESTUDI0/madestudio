@@ -127,6 +127,28 @@ input,textarea{font-family:inherit;}
   font-size:14px;color:var(--ink);background:var(--paper);
 }
 
+.gallery-upload-view{max-width:760px;}
+.gallery-upload-form{
+  display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end;
+  padding:18px;border:1px solid var(--rule);border-radius:2px;background:var(--paper-light);
+  margin-bottom:20px;
+}
+.gallery-upload-form label{font-size:12px;color:var(--clay);}
+.gallery-upload-form label span{display:block;margin-bottom:5px;}
+.gallery-upload-form select,.gallery-upload-form input[type="text"],.gallery-upload-form input[type="file"]{
+  padding:9px 10px;border:1px solid var(--rule);border-radius:2px;
+  font-size:13.5px;color:var(--ink);background:var(--paper);
+}
+.gallery-upload-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:14px;
+}
+.gallery-upload-card{border:1px solid var(--rule);border-radius:2px;overflow:hidden;background:var(--paper-light);}
+.gallery-upload-card img{width:100%;aspect-ratio:4/5;object-fit:cover;display:block;}
+.gallery-upload-card-meta{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:8px 10px;font-size:12px;color:var(--clay);
+}
+
 @media (max-width:760px){
   .layout{flex-direction:column;}
   .page-nav{
