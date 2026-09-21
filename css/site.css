@@ -303,6 +303,7 @@ nav.main-nav{display:flex;align-items:center;gap:36px;}
   -webkit-mask-image:radial-gradient(ellipse 68% 260% at 55% 100%,#000 40%,transparent 95%);
   mask-image:radial-gradient(ellipse 68% 260% at 55% 100%,#000 40%,transparent 95%);
   opacity:.9;
+  filter:blur(1.5px);
 }
 .eyebrow{
   display:flex;align-items:center;gap:14px;
