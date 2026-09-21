@@ -581,8 +581,9 @@ footer{padding:32px 0;}
 .gallery-item--tall{grid-row:span 2;}
 
 /* ===== Location / map (index) ===== */
-.location{position:relative;overflow:hidden;}
-.location .wrap{position:relative;z-index:1;}
+.location-footer-wrap{position:relative;overflow:hidden;}
+.location-footer-wrap .location{position:relative;z-index:1;}
+.location-footer-wrap footer{position:relative;z-index:1;}
 .location-decor{
   position:absolute;top:0;bottom:0;left:0;width:400px;
   background-image:url('../images/decor-courses-hero.jpg');
