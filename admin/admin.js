@@ -27,6 +27,25 @@
         shop: 'Магазин', reviews: 'Отзывы', about: 'О студии', contacts: 'Контакты',
         login: 'Вход', register: 'Регистрация'
       },
+      groupLabels: {
+        'nav': 'Меню (десктоп)',
+        'mobile-nav': 'Меню (мобильное)',
+        'hero': 'Главный экран',
+        'directions': 'Направления',
+        'enroll': 'Блок записи',
+        'footer': 'Подвал сайта',
+        'location': 'Как нас найти',
+        'page-hero': 'Заголовок страницы',
+        'card': 'Карточка курса',
+        'intro': 'Вводный блок',
+        'modules': 'Модули курса',
+        'program': 'Программа курса',
+        'section': 'Блок страницы',
+        'columns': 'Колонки',
+        'shop': 'Товары',
+        'contacts': 'Контакты',
+        'empty': 'Пустое состояние'
+      },
       lekalaNav: 'Наборы лекал',
       galleryNav: 'Фото галереи',
       ordersNav: 'Заказы',
@@ -91,6 +110,25 @@
         index: 'Басты бет', courses: 'Курстар', atelier: 'Ателье', gallery: 'Жұмыстар',
         shop: 'Дүкен', reviews: 'Пікірлер', about: 'Студия туралы', contacts: 'Байланыс',
         login: 'Кіру', register: 'Тіркелу'
+      },
+      groupLabels: {
+        'nav': 'Мәзір (десктоп)',
+        'mobile-nav': 'Мәзір (мобильді)',
+        'hero': 'Басты экран',
+        'directions': 'Бағыттар',
+        'enroll': 'Жазылу блогы',
+        'footer': 'Сайттың төменгі бөлігі',
+        'location': 'Бізді қалай табуға болады',
+        'page-hero': 'Бет тақырыбы',
+        'card': 'Курс карточкасы',
+        'intro': 'Кіріспе блогы',
+        'modules': 'Курс модульдері',
+        'program': 'Курс бағдарламасы',
+        'section': 'Бет блогы',
+        'columns': 'Бағандар',
+        'shop': 'Тауарлар',
+        'contacts': 'Байланыс',
+        'empty': 'Бос күй'
       },
       lekalaNav: 'Лекал жинақтары',
       galleryNav: 'Галерея фотосуреттері',
@@ -343,7 +381,7 @@
 
       var summary = document.createElement('summary');
       var name = document.createElement('span');
-      name.textContent = group;
+      name.textContent = STRINGS[lang].groupLabels[group] || group;
       var count = document.createElement('span');
       count.className = 'field-group-count';
       count.textContent = byGroup[group].length;
