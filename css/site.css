@@ -584,20 +584,20 @@ footer{padding:32px 0;}
 .location{position:relative;overflow:hidden;}
 .location .wrap{position:relative;z-index:1;}
 .location-decor{
-  position:absolute;top:0;left:0;width:300px;height:260px;
+  position:absolute;top:0;bottom:0;left:0;width:400px;
   background-image:url('../images/decor-courses-hero.jpg');
   background-size:cover;background-position:center;
-  pointer-events:none;z-index:0;opacity:.45;
-  -webkit-mask-image:radial-gradient(ellipse 150% 80% at 10% 0%,#000 28%,transparent 82%);
-  mask-image:radial-gradient(ellipse 150% 80% at 10% 0%,#000 28%,transparent 82%);
+  pointer-events:none;z-index:0;opacity:.7;
+  -webkit-mask-image:radial-gradient(ellipse 62% 400% at 26% 50%,#000 42%,transparent 95%);
+  mask-image:radial-gradient(ellipse 62% 400% at 26% 50%,#000 42%,transparent 95%);
 }
 .location-decor-right{
-  position:absolute;right:0;bottom:0;width:300px;height:280px;
+  position:absolute;top:0;bottom:0;right:0;width:400px;
   background-image:url('../images/decor-atelier-hero.jpg');
   background-size:cover;background-position:center;
-  pointer-events:none;z-index:0;opacity:.5;
-  -webkit-mask-image:radial-gradient(ellipse 150% 85% at 90% 100%,#000 28%,transparent 82%);
-  mask-image:radial-gradient(ellipse 150% 85% at 90% 100%,#000 28%,transparent 82%);
+  pointer-events:none;z-index:0;opacity:.7;
+  -webkit-mask-image:radial-gradient(ellipse 62% 400% at 74% 50%,#000 42%,transparent 95%);
+  mask-image:radial-gradient(ellipse 62% 400% at 74% 50%,#000 42%,transparent 95%);
 }
 @media (max-width:1300px){.location-decor,.location-decor-right{display:none;}}
 .location-grid{display:grid;grid-template-columns:1fr 1.3fr;gap:64px;align-items:stretch;}
