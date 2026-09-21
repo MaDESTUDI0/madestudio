@@ -127,6 +127,12 @@ input,textarea{font-family:inherit;}
   font-size:13.5px;color:var(--ink);background:var(--paper);
 }
 .field textarea.changed{border-color:var(--wine);}
+.field-cols-single{grid-template-columns:1fr;max-width:520px;}
+.field input[type="url"]{
+  width:100%;padding:8px 10px;border:1px solid var(--rule);border-radius:2px;
+  font-size:13.5px;color:var(--ink);background:var(--paper);
+}
+.field input[type="url"].changed{border-color:var(--wine);}
 
 .empty-note{color:var(--clay);font-size:14px;padding:24px 0;}
 

@@ -89,7 +89,9 @@
       noPhotosYet: 'Пока нет загруженных фото.',
       photosListError: 'Не удалось загрузить список.',
       categoryMade: 'MaDE',
-      categoryStudent: 'Ученицы'
+      categoryStudent: 'Ученицы',
+      videoLinkLabel: 'Ссылка на видео',
+      videoLinkPlaceholder: 'https://youtube.com/...'
     },
     kk: {
       adminPanel: 'Әкімші панелі',
@@ -178,7 +180,9 @@
       noPhotosYet: 'Әзірге жүктелген фотосурет жоқ.',
       photosListError: 'Тізімді жүктеу мүмкін болмады.',
       categoryMade: 'MaDE',
-      categoryStudent: 'Оқушылар'
+      categoryStudent: 'Оқушылар',
+      videoLinkLabel: 'Бейне сілтемесі',
+      videoLinkPlaceholder: 'https://youtube.com/...'
     }
   };
 
@@ -443,6 +447,15 @@
     return key;
   }
 
+  // Video-link fields (the single course video, and every per-lesson
+  // video in the cabinet) hold a URL, not translated copy — one field
+  // is enough, and it's written into both ru/kk on save so the rest of
+  // the content pipeline (which always reads/writes both) keeps working.
+  function isVideoLinkKey(key) {
+    var group = splitKey(key).group;
+    return group === 'video' || group.indexOf('video-lesson') === 0;
+  }
+
   // Keys follow a "<landmark>.<n>" convention (e.g. "columns.4",
   // "enroll.2") that maps directly onto the page's own sections —
   // grouping by that landmark turns a flat wall of 50-80 identical
@@ -509,6 +522,31 @@
 
         var cols = document.createElement('div');
         cols.className = 'field-cols';
+
+        if (isVideoLinkKey(key)) {
+          cols.classList.add('field-cols-single');
+          var col = document.createElement('div');
+          var label = document.createElement('label');
+          label.textContent = t('videoLinkLabel');
+          var input = document.createElement('input');
+          input.type = 'url';
+          input.placeholder = t('videoLinkPlaceholder');
+          input.value = val.ru || val.kk || '';
+          input.dataset.key = key;
+          input.addEventListener('input', function(){
+            input.classList.add('changed');
+            dirtyKeys[key] = dirtyKeys[key] || { ru: content[key].ru, kk: content[key].kk };
+            dirtyKeys[key].ru = input.value;
+            dirtyKeys[key].kk = input.value;
+            updateSaveState();
+          });
+          col.appendChild(label);
+          col.appendChild(input);
+          cols.appendChild(col);
+          wrap.appendChild(cols);
+          body.appendChild(wrap);
+          return;
+        }
 
         ['ru', 'kk'].forEach(function(fieldLang){
           var col = document.createElement('div');
