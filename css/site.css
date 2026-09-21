@@ -286,8 +286,8 @@ nav.main-nav{display:flex;align-items:center;gap:36px;}
 .decor-photo-topleft{
   top:0;bottom:0;left:0;width:460px;
   background-image:url('../images/decor-topleft.jpg');
-  -webkit-mask-image:radial-gradient(ellipse 62% 96% at 28% 32%,#000 45%,transparent 92%);
-  mask-image:radial-gradient(ellipse 62% 96% at 28% 32%,#000 45%,transparent 92%);
+  -webkit-mask-image:radial-gradient(ellipse 62% 260% at 26% 100%,#000 42%,transparent 95%);
+  mask-image:radial-gradient(ellipse 62% 260% at 26% 100%,#000 42%,transparent 95%);
   opacity:.95;
 }
 .decor-photo-topright{
@@ -300,8 +300,8 @@ nav.main-nav{display:flex;align-items:center;gap:36px;}
 .decor-photo-bottom{
   bottom:0;right:0;width:410px;height:320px;
   background-image:url('../images/decor-bottom.jpg');
-  -webkit-mask-image:radial-gradient(ellipse 68% 96% at 55% 65%,#000 40%,transparent 90%);
-  mask-image:radial-gradient(ellipse 68% 96% at 55% 65%,#000 40%,transparent 90%);
+  -webkit-mask-image:radial-gradient(ellipse 68% 260% at 55% 100%,#000 40%,transparent 95%);
+  mask-image:radial-gradient(ellipse 68% 260% at 55% 100%,#000 40%,transparent 95%);
   opacity:.9;
 }
 .eyebrow{
