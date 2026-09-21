@@ -284,24 +284,24 @@ nav.main-nav{display:flex;align-items:center;gap:36px;}
   border-radius:2px;
 }
 .decor-photo-topleft{
-  top:0;left:0;width:300px;height:430px;
+  top:0;bottom:0;left:0;width:400px;
   background-image:url('../images/decor-topleft.jpg');
-  -webkit-mask-image:radial-gradient(ellipse at 32% 28%,#000 48%,transparent 82%);
-  mask-image:radial-gradient(ellipse at 32% 28%,#000 48%,transparent 82%);
+  -webkit-mask-image:radial-gradient(ellipse at 32% 32%,#000 50%,transparent 84%);
+  mask-image:radial-gradient(ellipse at 32% 32%,#000 50%,transparent 84%);
   opacity:.95;
 }
 .decor-photo-topright{
-  top:0;right:0;width:250px;height:270px;
+  top:0;right:0;width:320px;height:340px;
   background-image:url('../images/decor-topright.jpg');
-  -webkit-mask-image:radial-gradient(ellipse at 58% 38%,#000 42%,transparent 80%);
-  mask-image:radial-gradient(ellipse at 58% 38%,#000 42%,transparent 80%);
+  -webkit-mask-image:radial-gradient(ellipse at 58% 38%,#000 44%,transparent 82%);
+  mask-image:radial-gradient(ellipse at 58% 38%,#000 44%,transparent 82%);
   opacity:.85;
 }
 .decor-photo-bottom{
-  bottom:0;right:0;width:270px;height:250px;
+  bottom:0;right:0;width:340px;height:320px;
   background-image:url('../images/decor-bottom.jpg');
-  -webkit-mask-image:radial-gradient(ellipse at 50% 50%,#000 40%,transparent 80%);
-  mask-image:radial-gradient(ellipse at 50% 50%,#000 40%,transparent 80%);
+  -webkit-mask-image:radial-gradient(ellipse at 50% 50%,#000 42%,transparent 82%);
+  mask-image:radial-gradient(ellipse at 50% 50%,#000 42%,transparent 82%);
   opacity:.9;
 }
 .eyebrow{
