@@ -595,6 +595,17 @@ footer{padding:32px 0;}
 .gallery-item--tall{grid-row:span 2;}
 
 /* ===== Location / map (index) ===== */
+.location{position:relative;overflow:hidden;}
+.location .wrap{position:relative;z-index:1;}
+.location-decor{
+  position:absolute;top:0;left:0;width:300px;height:260px;
+  background-image:url('../images/decor-courses-hero.jpg');
+  background-size:cover;background-position:center;
+  pointer-events:none;z-index:0;opacity:.45;
+  -webkit-mask-image:radial-gradient(ellipse 150% 80% at 10% 0%,#000 28%,transparent 82%);
+  mask-image:radial-gradient(ellipse 150% 80% at 10% 0%,#000 28%,transparent 82%);
+}
+@media (max-width:1300px){.location-decor{display:none;}}
 .location-grid{display:grid;grid-template-columns:1fr 1.3fr;gap:64px;align-items:stretch;}
 .location-info h2{font-size:clamp(26px,3vw,36px);margin:10px 0 28px;}
 .location-list{border-top:1px solid var(--rule);margin-bottom:28px;}
