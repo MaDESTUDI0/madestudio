@@ -303,7 +303,13 @@ nav.main-nav{display:flex;align-items:center;gap:36px;}
   -webkit-mask-image:radial-gradient(ellipse 68% 260% at 55% 100%,#000 40%,transparent 95%);
   mask-image:radial-gradient(ellipse 68% 260% at 55% 100%,#000 40%,transparent 95%);
   opacity:.9;
-  filter:blur(1.5px);
+}
+.decor-photo-bottom::after{
+  content:"";position:absolute;inset:0;
+  background-image:inherit;background-size:cover;background-position:center;
+  filter:blur(3px);
+  -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 28%,transparent 60%);
+  mask-image:linear-gradient(to bottom,#000 0%,#000 28%,transparent 60%);
 }
 .eyebrow{
   display:flex;align-items:center;gap:14px;
