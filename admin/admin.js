@@ -114,6 +114,16 @@
     return key;
   }
 
+  // Keys follow a "<landmark>.<n>" convention (e.g. "columns.4",
+  // "enroll.2") that maps directly onto the page's own sections —
+  // grouping by that landmark turns a flat wall of 50-80 identical
+  // boxes into a handful of collapsible sections instead.
+  function splitKey(key) {
+    var dot = key.lastIndexOf('.');
+    if (dot === -1) return { group: key, num: 0 };
+    return { group: key.slice(0, dot), num: parseInt(key.slice(dot + 1), 10) || 0 };
+  }
+
   function renderFields(content) {
     fieldsList.innerHTML = '';
     var keys = Object.keys(content);
@@ -122,42 +132,80 @@
       return;
     }
 
+    // Sort numerically within each group (plain string sort would
+    // put "modules.10" before "modules.2"), then group consecutively.
+    keys.sort(function(a, b){
+      var sa = splitKey(a), sb = splitKey(b);
+      if (sa.group !== sb.group) return sa.group < sb.group ? -1 : 1;
+      return sa.num - sb.num;
+    });
+
+    var groups = [];
+    var byGroup = {};
     keys.forEach(function(key){
-      var val = content[key];
-      var wrap = document.createElement('div');
-      wrap.className = 'field';
+      var group = splitKey(key).group;
+      if (!byGroup[group]) { byGroup[group] = []; groups.push(group); }
+      byGroup[group].push(key);
+    });
 
-      var meta = document.createElement('div');
-      meta.className = 'field-meta';
-      var keySpan = document.createElement('span');
-      keySpan.textContent = fieldLabel(key);
-      meta.appendChild(keySpan);
-      wrap.appendChild(meta);
+    groups.forEach(function(group, i){
+      var details = document.createElement('details');
+      details.className = 'field-group';
+      if (i === 0) details.open = true;
 
-      var cols = document.createElement('div');
-      cols.className = 'field-cols';
+      var summary = document.createElement('summary');
+      var name = document.createElement('span');
+      name.textContent = group;
+      var count = document.createElement('span');
+      count.className = 'field-group-count';
+      count.textContent = byGroup[group].length;
+      summary.appendChild(name);
+      summary.appendChild(count);
+      details.appendChild(summary);
 
-      ['ru', 'kk'].forEach(function(lang){
-        var col = document.createElement('div');
-        var label = document.createElement('label');
-        label.textContent = lang === 'ru' ? 'Русский' : 'Қазақша';
-        var ta = document.createElement('textarea');
-        ta.value = val[lang] || '';
-        ta.dataset.key = key;
-        ta.dataset.lang = lang;
-        ta.addEventListener('input', function(){
-          ta.classList.add('changed');
-          dirtyKeys[key] = dirtyKeys[key] || { ru: content[key].ru, kk: content[key].kk };
-          dirtyKeys[key][lang] = ta.value;
-          updateSaveState();
+      var body = document.createElement('div');
+      body.className = 'field-group-body';
+
+      byGroup[group].forEach(function(key){
+        var val = content[key];
+        var wrap = document.createElement('div');
+        wrap.className = 'field';
+
+        var meta = document.createElement('div');
+        meta.className = 'field-meta';
+        var keySpan = document.createElement('span');
+        keySpan.textContent = fieldLabel(key);
+        meta.appendChild(keySpan);
+        wrap.appendChild(meta);
+
+        var cols = document.createElement('div');
+        cols.className = 'field-cols';
+
+        ['ru', 'kk'].forEach(function(lang){
+          var col = document.createElement('div');
+          var label = document.createElement('label');
+          label.textContent = lang === 'ru' ? 'Русский' : 'Қазақша';
+          var ta = document.createElement('textarea');
+          ta.value = val[lang] || '';
+          ta.dataset.key = key;
+          ta.dataset.lang = lang;
+          ta.addEventListener('input', function(){
+            ta.classList.add('changed');
+            dirtyKeys[key] = dirtyKeys[key] || { ru: content[key].ru, kk: content[key].kk };
+            dirtyKeys[key][lang] = ta.value;
+            updateSaveState();
+          });
+          col.appendChild(label);
+          col.appendChild(ta);
+          cols.appendChild(col);
         });
-        col.appendChild(label);
-        col.appendChild(ta);
-        cols.appendChild(col);
+
+        wrap.appendChild(cols);
+        body.appendChild(wrap);
       });
 
-      wrap.appendChild(cols);
-      fieldsList.appendChild(wrap);
+      details.appendChild(body);
+      fieldsList.appendChild(details);
     });
   }
 
