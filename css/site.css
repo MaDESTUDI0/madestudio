@@ -284,25 +284,25 @@ nav.main-nav{display:flex;align-items:center;gap:36px;}
   border-radius:2px;
 }
 .decor-photo-topleft{
-  top:0;left:6px;width:150px;height:230px;
+  top:0;left:0;width:300px;height:430px;
   background-image:url('../images/decor-topleft.jpg');
-  -webkit-mask-image:radial-gradient(ellipse at 35% 30%,#000 35%,transparent 72%);
-  mask-image:radial-gradient(ellipse at 35% 30%,#000 35%,transparent 72%);
-  opacity:.9;
+  -webkit-mask-image:radial-gradient(ellipse at 32% 28%,#000 48%,transparent 82%);
+  mask-image:radial-gradient(ellipse at 32% 28%,#000 48%,transparent 82%);
+  opacity:.95;
 }
 .decor-photo-topright{
-  top:16px;right:6px;width:130px;height:145px;
+  top:0;right:0;width:250px;height:270px;
   background-image:url('../images/decor-topright.jpg');
-  -webkit-mask-image:radial-gradient(ellipse at 55% 40%,#000 30%,transparent 72%);
-  mask-image:radial-gradient(ellipse at 55% 40%,#000 30%,transparent 72%);
-  opacity:.75;
+  -webkit-mask-image:radial-gradient(ellipse at 58% 38%,#000 42%,transparent 80%);
+  mask-image:radial-gradient(ellipse at 58% 38%,#000 42%,transparent 80%);
+  opacity:.85;
 }
 .decor-photo-bottom{
-  bottom:10px;right:2px;width:150px;height:130px;
+  bottom:0;right:0;width:270px;height:250px;
   background-image:url('../images/decor-bottom.jpg');
-  -webkit-mask-image:radial-gradient(ellipse at 50% 50%,#000 30%,transparent 72%);
-  mask-image:radial-gradient(ellipse at 50% 50%,#000 30%,transparent 72%);
-  opacity:.8;
+  -webkit-mask-image:radial-gradient(ellipse at 50% 50%,#000 40%,transparent 80%);
+  mask-image:radial-gradient(ellipse at 50% 50%,#000 40%,transparent 80%);
+  opacity:.9;
 }
 .eyebrow{
   display:flex;align-items:center;gap:14px;
