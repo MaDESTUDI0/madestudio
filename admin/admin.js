@@ -14,6 +14,8 @@
     { id: 'register', label: 'Регистрация' }
   ];
 
+  var LEKALA_ID = 'lekala-items';
+
   var loginScreen = document.getElementById('loginScreen');
   var loginForm = document.getElementById('loginForm');
   var loginError = document.getElementById('loginError');
@@ -22,9 +24,14 @@
   var logoutBtn = document.getElementById('logoutBtn');
   var pageNav = document.getElementById('pageNav');
   var pageTitle = document.getElementById('pageTitle');
+  var editorHead = document.querySelector('.editor-head');
   var fieldsList = document.getElementById('fieldsList');
   var saveBtn = document.getElementById('saveBtn');
   var saveStatus = document.getElementById('saveStatus');
+  var lekalaView = document.getElementById('lekalaView');
+  var lekalaList = document.getElementById('lekalaList');
+  var lekalaForm = document.getElementById('lekalaForm');
+  var lekalaStatus = document.getElementById('lekalaStatus');
 
   var currentPage = null;
   var originalContent = {};
@@ -65,6 +72,18 @@
       btn.addEventListener('click', function(){ loadPage(p.id); });
       pageNav.appendChild(btn);
     });
+
+    var divider = document.createElement('div');
+    divider.className = 'page-nav-divider';
+    pageNav.appendChild(divider);
+
+    var lekalaBtn = document.createElement('button');
+    lekalaBtn.type = 'button';
+    lekalaBtn.textContent = 'Наборы лекал';
+    lekalaBtn.dataset.page = LEKALA_ID;
+    if (currentPage === LEKALA_ID) lekalaBtn.classList.add('active');
+    lekalaBtn.addEventListener('click', openLekala);
+    pageNav.appendChild(lekalaBtn);
   }
 
   function fieldLabel(key) {
@@ -129,6 +148,9 @@
     currentPage = pageId;
     dirtyKeys = {};
     renderNav();
+    editorHead.hidden = false;
+    fieldsList.hidden = false;
+    lekalaView.hidden = true;
     var meta = PAGES.find(function(p){ return p.id === pageId; });
     pageTitle.textContent = meta ? meta.label : pageId;
     fieldsList.innerHTML = '<p class="empty-note">Загрузка…</p>';
@@ -144,6 +166,83 @@
         fieldsList.innerHTML = '<p class="empty-note">Не удалось загрузить контент.</p>';
       });
   }
+
+  function renderLekalaItems(items) {
+    lekalaList.innerHTML = '';
+    if (!items.length) {
+      lekalaList.innerHTML = '<li class="empty-note">Пока нет ни одной позиции.</li>';
+      return;
+    }
+    items.forEach(function(item){
+      var li = document.createElement('li');
+      li.className = 'lekala-row';
+      var span = document.createElement('span');
+      span.textContent = item.label;
+      var del = document.createElement('button');
+      del.type = 'button';
+      del.className = 'lekala-delete';
+      del.textContent = 'Удалить';
+      del.addEventListener('click', function(){
+        del.disabled = true;
+        api('/api/lekala-items/' + item.id, { method: 'DELETE' })
+          .then(loadLekalaItems)
+          .catch(function(err){
+            if (err && err.unauthorized) { showLogin(); return; }
+            del.disabled = false;
+          });
+      });
+      li.appendChild(span);
+      li.appendChild(del);
+      lekalaList.appendChild(li);
+    });
+  }
+
+  function loadLekalaItems() {
+    lekalaList.innerHTML = '<li class="empty-note">Загрузка…</li>';
+    api('/api/lekala-items')
+      .then(renderLekalaItems)
+      .catch(function(err){
+        if (err && err.unauthorized) { showLogin(); return; }
+        lekalaList.innerHTML = '<li class="empty-note">Не удалось загрузить список.</li>';
+      });
+  }
+
+  function openLekala() {
+    currentPage = LEKALA_ID;
+    renderNav();
+    editorHead.hidden = true;
+    fieldsList.hidden = true;
+    lekalaView.hidden = false;
+    lekalaStatus.textContent = '';
+    lekalaStatus.className = 'save-status';
+    loadLekalaItems();
+  }
+
+  lekalaForm.addEventListener('submit', function(e){
+    e.preventDefault();
+    var input = lekalaForm.elements.label;
+    var label = input.value.trim();
+    if (!label) return;
+
+    lekalaStatus.textContent = 'Добавляем…';
+    lekalaStatus.className = 'save-status';
+
+    api('/api/lekala-items', {
+      method: 'POST',
+      body: JSON.stringify({ label: label })
+    })
+      .then(function(){
+        input.value = '';
+        lekalaStatus.textContent = 'Добавлено';
+        lekalaStatus.className = 'save-status ok';
+        loadLekalaItems();
+      })
+      .catch(function(err){
+        if (err && err.unauthorized) { showLogin(); return; }
+        lekalaStatus.textContent = 'Не получилось добавить';
+        lekalaStatus.className = 'save-status err';
+      });
+  });
 
   saveBtn.addEventListener('click', function(){
     if (!Object.keys(dirtyKeys).length) return;

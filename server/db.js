@@ -53,6 +53,12 @@ async function migrate() {
       created_at TIMESTAMPTZ NOT NULL DEFAULT now()
     );
 
+    CREATE TABLE IF NOT EXISTS lekala_items (
+      id SERIAL PRIMARY KEY,
+      label TEXT NOT NULL,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+    );
+
     ALTER TABLE users ADD COLUMN IF NOT EXISTS name TEXT;
     ALTER TABLE pending_registrations ADD COLUMN IF NOT EXISTS name TEXT;
   `);

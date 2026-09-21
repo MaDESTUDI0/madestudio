@@ -9,6 +9,7 @@ const { migrate } = require('./db');
 const authRoutes = require('./routes/auth');
 const contentRoutes = require('./routes/content');
 const registerRoutes = require('./routes/register');
+const lekalaRoutes = require('./routes/lekala');
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -65,6 +66,7 @@ app.use('/api', apiLimiter);
 app.use('/api', authRoutes);
 app.use('/api', contentRoutes);
 app.use('/api', registerRoutes);
+app.use('/api', lekalaRoutes);
 
 // Serve the admin panel
 app.use('/admin', express.static(path.join(__dirname, '..', 'admin')));
