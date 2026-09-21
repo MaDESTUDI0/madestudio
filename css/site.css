@@ -763,9 +763,17 @@ footer{padding:32px 0;}
 }
 .lesson-badge-ready{
   color:var(--wine);border-color:var(--wine);text-decoration:none;
+  background:none;font:inherit;font-size:11px;letter-spacing:.02em;cursor:pointer;
   transition:background .25s ease,color .25s ease;
 }
 .lesson-badge-ready:hover{background:var(--wine);color:var(--paper-light);}
+.lesson-badge-ready.is-open{background:var(--wine);color:var(--paper-light);}
+
+.lesson-video-panel-inner{
+  margin:16px 0 20px;max-width:640px;aspect-ratio:16/9;
+  border-radius:8px;overflow:hidden;background:var(--paper);
+}
+.lesson-video-panel-inner iframe{width:100%;height:100%;border:0;display:block;}
 
 .feedback-note{
   margin-top:18px;padding:14px 18px;border-left:2px solid var(--wine);
