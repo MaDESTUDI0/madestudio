@@ -11,8 +11,28 @@
   var successEmail = document.getElementById('registerSuccessEmail');
   var successAvatar = document.getElementById('registerAvatarBig');
   var resendBtn = document.getElementById('resendCodeBtn');
+  var step1Btn = document.getElementById('registerStep1Btn');
 
   var currentEmail = '';
+
+  // Greys out a button and counts down from 60s (matching the server's
+  // resend cooldown), re-enabling it automatically when it hits zero.
+  function startCooldown(btn, seconds) {
+    var original = btn.dataset.originalText || btn.textContent;
+    btn.dataset.originalText = original;
+    btn.disabled = true;
+    var tick = function(){
+      btn.textContent = original + ' (' + seconds + ')';
+      seconds -= 1;
+      if (seconds < 0) {
+        clearInterval(interval);
+        btn.textContent = original;
+        btn.disabled = false;
+      }
+    };
+    var interval = setInterval(tick, 1000);
+    tick();
+  }
 
   var ERROR_MESSAGES = {
     invalid_email: 'Проверьте адрес почты.',
@@ -76,7 +96,10 @@
         step1.style.display = 'none';
         step2.style.display = '';
       })
-      .catch(function(err){ showError(step1Error, err); });
+      .catch(function(err){
+        showError(step1Error, err);
+        if (err && err.error === 'cooldown') startCooldown(step1Btn, 60);
+      });
   });
 
   step2.addEventListener('submit', function(e){
@@ -101,33 +124,18 @@
       .catch(function(err){ showError(step2Error, err); });
   });
 
-  var resendCooldown = false;
   resendBtn.addEventListener('click', function(){
-    if (resendCooldown) return;
+    if (resendBtn.disabled) return;
     clearError(step2Error);
 
     api('/api/register/resend', {
       method: 'POST',
       body: JSON.stringify({ email: currentEmail })
     })
-      .then(function(){
-        resendCooldown = true;
-        var seconds = 60;
-        var original = resendBtn.textContent;
-        resendBtn.disabled = true;
-        var tick = function(){
-          resendBtn.textContent = original + ' (' + seconds + ')';
-          seconds -= 1;
-          if (seconds < 0) {
-            clearInterval(interval);
-            resendBtn.textContent = original;
-            resendBtn.disabled = false;
-            resendCooldown = false;
-          }
-        };
-        var interval = setInterval(tick, 1000);
-        tick();
-      })
-      .catch(function(err){ showError(step2Error, err); });
+      .then(function(){ startCooldown(resendBtn, 60); })
+      .catch(function(err){
+        showError(step2Error, err);
+        if (err && err.error === 'cooldown') startCooldown(resendBtn, 60);
+      });
   });
 })();

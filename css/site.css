@@ -156,6 +156,8 @@ nav.main-nav{display:flex;align-items:center;gap:36px;}
 .btn:hover::before{left:100%;}
 .btn:hover{transform:translateY(-2px);}
 .btn:active{transform:translateY(0);}
+.btn:disabled{opacity:.5;cursor:not-allowed;transform:none;background:var(--rule);border-color:var(--rule);color:var(--clay);}
+.btn:disabled:hover{transform:none;box-shadow:none;}
 .btn-solid{background:var(--wine);color:var(--paper-light);}
 .btn-solid:hover{background:var(--wine-deep);border-color:var(--wine-deep);box-shadow:0 10px 24px -12px rgba(94,31,43,.55);}
 .btn-outline{background:transparent;color:var(--wine);}
