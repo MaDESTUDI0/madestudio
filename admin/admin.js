@@ -227,6 +227,7 @@
   var lekalaTypeInput = document.getElementById('lekalaTypeInput');
   var lekalaModuleInput = document.getElementById('lekalaModuleInput');
   var lekalaFileInput = document.getElementById('lekalaFileInput');
+  var lekalaSlugInput = document.getElementById('lekalaSlugInput');
   var galleryView = document.getElementById('galleryView');
   var galleryUploadForm = document.getElementById('galleryUploadForm');
   var galleryUploadStatus = document.getElementById('galleryUploadStatus');
@@ -794,6 +795,7 @@
       var isFile = lekalaTypeInput.value === 'file';
       lekalaModuleInput.hidden = !isModule;
       lekalaFileInput.hidden = !isFile;
+      if (lekalaSlugInput) lekalaSlugInput.hidden = !isFile;
     });
   }
 

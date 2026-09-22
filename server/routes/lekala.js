@@ -8,6 +8,7 @@ const router = express.Router();
 
 const MODULE_KEYS = ['m1', 'm2', 'm3', 'm4'];
 const PRODUCT_TYPES = ['file', 'course_module', 'course_full'];
+const SLUGS = ['sewing-book', 'planner'];
 
 const upload = multer({
   storage: multer.memoryStorage(),
@@ -17,11 +18,13 @@ const upload = multer({
 // Public list: price + whether a file is attached (hasFile), never
 // the file bytes themselves — those only ever leave the server as an
 // email attachment once an order is confirmed paid. Also carries
-// productType/moduleKey so the storefront knows where to show each
-// item (shop.html for 'file', courses.html for the course types).
+// productType/moduleKey/slug so the storefront knows where to show
+// each item (a fixed shop.html card if slug is set, otherwise the
+// generic "Наборы лекал" list for 'file', or courses.html for the
+// course types).
 router.get('/lekala-items', asyncHandler(async (req, res) => {
   const { rows } = await pool.query(
-    `SELECT id, label, price, product_type AS "productType", module_key AS "moduleKey",
+    `SELECT id, label, price, product_type AS "productType", module_key AS "moduleKey", slug,
             (file_data IS NOT NULL) AS "hasFile"
      FROM lekala_items ORDER BY id`
   );
@@ -29,7 +32,7 @@ router.get('/lekala-items', asyncHandler(async (req, res) => {
 }));
 
 router.post('/lekala-items', requireRole('owner'), upload.single('file'), asyncHandler(async (req, res) => {
-  const { label, price, productType, moduleKey } = req.body || {};
+  const { label, price, productType, moduleKey, slug } = req.body || {};
   if (!label || !label.trim()) {
     return res.status(400).json({ error: 'missing_label' });
   }
@@ -46,13 +49,20 @@ router.post('/lekala-items', requireRole('owner'), upload.single('file'), asyncH
     }
     module = moduleKey;
   }
+  var slugValue = null;
+  if (type === 'file' && slug) {
+    if (!SLUGS.includes(slug)) {
+      return res.status(400).json({ error: 'invalid_slug' });
+    }
+    slugValue = slug;
+  }
 
   const file = req.file;
   const { rows } = await pool.query(
-    `INSERT INTO lekala_items (label, price, file_name, file_mime, file_data, product_type, module_key)
-     VALUES ($1, $2, $3, $4, $5, $6, $7)
-     RETURNING id, label, price, product_type AS "productType", module_key AS "moduleKey", (file_data IS NOT NULL) AS "hasFile"`,
-    [label.trim(), priceValue, file ? file.originalname : null, file ? file.mimetype : null, file ? file.buffer : null, type, module]
+    `INSERT INTO lekala_items (label, price, file_name, file_mime, file_data, product_type, module_key, slug)
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+     RETURNING id, label, price, product_type AS "productType", module_key AS "moduleKey", slug, (file_data IS NOT NULL) AS "hasFile"`,
+    [label.trim(), priceValue, file ? file.originalname : null, file ? file.mimetype : null, file ? file.buffer : null, type, module, slugValue]
   );
   res.json(rows[0]);
 }));

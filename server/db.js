@@ -101,6 +101,11 @@ async function migrate() {
     ALTER TABLE lekala_items ADD COLUMN IF NOT EXISTS product_type TEXT NOT NULL DEFAULT 'file';
     ALTER TABLE lekala_items ADD COLUMN IF NOT EXISTS module_key TEXT;
 
+    -- Optional: binds a 'file' product to one of the fixed static
+    -- product cards on shop.html (e.g. "sewing-book", "planner")
+    -- instead of appending it to the generic "Наборы лекал" list.
+    ALTER TABLE lekala_items ADD COLUMN IF NOT EXISTS slug TEXT;
+
     -- Snapshotted onto the order at purchase time (like label/price)
     -- so confirming an order still knows what to grant even if the
     -- catalog item is edited or removed later.
