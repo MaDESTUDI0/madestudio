@@ -1,10 +1,8 @@
 /**
  * Renders the growing "Наборы лекал" list on shop.html from
- * /api/lekala-items as a pick-and-order cart: select one or more
- * fasons, "Оформить заказ" creates an order (requires login — no
- * payment gateway, so the customer still pays by hand and the owner
- * confirms it in the admin panel, which is what actually triggers
- * the automatic email with the files).
+ * /api/lekala-items — each item gets a "Добавить в корзину" button
+ * (window.MadeCart, shared with courses.html). Checkout happens from
+ * the header cart panel (js/cart.js), not here.
  *
  * No backend reachable, or nothing added yet -> falls back to the
  * static "Цена по запросу / Написать в WhatsApp" block already in
@@ -12,107 +10,23 @@
  */
 (function(){
   var list = document.getElementById('lekalaItemsList');
-  var cartBar = document.getElementById('lekalaCartBar');
-  var cartTotal = document.getElementById('lekalaCartTotal');
-  var orderBtn = document.getElementById('lekalaOrderBtn');
-  var orderStatus = document.getElementById('lekalaOrderStatus');
   var fallbackMeta = document.getElementById('lekalaFallbackMeta');
-  if (!list) return;
+  if (!list || !window.MadeCart) return;
 
   var API_BASE = window.MADE_API_BASE || '';
-  var selected = {};
-  var itemsById = {};
 
   function lang() {
     return document.documentElement.lang === 'kk' ? 'kk' : 'ru';
   }
 
-  var KASPI_LINK = 'https://pay.kaspi.kz/pay/75lrsqpf';
-
   var STRINGS = {
-    ru: {
-      order: 'Оформить заказ',
-      sending: 'Отправляем…',
-      needLogin: 'Чтобы оформить заказ, сначала войдите или зарегистрируйтесь.',
-      login: 'Войти',
-      register: 'Регистрация',
-      success: 'Заказ создан. Оплатите по ссылке Kaspi — после оплаты мы подтвердим заказ, и файлы придут вам на почту.',
-      pay: 'Оплатить через Kaspi',
-      fail: 'Не получилось оформить заказ, попробуйте ещё раз.',
-      total: 'Итого'
-    },
-    kk: {
-      order: 'Тапсырыс беру',
-      sending: 'Жіберілуде…',
-      needLogin: 'Тапсырыс беру үшін алдымен кіріңіз немесе тіркеліңіз.',
-      login: 'Кіру',
-      register: 'Тіркелу',
-      success: 'Тапсырыс жасалды. Kaspi сілтемесі арқылы төлеңіз — төлемнен кейін тапсырысты растаймыз, файлдар поштаңызға келеді.',
-      pay: 'Kaspi арқылы төлеу',
-      fail: 'Тапсырысты рәсімдеу сәтсіз аяқталды, қайталап көріңіз.',
-      total: 'Барлығы'
-    }
+    ru: { add: 'Добавить в корзину', inCart: 'В корзине ✓' },
+    kk: { add: 'Себетке қосу', inCart: 'Себетте ✓' }
   };
 
   function money(n) {
     return Number(n).toLocaleString('ru-RU') + ' ₸';
   }
-
-  function updateCartBar() {
-    var ids = Object.keys(selected).filter(function(id){ return selected[id]; });
-    var total = ids.reduce(function(sum, id){ return sum + (Number(itemsById[id].price) || 0); }, 0);
-    orderBtn.disabled = !ids.length;
-    cartTotal.textContent = ids.length
-      ? STRINGS[lang()].total + ': ' + money(total) + ' (' + ids.length + ')'
-      : '';
-  }
-
-  function api(path, opts) {
-    opts = opts || {};
-    opts.credentials = 'include';
-    opts.headers = Object.assign({ 'Content-Type': 'application/json' }, opts.headers || {});
-    return fetch(API_BASE + path, opts).then(function(res){
-      if (res.status === 401) throw { unauthorized: true };
-      return res.json().then(function(body){
-        if (!res.ok) throw body;
-        return body;
-      });
-    });
-  }
-
-  orderBtn.addEventListener('click', function(){
-    var ids = Object.keys(selected).filter(function(id){ return selected[id]; }).map(Number);
-    if (!ids.length) return;
-
-    orderBtn.disabled = true;
-    orderBtn.textContent = STRINGS[lang()].sending;
-    orderStatus.className = 'lekala-order-status';
-    orderStatus.textContent = '';
-
-    api('/api/orders', { method: 'POST', body: JSON.stringify({ itemIds: ids }) })
-      .then(function(){
-        orderStatus.innerHTML = STRINGS[lang()].success +
-          ' <a class="btn btn-solid" href="' + KASPI_LINK + '" target="_blank" rel="noopener">' + STRINGS[lang()].pay + '</a>';
-        orderStatus.className = 'lekala-order-status ok';
-        selected = {};
-        list.querySelectorAll('input[type="checkbox"]').forEach(function(cb){ cb.checked = false; });
-        updateCartBar();
-        orderBtn.textContent = STRINGS[lang()].order;
-      })
-      .catch(function(err){
-        if (err && err.unauthorized) {
-          orderStatus.innerHTML = STRINGS[lang()].needLogin +
-            ' <a href="login.html">' + STRINGS[lang()].login + '</a> · ' +
-            '<a href="register.html">' + STRINGS[lang()].register + '</a>';
-          orderStatus.className = 'lekala-order-status err';
-        } else {
-          orderStatus.textContent = STRINGS[lang()].fail;
-          orderStatus.className = 'lekala-order-status err';
-        }
-        orderBtn.disabled = false;
-        orderBtn.textContent = STRINGS[lang()].order;
-      });
-  });
 
   fetch(API_BASE + '/api/lekala-items', { credentials: 'omit' })
     .then(function(res){
@@ -124,27 +38,34 @@
       if (!items.length) return;
 
       items.forEach(function(item){
-        itemsById[item.id] = item;
+        var cartItem = { id: item.id, label: item.label, price: item.price };
         var li = document.createElement('li');
         li.className = 'course-tag lekala-pick';
-        var labelEl = document.createElement('label');
-        var checkbox = document.createElement('input');
-        checkbox.type = 'checkbox';
-        checkbox.addEventListener('change', function(){
-          selected[item.id] = checkbox.checked;
-          updateCartBar();
-        });
-        labelEl.appendChild(checkbox);
+
         var text = document.createElement('span');
         text.textContent = item.label + (item.price ? ' — ' + money(item.price) : '');
-        labelEl.appendChild(text);
-        li.appendChild(labelEl);
+
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'course-cart-btn';
+        function refresh() {
+          var inCart = window.MadeCart.has(item.id);
+          btn.textContent = STRINGS[lang()][inCart ? 'inCart' : 'add'];
+          btn.classList.toggle('in-cart', inCart);
+        }
+        btn.addEventListener('click', function(){
+          if (window.MadeCart.has(item.id)) window.MadeCart.remove(item.id);
+          else window.MadeCart.add(cartItem);
+        });
+        document.addEventListener('made:cart-changed', refresh);
+        refresh();
+
+        li.appendChild(text);
+        li.appendChild(btn);
         list.appendChild(li);
       });
 
       list.hidden = false;
-      cartBar.hidden = false;
-      orderBtn.textContent = STRINGS[lang()].order;
       if (fallbackMeta) fallbackMeta.hidden = true;
     })
     .catch(function(){
