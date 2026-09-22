@@ -34,7 +34,7 @@
       '<button type="button" class="avatar-btn" aria-haspopup="true" aria-expanded="false"><span class="avatar-letter"></span></button>' +
       '<div class="avatar-panel">' +
         '<div class="avatar-panel-name"></div>' +
-        '<a href="cabinet.html" class="btn btn-solid avatar-panel-course" data-ru="Программа курса" data-kk="Курс бағдарламасы">Программа курса</a>' +
+        '<a href="cabinet.html" class="btn btn-solid avatar-panel-course" data-ru="Личный кабинет" data-kk="Жеке кабинет">Личный кабинет</a>' +
         '<a href="' + API_BASE + '/admin" target="_blank" rel="noopener" class="btn btn-outline avatar-panel-admin" hidden data-ru="Админ-панель" data-kk="Әкімші панелі">Админ-панель</a>' +
         '<div class="avatar-panel-row">' +
           '<span class="avatar-panel-label" data-ru="Email" data-kk="Email">Email</span>' +
