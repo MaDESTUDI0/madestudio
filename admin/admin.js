@@ -54,6 +54,7 @@
       lekalaNav: 'Наборы лекал',
       galleryNav: 'Фото галереи',
       ordersNav: 'Заказы',
+      courseAccessNav: 'Доступ к курсу',
       lekalaHint: 'Позиции набора лекал — фасон и размеры одной строкой, например «Рубашка, 44–60 размер». Показываются на сайте в карточке «Наборы лекал», покупатели могут собрать несколько в заказ. Файл — то, что автоматически уйдёт покупателю на почту после того, как вы подтвердите оплату в разделе «Заказы».',
       lekalaLabelPlaceholder: 'Например: Платье, 42–50 размер',
       lekalaPricePlaceholder: 'Цена, ₸',
@@ -145,6 +146,7 @@
       lekalaNav: 'Лекал жинақтары',
       galleryNav: 'Галерея фотосуреттері',
       ordersNav: 'Тапсырыстар',
+      courseAccessNav: 'Курсқа қолжетімділік',
       lekalaHint: 'Лекал жинағының позициялары — фасон мен өлшемдер бір жолда, мысалы «Көйлек, 44–60 өлшем». Сайтта «Лекал жинақтары» карточкасында көрсетіледі, сатып алушылар бірнешеуін тапсырысқа жинай алады. Файл — «Тапсырыстар» бөлімінде төлемді растағаннан кейін сатып алушыға автоматты түрде поштаға кететін нәрсе.',
       lekalaLabelPlaceholder: 'Мысалы: Көйлек, 42–50 өлшем',
       lekalaPricePlaceholder: 'Бағасы, ₸',
@@ -198,6 +200,7 @@
   var LEKALA_ID = 'lekala-items';
   var GALLERY_ID = 'gallery-photos-view';
   var ORDERS_ID = 'orders-view';
+  var COURSE_ACCESS_ID = 'course-access-view';
 
   var loginScreen = document.getElementById('loginScreen');
   var loginForm = document.getElementById('loginForm');
@@ -221,6 +224,8 @@
   var galleryPhotosGrid = document.getElementById('galleryPhotosGrid');
   var ordersView = document.getElementById('ordersView');
   var ordersList = document.getElementById('ordersList');
+  var courseAccessView = document.getElementById('courseAccessView');
+  var courseAccessList = document.getElementById('courseAccessList');
 
   var currentPage = null;
   var originalContent = {};
@@ -282,6 +287,8 @@
       openGalleryView();
     } else if (currentPage === ORDERS_ID) {
       openOrders();
+    } else if (currentPage === COURSE_ACCESS_ID) {
+      openCourseAccess();
     } else {
       renderNav();
     }
@@ -348,6 +355,14 @@
     if (currentPage === ORDERS_ID) ordersBtn.classList.add('active');
     ordersBtn.addEventListener('click', openOrders);
     pageNav.appendChild(ordersBtn);
+
+    var courseAccessBtn = document.createElement('button');
+    courseAccessBtn.type = 'button';
+    courseAccessBtn.textContent = t('courseAccessNav');
+    courseAccessBtn.dataset.page = COURSE_ACCESS_ID;
+    if (currentPage === COURSE_ACCESS_ID) courseAccessBtn.classList.add('active');
+    courseAccessBtn.addEventListener('click', openCourseAccess);
+    pageNav.appendChild(courseAccessBtn);
   }
 
   // Lesson titles for the cabinet's "video-lesson-mN.n" fields, so each
@@ -592,6 +607,7 @@
     lekalaView.hidden = true;
     galleryView.hidden = true;
     ordersView.hidden = true;
+    courseAccessView.hidden = true;
     pageTitle.textContent = STRINGS[lang].pageLabels[pageId] || pageId;
     fieldsList.innerHTML = '<p class="empty-note">' + t('loading') + '</p>';
     updateSaveState();
@@ -658,6 +674,7 @@
     lekalaView.hidden = false;
     galleryView.hidden = true;
     ordersView.hidden = true;
+    courseAccessView.hidden = true;
     lekalaStatus.textContent = '';
     lekalaStatus.className = 'save-status';
     loadLekalaItems();
@@ -721,6 +738,7 @@
     lekalaView.hidden = true;
     galleryView.hidden = false;
     ordersView.hidden = true;
+    courseAccessView.hidden = true;
     galleryUploadStatus.textContent = '';
     galleryUploadStatus.className = 'save-status';
     loadGalleryPhotos();
@@ -872,7 +890,74 @@
     lekalaView.hidden = true;
     galleryView.hidden = true;
     ordersView.hidden = false;
+    courseAccessView.hidden = true;
     loadOrders();
+  }
+
+  function renderCourseAccess(rows) {
+    courseAccessList.innerHTML = '';
+    if (!rows.length) {
+      courseAccessList.innerHTML = '<p class="empty-note">' + t('noOrders') + '</p>';
+      return;
+    }
+    rows.forEach(function(row){
+      var card = document.createElement('div');
+      card.className = 'order-card';
+
+      var head = document.createElement('div');
+      head.className = 'order-card-head';
+      var who = document.createElement('span');
+      who.textContent = (row.name ? row.name + ' — ' : '') + row.email;
+      var status = document.createElement('span');
+      status.className = 'order-status order-status-' + (row.courseAccess ? 'paid' : 'pending');
+      status.textContent = row.courseAccess ? t('statusPaid') : t('statusPending');
+      head.appendChild(who);
+      head.appendChild(status);
+      card.appendChild(head);
+
+      if (!row.courseAccess) {
+        var grantBtn = document.createElement('button');
+        grantBtn.type = 'button';
+        grantBtn.className = 'btn-solid';
+        grantBtn.textContent = t('confirmPayment');
+        grantBtn.addEventListener('click', function(){
+          grantBtn.disabled = true;
+          grantBtn.textContent = t('sending');
+          api('/api/course-access/' + row.id + '/grant', { method: 'POST' })
+            .then(loadCourseAccess)
+            .catch(function(err){
+              if (err && err.unauthorized) { showLogin(); return; }
+              grantBtn.disabled = false;
+              grantBtn.textContent = t('retryFailed');
+            });
+        });
+        card.appendChild(grantBtn);
+      }
+
+      courseAccessList.appendChild(card);
+    });
+  }
+
+  function loadCourseAccess() {
+    courseAccessList.innerHTML = '<p class="empty-note">' + t('loading') + '</p>';
+    api('/api/course-access/requests')
+      .then(renderCourseAccess)
+      .catch(function(err){
+        if (err && err.unauthorized) { showLogin(); return; }
+        courseAccessList.innerHTML = '<p class="empty-note">' + t('loadOrdersError') + '</p>';
+      });
+  }
+
+  function openCourseAccess() {
+    currentPage = COURSE_ACCESS_ID;
+    renderNav();
+    editorHead.hidden = true;
+    fieldsList.hidden = true;
+    lekalaView.hidden = true;
+    galleryView.hidden = true;
+    ordersView.hidden = true;
+    courseAccessView.hidden = false;
+    loadCourseAccess();
   }
 
   saveBtn.addEventListener('click', function(){

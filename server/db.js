@@ -85,6 +85,8 @@ async function migrate() {
     );
 
     ALTER TABLE users ADD COLUMN IF NOT EXISTS name TEXT;
+    ALTER TABLE users ADD COLUMN IF NOT EXISTS course_access BOOLEAN NOT NULL DEFAULT false;
+    ALTER TABLE users ADD COLUMN IF NOT EXISTS course_requested_at TIMESTAMPTZ;
     ALTER TABLE pending_registrations ADD COLUMN IF NOT EXISTS name TEXT;
     ALTER TABLE lekala_items ADD COLUMN IF NOT EXISTS price NUMERIC;
     ALTER TABLE lekala_items ADD COLUMN IF NOT EXISTS file_name TEXT;

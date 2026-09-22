@@ -87,7 +87,7 @@
 
   <section class="section" id="cabinetGate">
     <div class="wrap">
-      <div class="cabinet-gate reveal">
+      <div class="cabinet-gate reveal" id="gateLoggedOut">
         <p class="quote" data-ru="Программа курса доступна ученикам после входа в аккаунт." data-kk="Курс бағдарламасы аккаунтқа кіргеннен кейін оқушыларға қолжетімді.">
           Программа курса доступна ученикам после входа в аккаунт.
         </p>
@@ -98,6 +98,34 @@
         <div class="hero-actions">
           <a href="login.html" class="btn btn-solid" data-ru="Войти" data-kk="Кіру">Войти</a>
           <a href="register.html" class="btn btn-outline" data-ru="Регистрация" data-kk="Тіркелу">Регистрация</a>
+        </div>
+      </div>
+
+      <div class="cabinet-gate reveal" id="gateNotPurchased" hidden>
+        <p class="quote" data-ru="Курс ещё не куплен." data-kk="Курс әлі сатып алынбаған.">
+          Курс ещё не куплен.
+        </p>
+        <p class="note" data-ru="Чтобы получить доступ к программе и видеоурокам, оформите покупку курса — мы свяжемся с вами для оплаты."
+           data-kk="Бағдарлама мен видеосабақтарға қол жеткізу үшін курсты сатып алуды рәсімдеңіз — төлем үшін сізбен байланысамыз.">
+          Чтобы получить доступ к программе и видеоурокам, оформите покупку курса — мы свяжемся с вами для оплаты.
+        </p>
+        <div class="hero-actions">
+          <button type="button" class="btn btn-solid" id="buyCourseBtn" data-ru="Купить курс" data-kk="Курсты сатып алу">Купить курс</button>
+          <a href="https://wa.me/77000000000" class="btn btn-outline" target="_blank" rel="noopener" data-ru="Написать в WhatsApp" data-kk="WhatsApp-қа жазу">Написать в WhatsApp</a>
+        </div>
+        <p class="account-error" id="buyCourseError"></p>
+      </div>
+
+      <div class="cabinet-gate reveal" id="gatePending" hidden>
+        <p class="quote" data-ru="Заявка отправлена — ждите подтверждения оплаты." data-kk="Өтінім жіберілді — төлемнің расталуын күтіңіз.">
+          Заявка отправлена — ждите подтверждения оплаты.
+        </p>
+        <p class="note" data-ru="Мы свяжемся с вами, чтобы согласовать оплату. Как только оплата будет подтверждена, курс сразу откроется здесь."
+           data-kk="Төлемді келісу үшін сізбен байланысамыз. Төлем расталған бойда курс осында бірден ашылады.">
+          Мы свяжемся с вами, чтобы согласовать оплату. Как только оплата будет подтверждена, курс сразу откроется здесь.
+        </p>
+        <div class="hero-actions">
+          <a href="https://wa.me/77000000000" class="btn btn-outline" target="_blank" rel="noopener" data-ru="Написать в WhatsApp" data-kk="WhatsApp-қа жазу">Написать в WhatsApp</a>
         </div>
       </div>
     </div>
