@@ -1,33 +1,32 @@
 /**
- * Renders the growing "Наборы лекал" list on shop.html from
- * /api/lekala-items as a pick-and-order cart: select one or more
- * fasons, "Оформить заказ" creates an order (requires login — no
- * payment gateway, so the customer still pays by hand and the owner
- * confirms it in the admin panel, which is what actually triggers
- * the automatic email with the files).
+ * Wires real prices + "add to cart" onto the existing course-card
+ * (whole course) and module-offer cards on courses.html, sourced from
+ * /api/lekala-items (product_type 'course_full' / 'course_module').
+ * Replaces the static "По запросу" + WhatsApp link with a checkbox
+ * once a matching product exists; cards with no matching product are
+ * left exactly as they were (still "По запросу" + WhatsApp).
  *
- * No backend reachable, or nothing added yet -> falls back to the
- * static "Цена по запросу / Написать в WhatsApp" block already in
- * the page.
+ * "Оформить заказ" creates a real order (same /api/orders endpoint as
+ * the shop cart) — payment is a stub for now: no live Kaspi API, so
+ * the order is created and the customer is pointed at the Kaspi
+ * payment link, then waits. Nothing is delivered automatically yet.
  */
 (function(){
-  var list = document.getElementById('lekalaItemsList');
-  var cartBar = document.getElementById('lekalaCartBar');
-  var cartTotal = document.getElementById('lekalaCartTotal');
-  var orderBtn = document.getElementById('lekalaOrderBtn');
-  var orderStatus = document.getElementById('lekalaOrderStatus');
-  var fallbackMeta = document.getElementById('lekalaFallbackMeta');
-  if (!list) return;
+  var cartBar = document.getElementById('courseCartBar');
+  if (!cartBar) return;
 
   var API_BASE = window.MADE_API_BASE || '';
+  var cartTotal = document.getElementById('courseCartTotal');
+  var orderBtn = document.getElementById('courseOrderBtn');
+  var orderStatus = document.getElementById('courseOrderStatus');
+  var KASPI_LINK = 'https://pay.kaspi.kz/pay/75lrsqpf';
+
   var selected = {};
   var itemsById = {};
 
   function lang() {
     return document.documentElement.lang === 'kk' ? 'kk' : 'ru';
   }
-
-  var KASPI_LINK = 'https://pay.kaspi.kz/pay/75lrsqpf';
 
   var STRINGS = {
     ru: {
@@ -36,10 +35,11 @@
       needLogin: 'Чтобы оформить заказ, сначала войдите или зарегистрируйтесь.',
       login: 'Войти',
       register: 'Регистрация',
-      success: 'Заказ создан. Оплатите по ссылке Kaspi — после оплаты мы подтвердим заказ, и файлы придут вам на почту.',
+      success: 'Заказ создан. Оплатите по ссылке Kaspi — после оплаты мы подтвердим заказ, и курс откроется в личном кабинете.',
       pay: 'Оплатить через Kaspi',
       fail: 'Не получилось оформить заказ, попробуйте ещё раз.',
-      total: 'Итого'
+      total: 'Итого',
+      add: 'Добавить в заказ'
     },
     kk: {
       order: 'Тапсырыс беру',
@@ -47,10 +47,11 @@
       needLogin: 'Тапсырыс беру үшін алдымен кіріңіз немесе тіркеліңіз.',
       login: 'Кіру',
       register: 'Тіркелу',
-      success: 'Тапсырыс жасалды. Kaspi сілтемесі арқылы төлеңіз — төлемнен кейін тапсырысты растаймыз, файлдар поштаңызға келеді.',
+      success: 'Тапсырыс жасалды. Kaspi сілтемесі арқылы төлеңіз — төлемнен кейін тапсырысты растаймыз, курс жеке кабинетте ашылады.',
       pay: 'Kaspi арқылы төлеу',
       fail: 'Тапсырысты рәсімдеу сәтсіз аяқталды, қайталап көріңіз.',
-      total: 'Барлығы'
+      total: 'Барлығы',
+      add: 'Тапсырысқа қосу'
     }
   };
 
@@ -80,6 +81,37 @@
     });
   }
 
+  function injectCheckbox(footer, item) {
+    var isCourseCard = footer.classList.contains('course-card-footer');
+    footer.innerHTML = '';
+
+    var priceEl = document.createElement('span');
+    priceEl.className = isCourseCard ? 'course-price' : 'module-offer-price';
+    priceEl.textContent = money(item.price);
+
+    var label = document.createElement('label');
+    label.className = 'course-cart-pick';
+    var checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.addEventListener('change', function(){
+      selected[item.id] = checkbox.checked;
+      updateCartBar();
+    });
+    var text = document.createElement('span');
+    text.textContent = STRINGS[lang()].add;
+    label.appendChild(checkbox);
+    label.appendChild(text);
+
+    if (isCourseCard) {
+      var priceWrap = document.createElement('div');
+      priceWrap.appendChild(priceEl);
+      footer.appendChild(priceWrap);
+    } else {
+      footer.appendChild(priceEl);
+    }
+    footer.appendChild(label);
+  }
+
   orderBtn.addEventListener('click', function(){
     var ids = Object.keys(selected).filter(function(id){ return selected[id]; }).map(Number);
     if (!ids.length) return;
@@ -95,7 +127,7 @@
           ' <a class="btn btn-solid" href="' + KASPI_LINK + '" target="_blank" rel="noopener">' + STRINGS[lang()].pay + '</a>';
         orderStatus.className = 'lekala-order-status ok';
         selected = {};
-        list.querySelectorAll('input[type="checkbox"]').forEach(function(cb){ cb.checked = false; });
+        document.querySelectorAll('.course-cart-pick input[type="checkbox"]').forEach(function(cb){ cb.checked = false; });
         updateCartBar();
         orderBtn.textContent = STRINGS[lang()].order;
       })
@@ -116,38 +148,28 @@
 
   fetch(API_BASE + '/api/lekala-items', { credentials: 'omit' })
     .then(function(res){
-      if (!res.ok) throw new Error('lekala items unavailable');
+      if (!res.ok) throw new Error('items unavailable');
       return res.json();
     })
     .then(function(items){
-      items = (items || []).filter(function(item){ return !item.productType || item.productType === 'file'; });
-      if (!items.length) return;
-
       items.forEach(function(item){
-        itemsById[item.id] = item;
-        var li = document.createElement('li');
-        li.className = 'course-tag lekala-pick';
-        var labelEl = document.createElement('label');
-        var checkbox = document.createElement('input');
-        checkbox.type = 'checkbox';
-        checkbox.addEventListener('change', function(){
-          selected[item.id] = checkbox.checked;
-          updateCartBar();
-        });
-        labelEl.appendChild(checkbox);
-        var text = document.createElement('span');
-        text.textContent = item.label + (item.price ? ' — ' + money(item.price) : '');
-        labelEl.appendChild(text);
-        li.appendChild(labelEl);
-        list.appendChild(li);
+        if (item.productType === 'course_full') {
+          var card = document.querySelector('[data-product-type="course_full"]');
+          if (!card) return;
+          itemsById[item.id] = item;
+          injectCheckbox(card.querySelector('.course-card-footer'), item);
+        } else if (item.productType === 'course_module' && item.moduleKey) {
+          var mod = document.querySelector('[data-module-key="' + item.moduleKey + '"]');
+          if (!mod) return;
+          itemsById[item.id] = item;
+          injectCheckbox(mod.querySelector('.module-offer-footer'), item);
+        }
       });
-
-      list.hidden = false;
-      cartBar.hidden = false;
+      if (Object.keys(itemsById).length) cartBar.hidden = false;
       orderBtn.textContent = STRINGS[lang()].order;
-      if (fallbackMeta) fallbackMeta.hidden = true;
     })
     .catch(function(){
-      // No backend / nothing added yet — the static fallback stays.
+      // No backend / nothing added yet — cards keep their static
+      // "По запросу" + WhatsApp fallback, nothing to do here.
     });
 })();

@@ -529,6 +529,8 @@ footer{padding:32px 0;}
 }
 .module-offer-price{font-family:'Playfair Display',serif;color:var(--wine);font-size:16px;}
 .module-offer-cta{font-size:13.5px;color:var(--wine);border-bottom:1px solid var(--wine);padding-bottom:2px;}
+.course-cart-pick{display:flex;align-items:center;gap:6px;font-size:13.5px;color:var(--wine);cursor:pointer;}
+.course-cart-pick input{accent-color:var(--wine);}
 
 /* ===== Course summary card ===== */
 .course-card{
@@ -556,7 +558,7 @@ footer{padding:32px 0;}
   display:flex;justify-content:space-between;align-items:center;gap:16px;
   border-top:1px solid var(--rule);padding-top:16px;margin-bottom:12px;
 }
-.lekala-cart-bar #lekalaCartTotal{font-family:'Playfair Display',serif;color:var(--wine);font-size:15px;}
+.lekala-cart-bar #lekalaCartTotal,.lekala-cart-bar #courseCartTotal{font-family:'Playfair Display',serif;color:var(--wine);font-size:15px;}
 .lekala-cart-bar button:disabled{opacity:.4;cursor:not-allowed;}
 .lekala-order-status{font-size:13px;margin-bottom:8px;}
 .lekala-order-status.ok{color:#3d7a4d;}

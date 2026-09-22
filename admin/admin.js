@@ -51,7 +51,7 @@
         'video-lesson-m3': 'Видео уроков — Модуль 3',
         'video-lesson-m4': 'Видео уроков — Модуль 4'
       },
-      lekalaNav: 'Наборы лекал',
+      lekalaNav: 'Товары и курс',
       galleryNav: 'Фото галереи',
       ordersNav: 'Заказы',
       courseAccessNav: 'Доступ к курсу',
@@ -63,6 +63,8 @@
       loadListError: 'Не удалось загрузить список.',
       hasFile: 'файл есть',
       noFile: 'без файла',
+      typeCourseModule: 'модуль курса',
+      typeCourseFull: 'весь курс',
       del: 'Удалить',
       adding: 'Добавляем…',
       added: 'Добавлено',
@@ -74,6 +76,7 @@
       statusPaid: 'Оплачен, файлы отправлены',
       total: 'Итого',
       confirmPayment: 'Подтвердить оплату',
+      waitingKaspiApi: 'Ожидает подключения Kaspi API — пока подтвердить нельзя.',
       sending: 'Отправляем…',
       retryFailed: 'Не получилось, повторить',
       galleryHint: 'Фото, которые вы сюда добавите, появятся на странице «Работы» — в разделе «Работы MaDE» или «Работы учениц», в зависимости от выбора.',
@@ -155,6 +158,8 @@
       loadListError: 'Тізімді жүктеу мүмкін болмады.',
       hasFile: 'файл бар',
       noFile: 'файлсыз',
+      typeCourseModule: 'курс модулі',
+      typeCourseFull: 'толық курс',
       del: 'Жою',
       adding: 'Қосылуда…',
       added: 'Қосылды',
@@ -166,6 +171,7 @@
       statusPaid: 'Төленді, файлдар жіберілді',
       total: 'Барлығы',
       confirmPayment: 'Төлемді растау',
+      waitingKaspiApi: 'Kaspi API қосылуын күтуде — әзірге растау мүмкін емес.',
       sending: 'Жіберілуде…',
       retryFailed: 'Сәтсіз аяқталды, қайталаңыз',
       galleryHint: 'Осында қосатын фотосуреттер «Жұмыстар» бетінде — «MaDE жұмыстары» немесе «Оқушылардың жұмыстары» бөлімінде, таңдауыңызға байланысты пайда болады.',
@@ -218,6 +224,9 @@
   var lekalaList = document.getElementById('lekalaList');
   var lekalaForm = document.getElementById('lekalaForm');
   var lekalaStatus = document.getElementById('lekalaStatus');
+  var lekalaTypeInput = document.getElementById('lekalaTypeInput');
+  var lekalaModuleInput = document.getElementById('lekalaModuleInput');
+  var lekalaFileInput = document.getElementById('lekalaFileInput');
   var galleryView = document.getElementById('galleryView');
   var galleryUploadForm = document.getElementById('galleryUploadForm');
   var galleryUploadStatus = document.getElementById('galleryUploadStatus');
@@ -635,7 +644,9 @@
       var span = document.createElement('span');
       var bits = [item.label];
       if (item.price) bits.push(Number(item.price).toLocaleString('ru-RU') + ' ₸');
-      bits.push(item.hasFile ? t('hasFile') : t('noFile'));
+      if (item.productType === 'course_module') bits.push(t('typeCourseModule') + ' ' + item.moduleKey);
+      else if (item.productType === 'course_full') bits.push(t('typeCourseFull'));
+      else bits.push(item.hasFile ? t('hasFile') : t('noFile'));
       span.textContent = bits.join(' — ');
       var del = document.createElement('button');
       del.type = 'button';
@@ -777,6 +788,15 @@
       });
   });
 
+  if (lekalaTypeInput) {
+    lekalaTypeInput.addEventListener('change', function(){
+      var isModule = lekalaTypeInput.value === 'course_module';
+      var isFile = lekalaTypeInput.value === 'file';
+      lekalaModuleInput.hidden = !isModule;
+      lekalaFileInput.hidden = !isFile;
+    });
+  }
+
   lekalaForm.addEventListener('submit', function(e){
     e.preventDefault();
     var label = lekalaForm.elements.label.value.trim();
@@ -799,6 +819,8 @@
       })
       .then(function(){
         lekalaForm.reset();
+        if (lekalaModuleInput) lekalaModuleInput.hidden = true;
+        if (lekalaFileInput) lekalaFileInput.hidden = false;
         lekalaStatus.textContent = t('added');
         lekalaStatus.className = 'save-status ok';
         loadLekalaItems();
@@ -850,22 +872,10 @@
       }
 
       if (order.status === 'pending') {
-        var confirmBtn = document.createElement('button');
-        confirmBtn.type = 'button';
-        confirmBtn.className = 'btn-solid';
-        confirmBtn.textContent = t('confirmPayment');
-        confirmBtn.addEventListener('click', function(){
-          confirmBtn.disabled = true;
-          confirmBtn.textContent = t('sending');
-          api('/api/orders/' + order.id + '/confirm', { method: 'POST' })
-            .then(loadOrders)
-            .catch(function(err){
-              if (err && err.unauthorized) { showLogin(); return; }
-              confirmBtn.disabled = false;
-              confirmBtn.textContent = t('retryFailed');
-            });
-        });
-        card.appendChild(confirmBtn);
+        var waiting = document.createElement('p');
+        waiting.className = 'save-status';
+        waiting.textContent = t('waitingKaspiApi');
+        card.appendChild(waiting);
       }
 
       ordersList.appendChild(card);
@@ -894,6 +904,8 @@
     loadOrders();
   }
 
+  var MODULE_LABELS = { m1: 'Модуль 1', m2: 'Модуль 2', m3: 'Модуль 3', m4: 'Модуль 4' };
+
   function renderCourseAccess(rows) {
     courseAccessList.innerHTML = '';
     if (!rows.length) {
@@ -909,30 +921,14 @@
       var who = document.createElement('span');
       who.textContent = (row.name ? row.name + ' — ' : '') + row.email;
       var status = document.createElement('span');
-      status.className = 'order-status order-status-' + (row.courseAccess ? 'paid' : 'pending');
-      status.textContent = row.courseAccess ? t('statusPaid') : t('statusPending');
+      status.className = 'order-status order-status-paid';
+      var modules = row.modules || [];
+      status.textContent = modules.length === 4
+        ? t('typeCourseFull')
+        : modules.map(function(m){ return MODULE_LABELS[m] || m; }).join(', ');
       head.appendChild(who);
       head.appendChild(status);
       card.appendChild(head);
-
-      if (!row.courseAccess) {
-        var grantBtn = document.createElement('button');
-        grantBtn.type = 'button';
-        grantBtn.className = 'btn-solid';
-        grantBtn.textContent = t('confirmPayment');
-        grantBtn.addEventListener('click', function(){
-          grantBtn.disabled = true;
-          grantBtn.textContent = t('sending');
-          api('/api/course-access/' + row.id + '/grant', { method: 'POST' })
-            .then(loadCourseAccess)
-            .catch(function(err){
-              if (err && err.unauthorized) { showLogin(); return; }
-              grantBtn.disabled = false;
-              grantBtn.textContent = t('retryFailed');
-            });
-        });
-        card.appendChild(grantBtn);
-      }
 
       courseAccessList.appendChild(card);
     });
@@ -940,13 +936,14 @@
 
   function loadCourseAccess() {
     courseAccessList.innerHTML = '<p class="empty-note">' + t('loading') + '</p>';
-    api('/api/course-access/requests')
+    api('/api/course-access/all')
       .then(renderCourseAccess)
       .catch(function(err){
         if (err && err.unauthorized) { showLogin(); return; }
         courseAccessList.innerHTML = '<p class="empty-note">' + t('loadOrdersError') + '</p>';
       });
   }
+
 
   function openCourseAccess() {
     currentPage = COURSE_ACCESS_ID;

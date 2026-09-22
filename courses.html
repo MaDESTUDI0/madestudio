@@ -314,7 +314,7 @@
          data-kk="Дәл сол курс видеосабақтар форматында — өз қарқыныңызбен қараңыз, тіркелгеннен кейін жеке кабинетте қолжетімді.">
         Тот же курс в формате видеоуроков — смотрите в своём темпе, доступ в личном кабинете после регистрации.
       </p>
-      <div class="course-card reveal">
+      <div class="course-card reveal" data-product-type="course_full">
         <div class="course-card-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="#5E1F2B" stroke-width="1.4">
             <circle cx="6" cy="6" r="2.6"/>
@@ -357,7 +357,7 @@
       </div>
 
       <div class="module-offer-grid">
-        <div class="module-offer reveal">
+        <div class="module-offer reveal" data-module-key="m1">
           <span class="module-offer-num" data-key="modules.3" data-ru="Модуль 1" data-kk="1-модуль">Модуль 1</span>
           <h3 data-key="modules.4" data-ru="Оборудование и основы шитья" data-kk="Жабдық және тігудің негіздері">Оборудование и основы шитья</h3>
           <p data-key="modules.5" data-ru="Швейная машина, оверлок, виды швов и обработка срезов — база перед раскроем и пошивом."
@@ -371,7 +371,7 @@
           </div>
         </div>
 
-        <div class="module-offer reveal reveal-d1">
+        <div class="module-offer reveal reveal-d1" data-module-key="m2">
           <span class="module-offer-num" data-key="modules.9" data-ru="Модуль 2" data-kk="2-модуль">Модуль 2</span>
           <h3 data-key="modules.10" data-ru="Юбки: конструирование и моделирование" data-kk="Юбкалар: конструкциялау және моделдеу">Юбки: конструирование и моделирование</h3>
           <p data-key="modules.11" data-ru="От юбки-трапеции и полусолнца до карандаша и годе — построение и 10 вариантов моделирования."
@@ -385,7 +385,7 @@
           </div>
         </div>
 
-        <div class="module-offer reveal reveal-d2">
+        <div class="module-offer reveal reveal-d2" data-module-key="m3">
           <span class="module-offer-num" data-key="modules.15" data-ru="Модуль 3" data-kk="3-модуль">Модуль 3</span>
           <h3 data-key="modules.16" data-ru="Брюки: конструирование и пошив" data-kk="Шалбар: конструкциялау және тігу">Брюки: конструирование и пошив</h3>
           <p data-key="modules.17" data-ru="Базовая конструкция, брюки палаццо и джинсы с карманами и молнией, 4 фасона на моделирование."
@@ -399,7 +399,7 @@
           </div>
         </div>
 
-        <div class="module-offer reveal reveal-d3">
+        <div class="module-offer reveal reveal-d3" data-module-key="m4">
           <span class="module-offer-num" data-key="modules.21" data-ru="Модуль 4" data-kk="4-модуль">Модуль 4</span>
           <h3 data-key="modules.22" data-ru="Плечевые изделия: платья и рубашки" data-kk="Иық бұйымдары: көйлек және жейде">Плечевые изделия: платья и рубашки</h3>
           <p data-key="modules.23" data-ru="Платье-трапеция с рельефами, рубашка с кокеткой и построение рукава — самый объёмный модуль курса."
@@ -413,6 +413,12 @@
           </div>
         </div>
       </div>
+
+      <div class="lekala-cart-bar" id="courseCartBar" hidden>
+        <span id="courseCartTotal"></span>
+        <button type="button" class="btn btn-solid" id="courseOrderBtn" data-ru="Оформить заказ" data-kk="Тапсырыс беру">Оформить заказ</button>
+      </div>
+      <p class="lekala-order-status" id="courseOrderStatus"></p>
     </div>
   </section>
 
@@ -472,5 +478,6 @@
 <script src="js/course-format-filter.js"></script>
 <script src="js/module-accordion.js"></script>
 <script src="js/course-video.js"></script>
+<script src="js/course-cart.js"></script>
 </body>
 </html>

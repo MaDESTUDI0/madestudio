@@ -62,24 +62,35 @@
       <div id="fieldsList" class="fields-list"></div>
 
       <div id="lekalaView" class="lekala-view" hidden>
-        <p class="lekala-hint" id="lekalaHint">Позиции набора лекал — фасон и размеры одной строкой, например «Рубашка, 44–60 размер». Показываются на сайте в карточке «Наборы лекал», покупатели могут собрать несколько в заказ. Файл — то, что автоматически уйдёт покупателю на почту после того, как вы подтвердите оплату в разделе «Заказы».</p>
+        <p class="lekala-hint" id="lekalaHint">Любой товар или курс — одной строкой. «Файл» — это то, что покупатель получит на почту (лекало, планер и т.п.). «Модуль курса» и «Весь курс» открывают доступ ученику в личном кабинете на сайте. Показывается в «Магазине» (файлы) или на странице «Курсы» (модули/курс). Как только вы подтвердите оплату в разделе «Заказы» — доставка происходит автоматически: письмо с файлом либо открытие доступа на сайте.</p>
         <ul id="lekalaList" class="lekala-list"></ul>
         <form id="lekalaForm" class="lekala-form">
           <input type="text" name="label" id="lekalaLabelInput" placeholder="Например: Платье, 42–50 размер" required>
           <input type="number" name="price" id="lekalaPriceInput" placeholder="Цена, ₸" min="0" step="1">
-          <input type="file" name="file" accept="application/pdf,image/jpeg,image/png,application/zip">
+          <select name="productType" id="lekalaTypeInput">
+            <option value="file">Файл (лекало, планер, книга…)</option>
+            <option value="course_module">Модуль курса</option>
+            <option value="course_full">Весь курс</option>
+          </select>
+          <select name="moduleKey" id="lekalaModuleInput" hidden>
+            <option value="m1">Модуль 1</option>
+            <option value="m2">Модуль 2</option>
+            <option value="m3">Модуль 3</option>
+            <option value="m4">Модуль 4</option>
+          </select>
+          <input type="file" name="file" id="lekalaFileInput" accept="application/pdf,image/jpeg,image/png,application/zip">
           <button type="submit" class="btn-solid" id="lekalaAddBtn">Добавить</button>
         </form>
         <p id="lekalaStatus" class="save-status"></p>
       </div>
 
       <div id="ordersView" class="orders-view" hidden>
-        <p class="lekala-hint" id="ordersHint">Заказы на наборы лекал. Когда увидите оплату у себя в банке — нажмите «Подтвердить оплату»: покупателю автоматически уйдёт письмо с файлами.</p>
+        <p class="lekala-hint" id="ordersHint">Все заказы — товары и курс вместе. Заказы подтверждаются автоматически после оплаты через Kaspi (когда будет подключён Kaspi API) — файлы уйдут на почту, а доступ к курсу/модулю откроется у покупателя на сайте сам.</p>
         <div id="ordersList" class="orders-list"></div>
       </div>
 
       <div id="courseAccessView" class="orders-view" hidden>
-        <p class="lekala-hint" id="courseAccessHint">Покупатели курса «Тігу және модельдеу». Когда увидите оплату у себя в банке — нажмите «Дать доступ»: ученику сразу откроется программа курса в личном кабинете. Если доступ почему-то не появился сам — можно выдать его здесь вручную.</p>
+        <p class="lekala-hint" id="courseAccessHint">Кто уже имеет доступ к курсу. Доступ открывается только автоматически после подтверждённой оплаты через Kaspi — ручной выдачи здесь нет.</p>
         <div id="courseAccessList" class="orders-list"></div>
       </div>
 

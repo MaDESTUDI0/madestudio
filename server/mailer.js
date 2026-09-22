@@ -54,14 +54,19 @@ async function sendVerificationEmail(email, code) {
   });
 }
 
+const CABINET_URL = 'https://madestudio.net/cabinet.html';
+
 /**
- * Sends the purchased pattern files as attachments once an order is
- * confirmed paid. Items without an attached file are just listed in
- * the email text — the owner follows up on those separately.
+ * Sends the purchase receipt once an order is confirmed paid. Each
+ * item is one of three kinds, each described differently in the email:
+ *   - a file was attached to it        -> delivered as an attachment
+ *   - a course/module was granted      -> "открыт доступ в личном кабинете"
+ *   - neither (no file on record)      -> "пришлём отдельно" fallback
  */
-async function sendOrderFiles(email, name, items) {
+async function sendOrderReceipt(email, name, items) {
   const withFile = items.filter((item) => item.fileData);
-  const withoutFile = items.filter((item) => !item.fileData);
+  const courseItems = items.filter((item) => item.productType === 'course_module' || item.productType === 'course_full');
+  const otherPending = items.filter((item) => !item.fileData && item.productType !== 'course_module' && item.productType !== 'course_full');
 
   const subject = 'Ваш заказ — MaDE';
   const lines = [
@@ -72,7 +77,8 @@ async function sendOrderFiles(email, name, items) {
     ''
   ];
   if (withFile.length) lines.push('Файлы приложены к этому письму.');
-  if (withoutFile.length) lines.push('Остальные позиции пришлём отдельно.');
+  if (courseItems.length) lines.push(`Доступ открыт в личном кабинете: ${CABINET_URL}`);
+  if (otherPending.length) lines.push('Остальные позиции пришлём отдельно.');
   const text = lines.join('\n');
   const html = `
     <div style="font-family:sans-serif;color:#241D19;">
@@ -80,7 +86,8 @@ async function sendOrderFiles(email, name, items) {
       <p>Спасибо за оплату. Ваш заказ:</p>
       <ul>${items.map((item) => `<li>${item.label}</li>`).join('')}</ul>
       ${withFile.length ? '<p>Файлы приложены к этому письму.</p>' : ''}
-      ${withoutFile.length ? '<p style="color:#A8846A;font-size:13px;">Остальные позиции пришлём отдельно.</p>' : ''}
+      ${courseItems.length ? `<p>Доступ открыт в личном кабинете: <a href="${CABINET_URL}">${CABINET_URL}</a></p>` : ''}
+      ${otherPending.length ? '<p style="color:#A8846A;font-size:13px;">Остальные позиции пришлём отдельно.</p>' : ''}
     </div>
   `;
 
@@ -107,4 +114,4 @@ async function sendOrderFiles(email, name, items) {
   });
 }
 
-module.exports = { sendVerificationEmail, sendOrderFiles, isConfigured: configured };
+module.exports = { sendVerificationEmail, sendOrderReceipt, isConfigured: configured };

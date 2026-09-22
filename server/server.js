@@ -13,6 +13,7 @@ const lekalaRoutes = require('./routes/lekala');
 const galleryRoutes = require('./routes/gallery');
 const ordersRoutes = require('./routes/orders');
 const courseAccessRoutes = require('./routes/course-access');
+const paymentsRoutes = require('./routes/payments');
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -73,6 +74,7 @@ app.use('/api', lekalaRoutes);
 app.use('/api', galleryRoutes);
 app.use('/api', ordersRoutes);
 app.use('/api', courseAccessRoutes);
+app.use('/api', paymentsRoutes);
 
 // Serve the admin panel
 app.use('/admin', express.static(path.join(__dirname, '..', 'admin')));

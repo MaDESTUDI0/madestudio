@@ -2,13 +2,17 @@ const express = require('express');
 const { pool } = require('../db');
 const { requireAuth, requireRole } = require('../middleware/auth');
 const asyncHandler = require('../asyncHandler');
-const { sendOrderFiles } = require('../mailer');
+const { sendOrderReceipt } = require('../mailer');
+const { MODULE_KEYS } = require('./lekala');
+const kaspi = require('../payment/kaspi');
 
 const router = express.Router();
 
-// Customer: place an order for one or more lekala items. Price/label
-// are snapshotted onto order_items so a later price change or
-// deletion of the source item doesn't rewrite past orders.
+// Customer: place an order for one or more catalog items (pattern
+// files, the whole course, or individual course modules — all live in
+// the same lekala_items table now). Label/price/type are snapshotted
+// onto order_items so a later edit or deletion of the source item
+// doesn't rewrite past orders or lose what needs to be granted.
 router.post('/orders', requireAuth, asyncHandler(async (req, res) => {
   const itemIds = Array.isArray(req.body && req.body.itemIds) ? req.body.itemIds : [];
   if (!itemIds.length) {
@@ -16,7 +20,7 @@ router.post('/orders', requireAuth, asyncHandler(async (req, res) => {
   }
 
   const { rows: items } = await pool.query(
-    'SELECT id, label, price FROM lekala_items WHERE id = ANY($1::int[])',
+    'SELECT id, label, price, product_type AS "productType", module_key AS "moduleKey" FROM lekala_items WHERE id = ANY($1::int[])',
     [itemIds]
   );
   if (!items.length) {
@@ -34,8 +38,9 @@ router.post('/orders', requireAuth, asyncHandler(async (req, res) => {
 
     for (const item of items) {
       await client.query(
-        'INSERT INTO order_items (order_id, lekala_item_id, label, price) VALUES ($1, $2, $3, $4)',
-        [order.id, item.id, item.label, item.price]
+        `INSERT INTO order_items (order_id, lekala_item_id, label, price, product_type, module_key)
+         VALUES ($1, $2, $3, $4, $5, $6)`,
+        [order.id, item.id, item.label, item.price, item.productType, item.moduleKey]
       );
     }
     await client.query('COMMIT');
@@ -92,13 +97,19 @@ router.get('/orders', requireRole('owner'), asyncHandler(async (req, res) => {
   res.json(orders.map((order) => ({ ...order, items: byOrder[order.id] || [] })));
 }));
 
-// Owner: mark an order paid and email the buyer their files. This is
-// the "automatic delivery" step — payment itself is still confirmed
-// by hand (bank transfer / QR, no payment gateway wired up), but
-// once you click this, sending the files is instant and automatic.
+// Marks an order paid and delivers what was bought (file items emailed
+// as attachments, course/module items unlocked in the buyer's cabinet,
+// one receipt email covering everything). Disabled until the real Kaspi
+// API is wired up in payment/kaspi.js — orders are created but nothing
+// can confirm them paid yet, by design (no manual override), so this
+// will only ever be called from the webhook once that's real.
 router.post('/orders/:id/confirm', requireRole('owner'), asyncHandler(async (req, res) => {
+  if (!kaspi.isConfigured) {
+    return res.status(501).json({ error: 'kaspi_not_configured' });
+  }
+
   const { rows: orderRows } = await pool.query(
-    `SELECT orders.id, orders.status, users.username AS email, users.name
+    `SELECT orders.id, orders.status, orders.user_id AS "userId", users.username AS email, users.name
      FROM orders JOIN users ON users.id = orders.user_id
      WHERE orders.id = $1`,
     [req.params.id]
@@ -108,8 +119,8 @@ router.post('/orders/:id/confirm', requireRole('owner'), asyncHandler(async (req
   if (order.status === 'paid') return res.status(409).json({ error: 'already_confirmed' });
 
   const { rows: items } = await pool.query(
-    `SELECT order_items.label, lekala_items.file_name AS "fileName",
-            lekala_items.file_mime AS "fileMime", lekala_items.file_data AS "fileData"
+    `SELECT order_items.label, order_items.product_type AS "productType", order_items.module_key AS "moduleKey",
+            lekala_items.file_name AS "fileName", lekala_items.file_mime AS "fileMime", lekala_items.file_data AS "fileData"
      FROM order_items
      LEFT JOIN lekala_items ON lekala_items.id = order_items.lekala_item_id
      WHERE order_items.order_id = $1
@@ -117,13 +128,41 @@ router.post('/orders/:id/confirm', requireRole('owner'), asyncHandler(async (req
     [order.id]
   );
 
-  await sendOrderFiles(order.email, order.name, items);
+  const client = await pool.connect();
+  try {
+    await client.query('BEGIN');
+    for (const item of items) {
+      if (item.productType === 'course_module' && item.moduleKey) {
+        await client.query(
+          `INSERT INTO user_module_access (user_id, module_key) VALUES ($1, $2)
+           ON CONFLICT (user_id, module_key) DO NOTHING`,
+          [order.userId, item.moduleKey]
+        );
+      } else if (item.productType === 'course_full') {
+        for (const moduleKey of MODULE_KEYS) {
+          await client.query(
+            `INSERT INTO user_module_access (user_id, module_key) VALUES ($1, $2)
+             ON CONFLICT (user_id, module_key) DO NOTHING`,
+            [order.userId, moduleKey]
+          );
+        }
+      }
+    }
+    await client.query(
+      "UPDATE orders SET status = 'paid', confirmed_at = now() WHERE id = $1",
+      [order.id]
+    );
+    await client.query('COMMIT');
+  } catch (err) {
+    await client.query('ROLLBACK');
+    throw err;
+  } finally {
+    client.release();
+  }
 
-  const { rows: updated } = await pool.query(
-    "UPDATE orders SET status = 'paid', confirmed_at = now() WHERE id = $1 RETURNING id, status, confirmed_at",
-    [order.id]
-  );
-  res.json(updated[0]);
+  await sendOrderReceipt(order.email, order.name, items);
+
+  res.json({ id: order.id, status: 'paid' });
 }));
 
 module.exports = router;

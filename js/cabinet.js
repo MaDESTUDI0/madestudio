@@ -1,8 +1,12 @@
 /**
- * Gates cabinet.html behind an active session AND paid course access:
- *   - logged out            -> "войдите / зарегистрируйтесь"
- *   - logged in, no access  -> "купить курс" (or waiting, if requested)
- *   - access granted        -> full curriculum
+ * Gates cabinet.html behind an active session AND per-module paid
+ * access (modules are bought individually or as the whole course —
+ * see courses.html):
+ *   - logged out                -> "войдите / зарегистрируйтесь"
+ *   - logged in, no modules yet -> "курс ещё не куплен" + link to courses.html
+ *   - at least one module owned -> full page shown, but each
+ *     <details class="module" data-module-key="mN"> the buyer doesn't
+ *     own gets its body replaced with a "buy this module" prompt.
  */
 (function(){
   var gate = document.getElementById('cabinetGate');
@@ -12,9 +16,6 @@
   var API_BASE = window.MADE_API_BASE || '';
   var gateLoggedOut = document.getElementById('gateLoggedOut');
   var gateNotPurchased = document.getElementById('gateNotPurchased');
-  var gatePending = document.getElementById('gatePending');
-  var buyBtn = document.getElementById('buyCourseBtn');
-  var buyError = document.getElementById('buyCourseError');
 
   function api(path, opts) {
     opts = opts || {};
@@ -30,14 +31,36 @@
   function showGateState(which) {
     gateLoggedOut.hidden = which !== 'loggedOut';
     gateNotPurchased.hidden = which !== 'notPurchased';
-    gatePending.hidden = which !== 'pending';
     content.hidden = true;
     gate.hidden = false;
   }
 
-  function showContent() {
+  function lockModule(details) {
+    var body = details.querySelector(':scope > .module-body');
+    if (!body || body.dataset.locked) return;
+    body.dataset.locked = '1';
+    body.innerHTML = '';
+    var p = document.createElement('p');
+    p.className = 'note';
+    p.textContent = 'Этот модуль ещё не куплен.';
+    var a = document.createElement('a');
+    a.href = 'courses.html';
+    a.className = 'btn btn-outline';
+    a.style.marginTop = '12px';
+    a.style.display = 'inline-block';
+    a.textContent = 'Купить модуль';
+    body.appendChild(p);
+    body.appendChild(a);
+    details.removeAttribute('open');
+  }
+
+  function showContent(ownedModules) {
     gate.hidden = true;
     content.hidden = false;
+    document.querySelectorAll('.module[data-module-key]').forEach(function(details){
+      var key = details.getAttribute('data-module-key');
+      if (ownedModules.indexOf(key) === -1) lockModule(details);
+    });
     if (typeof window.MADE_APPLY_LANG === 'function') {
       window.MADE_APPLY_LANG(document.documentElement.lang || 'ru');
     }
@@ -48,31 +71,11 @@
       return api('/api/course-access');
     })
     .then(function(status){
-      if (status.access) {
-        showContent();
-      } else if (status.requested) {
-        showGateState('pending');
-      } else {
-        showGateState('notPurchased');
-      }
+      var modules = status.modules || [];
+      if (modules.length) showContent(modules);
+      else showGateState('notPurchased');
     })
     .catch(function(){
       showGateState('loggedOut');
     });
-
-  if (buyBtn) {
-    buyBtn.addEventListener('click', function(){
-      buyBtn.disabled = true;
-      buyError.textContent = '';
-      api('/api/course-access/request', { method: 'POST' })
-        .then(function(status){
-          if (status.access) showContent();
-          else showGateState('pending');
-        })
-        .catch(function(){
-          buyBtn.disabled = false;
-          buyError.textContent = 'Что-то пошло не так, попробуйте ещё раз.';
-        });
-    });
-  }
 })();
