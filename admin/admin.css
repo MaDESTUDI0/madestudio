@@ -160,8 +160,9 @@ input,textarea{font-family:inherit;}
 .orders-list{display:flex;flex-direction:column;gap:14px;max-width:640px;}
 .orders-summary{font-size:13px;color:var(--clay);margin-bottom:2px;}
 .order-card{border:1px solid var(--rule);border-radius:2px;padding:16px 18px;background:var(--paper-light);}
-/* Orders still waiting on a receipt are the ones she has to act on. */
-.order-card-pending{border-left:3px solid var(--wine);}
+/* Orders already dealt with recede; the pending ones stay on paper. */
+.order-card-paid{background:transparent;color:var(--clay);}
+.order-card-paid .order-no{color:var(--clay);}
 .order-card-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:6px;font-size:14px;}
 .order-no{font-family:'Playfair Display',serif;font-size:16px;color:var(--ink);}
 .order-status{font-size:12px;color:var(--clay);white-space:nowrap;}
