@@ -521,11 +521,13 @@ footer{padding:32px 0;}
   .page-hero::after{right:-260px;top:-300px;width:480px;height:480px;}
 }
 
-/* Whole-page linen texture on inner pages, so the content areas
-   between the hero and the CTA band read as paper rather than flat fill. */
-body:not([data-page="index"]) main{
+/* Whole-page linen texture, so the content areas between the hero and
+   the CTA band read as paper rather than flat fill. On every page,
+   including the homepage — it's faint enough to sit quietly behind
+   the homepage's own photo decor without competing with it. */
+main{
   background-image:repeating-linear-gradient(45deg,
-    rgba(94,31,43,.017) 0 1px, transparent 1px 12px);
+    rgba(94,31,43,.04) 0 1px, transparent 1px 12px);
 }
 
 /* Matching treatment for the CTA band on pages that carry no photo
