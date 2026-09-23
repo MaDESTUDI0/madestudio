@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 640" width="220" height="640">
+  <g fill="none" stroke="#5E1F2B" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+
+    <!-- Thread spool -->
+    <g opacity=".62" transform="translate(46,34)">
+      <ellipse cx="26" cy="8" rx="26" ry="8"/>
+      <ellipse cx="26" cy="84" rx="26" ry="8"/>
+      <path d="M0 8v76M52 8v76"/>
+      <path d="M4 20 48 34M4 34 48 48M4 48 48 62M4 62 48 76" opacity=".7"/>
+    </g>
+
+    <!-- Needle with trailing thread -->
+    <g opacity=".55" transform="translate(120,150) rotate(18)">
+      <ellipse cx="4" cy="4" rx="3.2" ry="2" transform="rotate(-18 4 4)"/>
+      <path d="M6 6 76 62"/>
+      <path d="M4 5C-10 16 -6 34 6 40S10 62 -4 66" transform="translate(0,0)"/>
+    </g>
+
+    <!-- Two crossed pins with pearl heads -->
+    <g opacity=".6" transform="translate(30,260)">
+      <path d="M4 46 56 4"/>
+      <circle cx="4" cy="46" r="4"/>
+      <path d="M8 4 58 44"/>
+      <circle cx="8" cy="4" r="4"/>
+    </g>
+
+    <!-- Dashed drafting-curve accent, same motif as the rest of the site -->
+    <path d="M0 340 Q40 360 34 400 T60 460" stroke-dasharray="1 7" opacity=".45"/>
+
+    <!-- Button with stitched holes -->
+    <g opacity=".6" transform="translate(48,420)">
+      <circle cx="24" cy="24" r="23"/>
+      <circle cx="16" cy="16" r="2.6"/>
+      <circle cx="32" cy="16" r="2.6"/>
+      <circle cx="16" cy="32" r="2.6"/>
+      <circle cx="32" cy="32" r="2.6"/>
+      <path d="M16 16 32 32M32 16 16 32" opacity=".7"/>
+    </g>
+
+    <!-- Small tailor's scissors -->
+    <g opacity=".58" transform="translate(96,530)">
+      <circle cx="6" cy="30" r="7"/>
+      <circle cx="6" cy="6" r="7"/>
+      <path d="M12 10 58 54M12 26 58 2"/>
+    </g>
+
+    <!-- Loose thread squiggle -->
+    <path d="M20 600C10 610 26 618 18 628" opacity=".5"/>
+  </g>
+</svg>

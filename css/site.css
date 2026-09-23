@@ -547,6 +547,32 @@ body[data-page="courses"] .page-hero::after{content:none;}
 }
 @media (max-width:1300px){.courses-hero-decor{display:none;}}
 
+/* Rest of the courses page (below the hero): a light, seamless
+   scatter of sewing notions — thread spool, needle, pins, button,
+   scissors — tiled down the margins. Vector, not photo, so it repeats
+   at any length with no upscale blur and no visible seam: the tile is
+   mostly empty space around a few small motifs, so one repeat meeting
+   the next just reads as more of the same quiet pattern. */
+.courses-body-decor{position:relative;overflow:hidden;}
+.courses-body-decor-left,.courses-body-decor-right{
+  position:absolute;top:0;bottom:0;width:220px;
+  background-image:url('../images/decor-sewing-icons.svg');
+  background-repeat:repeat-y;background-size:220px 640px;
+  pointer-events:none;z-index:0;
+}
+.courses-body-decor-left{
+  left:0;
+  -webkit-mask-image:linear-gradient(to right,#000 55%,transparent 96%);
+  mask-image:linear-gradient(to right,#000 55%,transparent 96%);
+}
+.courses-body-decor-right{
+  right:0;transform:scaleX(-1);
+  -webkit-mask-image:linear-gradient(to right,#000 55%,transparent 96%);
+  mask-image:linear-gradient(to right,#000 55%,transparent 96%);
+}
+.courses-body-decor > section{position:relative;z-index:1;}
+@media (max-width:1300px){.courses-body-decor-left,.courses-body-decor-right{display:none;}}
+
 /* Whole-page linen texture on inner pages, so the content areas
    between the hero and the CTA band read as paper rather than flat fill. */
 body:not([data-page="index"]) main{
