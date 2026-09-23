@@ -69,14 +69,13 @@
       adding: 'Добавляем…',
       added: 'Добавлено',
       addError: 'Не получилось добавить',
-      ordersHint: 'Заказы на наборы лекал. Когда увидите оплату у себя в банке — нажмите «Подтвердить оплату»: покупателю автоматически уйдёт письмо с файлами.',
+      ordersHint: 'Все заказы — товары и курс вместе. Покупатель оплачивает по ссылке Kaspi и присылает вам чек в WhatsApp. Когда чек пришёл — нажмите «Подтвердить оплату»: файлы уйдут покупателю на почту, а доступ к курсу/модулю откроется у него сам.',
       noOrders: 'Заказов пока нет.',
       loadOrdersError: 'Не удалось загрузить заказы.',
       statusPending: 'Ожидает оплаты',
       statusPaid: 'Оплачен, файлы отправлены',
       total: 'Итого',
       confirmPayment: 'Подтвердить оплату',
-      waitingKaspiApi: 'Ожидает подключения Kaspi API — пока подтвердить нельзя.',
       sending: 'Отправляем…',
       retryFailed: 'Не получилось, повторить',
       galleryHint: 'Фото, которые вы сюда добавите, появятся на странице «Работы» — в разделе «Работы MaDE» или «Работы учениц», в зависимости от выбора.',
@@ -164,14 +163,13 @@
       adding: 'Қосылуда…',
       added: 'Қосылды',
       addError: 'Қосу мүмкін болмады',
-      ordersHint: 'Лекал жинақтарына тапсырыстар. Банкіде төлемді көргенде — «Төлемді растау» түймесін басыңыз: сатып алушыға файлдары бар хат автоматты түрде жіберіледі.',
+      ordersHint: 'Барлық тапсырыстар — тауарлар мен курс бірге. Сатып алушы Kaspi сілтемесі арқылы төлеп, түбіртекті WhatsApp-қа жібереді. Түбіртек келгенде «Төлемді растау» түймесін басыңыз: файлдар поштаға кетеді, курсқа/модульге қолжетімділік өзі ашылады.',
       noOrders: 'Әзірге тапсырыстар жоқ.',
       loadOrdersError: 'Тапсырыстарды жүктеу мүмкін болмады.',
       statusPending: 'Төлемді күтуде',
       statusPaid: 'Төленді, файлдар жіберілді',
       total: 'Барлығы',
       confirmPayment: 'Төлемді растау',
-      waitingKaspiApi: 'Kaspi API қосылуын күтуде — әзірге растау мүмкін емес.',
       sending: 'Жіберілуде…',
       retryFailed: 'Сәтсіз аяқталды, қайталаңыз',
       galleryHint: 'Осында қосатын фотосуреттер «Жұмыстар» бетінде — «MaDE жұмыстары» немесе «Оқушылардың жұмыстары» бөлімінде, таңдауыңызға байланысты пайда болады.',
@@ -874,10 +872,22 @@
       }
 
       if (order.status === 'pending') {
-        var waiting = document.createElement('p');
-        waiting.className = 'save-status';
-        waiting.textContent = t('waitingKaspiApi');
-        card.appendChild(waiting);
+        var confirmBtn = document.createElement('button');
+        confirmBtn.type = 'button';
+        confirmBtn.className = 'btn-solid';
+        confirmBtn.textContent = t('confirmPayment');
+        confirmBtn.addEventListener('click', function(){
+          confirmBtn.disabled = true;
+          confirmBtn.textContent = t('sending');
+          api('/api/orders/' + order.id + '/confirm', { method: 'POST' })
+            .then(loadOrders)
+            .catch(function(err){
+              if (err && err.unauthorized) { showLogin(); return; }
+              confirmBtn.disabled = false;
+              confirmBtn.textContent = t('retryFailed');
+            });
+        });
+        card.appendChild(confirmBtn);
       }
 
       ordersList.appendChild(card);

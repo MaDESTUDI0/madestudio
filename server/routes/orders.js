@@ -4,7 +4,6 @@ const { requireAuth, requireRole } = require('../middleware/auth');
 const asyncHandler = require('../asyncHandler');
 const { sendOrderReceipt } = require('../mailer');
 const { MODULE_KEYS } = require('./lekala');
-const kaspi = require('../payment/kaspi');
 
 const router = express.Router();
 
@@ -99,15 +98,16 @@ router.get('/orders', requireRole('owner'), asyncHandler(async (req, res) => {
 
 // Marks an order paid and delivers what was bought (file items emailed
 // as attachments, course/module items unlocked in the buyer's cabinet,
-// one receipt email covering everything). Disabled until the real Kaspi
-// API is wired up in payment/kaspi.js — orders are created but nothing
-// can confirm them paid yet, by design (no manual override), so this
-// will only ever be called from the webhook once that's real.
+// one receipt email covering everything).
+//
+// There is no Kaspi merchant API on this account, so payment can't be
+// confirmed programmatically: the buyer pays via the Kaspi link and
+// sends the owner their receipt, and the owner presses "Подтвердить
+// оплату" here. Only an owner session can reach this — a customer
+// can't unlock anything by replaying requests or editing the frontend.
+// If a real API ever lands, payment/kaspi.js + the webhook stub in
+// routes/payments.js are where it plugs in.
 router.post('/orders/:id/confirm', requireRole('owner'), asyncHandler(async (req, res) => {
-  if (!kaspi.isConfigured) {
-    return res.status(501).json({ error: 'kaspi_not_configured' });
-  }
-
   const { rows: orderRows } = await pool.query(
     `SELECT orders.id, orders.status, orders.user_id AS "userId", users.username AS email, users.name
      FROM orders JOIN users ON users.id = orders.user_id

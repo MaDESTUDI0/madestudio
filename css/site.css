@@ -288,7 +288,7 @@ nav.main-nav{display:flex;align-items:center;gap:36px;}
 .cart-panel-status.ok{color:#3d7a4d;}
 .cart-panel-status.err{color:var(--wine);}
 .cart-panel-status a{text-decoration:underline;}
-.cart-panel-status .btn{display:inline-block;margin-top:8px;padding:9px 18px;font-size:12.5px;}
+.cart-panel-status .btn{display:inline-block;margin-top:8px;margin-right:6px;padding:9px 18px;font-size:12.5px;text-decoration:none;}
 
 .header-login{
   font-size:14px;color:var(--ink);

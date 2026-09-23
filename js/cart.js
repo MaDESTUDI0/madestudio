@@ -13,6 +13,9 @@
   var STORAGE_KEY = 'made_cart_v1';
   var API_BASE = window.MADE_API_BASE || '';
   var KASPI_LINK = 'https://pay.kaspi.kz/pay/75lrsqpf';
+  // Kaspi has no merchant API on this account, so the buyer sends the
+  // receipt here and the owner confirms the order in the admin panel.
+  var RECEIPT_WHATSAPP = 'https://wa.me/77786721798';
 
   function lang() {
     return document.documentElement.lang === 'kk' ? 'kk' : 'ru';
@@ -28,8 +31,9 @@
       needLogin: 'Чтобы оформить заказ, сначала войдите или зарегистрируйтесь.',
       login: 'Войти',
       register: 'Регистрация',
-      success: 'Заказ создан. Оплатите по ссылке Kaspi — после оплаты мы подтвердим заказ и всё выдадим.',
+      success: 'Заказ создан. Оплатите по ссылке Kaspi и пришлите нам чек в WhatsApp — после проверки откроем доступ к курсу и отправим файлы на почту.',
       pay: 'Оплатить через Kaspi',
+      sendReceipt: 'Отправить чек',
       fail: 'Не получилось оформить заказ, попробуйте ещё раз.',
       title: 'Корзина'
     },
@@ -42,8 +46,9 @@
       needLogin: 'Тапсырыс беру үшін алдымен кіріңіз немесе тіркеліңіз.',
       login: 'Кіру',
       register: 'Тіркелу',
-      success: 'Тапсырыс жасалды. Kaspi сілтемесі арқылы төлеңіз — төлемнен кейін тапсырысты растап, бәрін береміз.',
+      success: 'Тапсырыс жасалды. Kaspi сілтемесі арқылы төлеп, түбіртекті WhatsApp-қа жіберіңіз — тексергеннен кейін курсқа қолжетімділік ашылады, файлдар поштаға жіберіледі.',
       pay: 'Kaspi арқылы төлеу',
+      sendReceipt: 'Түбіртекті жіберу',
       fail: 'Тапсырысты рәсімдеу сәтсіз аяқталды, қайталап көріңіз.',
       title: 'Себет'
     }
@@ -228,7 +233,9 @@
       api('/api/orders', { method: 'POST', body: JSON.stringify({ itemIds: ids }) })
         .then(function(){
           Cart.clear();
-          statusEl.innerHTML = s.success + ' <a class="btn btn-solid" href="' + KASPI_LINK + '" target="_blank" rel="noopener">' + s.pay + '</a>';
+          statusEl.innerHTML = s.success +
+            ' <a class="btn btn-solid" href="' + KASPI_LINK + '" target="_blank" rel="noopener">' + s.pay + '</a>' +
+            ' <a class="btn btn-outline" href="' + RECEIPT_WHATSAPP + '" target="_blank" rel="noopener">' + s.sendReceipt + '</a>';
           statusEl.className = 'cart-panel-status ok';
         })
         .catch(function(err){
