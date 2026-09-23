@@ -148,14 +148,27 @@ input,textarea{font-family:inherit;}
 }
 .lekala-delete{background:none;border:none;color:var(--clay);font-size:12.5px;text-decoration:underline;}
 .lekala-delete:hover{color:var(--wine);}
+.lekala-row{cursor:pointer;transition:border-color .2s ease;}
+.lekala-row:hover{border-color:var(--wine);}
+.lekala-row-thumb{width:36px;height:36px;border-radius:2px;object-fit:cover;flex-shrink:0;}
 .lekala-form{display:flex;flex-wrap:wrap;gap:10px;}
-.lekala-form input{
+.lekala-form-editing{
+  flex:1 1 100%;font-size:13px;color:var(--wine);
+  background:rgba(94,31,43,.06);border-radius:2px;padding:8px 12px;
+}
+.lekala-form input,.lekala-form select,.lekala-form textarea{
   padding:10px 12px;border:1px solid var(--rule);border-radius:2px;
-  font-size:14px;color:var(--ink);background:var(--paper);
+  font-size:14px;color:var(--ink);background:var(--paper);font-family:inherit;
 }
 .lekala-form input[name="label"]{flex:2;min-width:200px;}
 .lekala-form input[name="price"]{flex:0 0 110px;}
-.lekala-form input[name="file"]{flex:1 1 220px;}
+.lekala-form textarea{flex:1 1 100%;resize:vertical;min-height:40px;}
+.lekala-file-label{
+  flex:1 1 220px;display:flex;flex-direction:column;gap:4px;
+  font-size:12px;color:var(--clay);
+}
+.lekala-file-label input{padding:8px 10px;font-size:13px;}
+.lekala-form-actions{flex:1 1 100%;display:flex;gap:10px;}
 
 .orders-list{display:flex;flex-direction:column;gap:14px;max-width:640px;}
 .orders-summary{font-size:13px;color:var(--clay);margin-bottom:2px;}

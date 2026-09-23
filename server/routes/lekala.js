@@ -14,56 +14,132 @@ const upload = multer({
   storage: multer.memoryStorage(),
   limits: { fileSize: 15 * 1024 * 1024 }
 });
+const uploadFields = upload.fields([
+  { name: 'file', maxCount: 1 },
+  { name: 'image', maxCount: 1 }
+]);
+const IMAGE_MIME = ['image/jpeg', 'image/png', 'image/webp'];
 
-// Public list: price + whether a file is attached (hasFile), never
-// the file bytes themselves — those only ever leave the server as an
-// email attachment once an order is confirmed paid. Also carries
-// productType/moduleKey/slug so the storefront knows where to show
-// each item (a fixed shop.html card if slug is set, otherwise the
-// generic "Наборы лекал" list for 'file', or courses.html for the
-// course types).
+// Public list: price + whether a file/photo is attached, never the
+// bytes themselves — the downloadable file only ever leaves the
+// server as an email attachment once an order is confirmed paid, and
+// the display photo is fetched separately via :id/image (keeps this
+// list light). Carries productType/moduleKey/slug so the storefront
+// knows where to show each item: a fixed shop.html card if slug is
+// set, its own full photo card if it has an image, otherwise the
+// plain-text "Наборы лекал" list for 'file', or courses.html for the
+// course types.
 router.get('/lekala-items', asyncHandler(async (req, res) => {
   const { rows } = await pool.query(
-    `SELECT id, label, price, product_type AS "productType", module_key AS "moduleKey", slug,
-            (file_data IS NOT NULL) AS "hasFile"
+    `SELECT id, label, price, description, product_type AS "productType", module_key AS "moduleKey", slug,
+            (file_data IS NOT NULL) AS "hasFile", (image_data IS NOT NULL) AS "hasImage"
      FROM lekala_items ORDER BY id`
   );
   res.json(rows);
 }));
 
-router.post('/lekala-items', requireRole('owner'), upload.single('file'), asyncHandler(async (req, res) => {
-  const { label, price, productType, moduleKey, slug } = req.body || {};
+router.get('/lekala-items/:id/image', asyncHandler(async (req, res) => {
+  const { rows } = await pool.query(
+    'SELECT image_mime, image_data FROM lekala_items WHERE id = $1',
+    [req.params.id]
+  );
+  const item = rows[0];
+  if (!item || !item.image_data) return res.status(404).end();
+  res.set('Content-Type', item.image_mime);
+  res.set('Cache-Control', 'public, max-age=31536000, immutable');
+  res.send(item.image_data);
+}));
+
+// Shared by POST (create) and PUT (edit) — validates the plain fields
+// and picks out the optional file/image uploads multer parsed.
+function readItemFields(req) {
+  const { label, price, description, productType, moduleKey, slug } = req.body || {};
   if (!label || !label.trim()) {
-    return res.status(400).json({ error: 'missing_label' });
+    return { error: { status: 400, body: { error: 'missing_label' } } };
   }
   const priceValue = price ? Number(price) : null;
   if (price && !(priceValue >= 0)) {
-    return res.status(400).json({ error: 'invalid_price' });
+    return { error: { status: 400, body: { error: 'invalid_price' } } };
   }
 
   const type = PRODUCT_TYPES.includes(productType) ? productType : 'file';
   let module = null;
   if (type === 'course_module') {
     if (!MODULE_KEYS.includes(moduleKey)) {
-      return res.status(400).json({ error: 'invalid_module' });
+      return { error: { status: 400, body: { error: 'invalid_module' } } };
     }
     module = moduleKey;
   }
-  var slugValue = null;
+  let slugValue = null;
   if (type === 'file' && slug) {
     if (!SLUGS.includes(slug)) {
-      return res.status(400).json({ error: 'invalid_slug' });
+      return { error: { status: 400, body: { error: 'invalid_slug' } } };
     }
     slugValue = slug;
   }
 
-  const file = req.file;
+  const files = req.files || {};
+  const file = files.file && files.file[0];
+  const image = files.image && files.image[0];
+  if (image && !IMAGE_MIME.includes(image.mimetype)) {
+    return { error: { status: 400, body: { error: 'invalid_image' } } };
+  }
+
+  return {
+    label: label.trim(),
+    price: priceValue,
+    description: description ? description.trim() : null,
+    type,
+    module,
+    slug: slugValue,
+    file,
+    image
+  };
+}
+
+const RETURNING = `id, label, price, description, product_type AS "productType", module_key AS "moduleKey", slug,
+            (file_data IS NOT NULL) AS "hasFile", (image_data IS NOT NULL) AS "hasImage"`;
+
+router.post('/lekala-items', requireRole('owner'), uploadFields, asyncHandler(async (req, res) => {
+  const f = readItemFields(req);
+  if (f.error) return res.status(f.error.status).json(f.error.body);
+
   const { rows } = await pool.query(
-    `INSERT INTO lekala_items (label, price, file_name, file_mime, file_data, product_type, module_key, slug)
-     VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-     RETURNING id, label, price, product_type AS "productType", module_key AS "moduleKey", slug, (file_data IS NOT NULL) AS "hasFile"`,
-    [label.trim(), priceValue, file ? file.originalname : null, file ? file.mimetype : null, file ? file.buffer : null, type, module, slugValue]
+    `INSERT INTO lekala_items
+       (label, price, description, file_name, file_mime, file_data, image_mime, image_data, product_type, module_key, slug)
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+     RETURNING ${RETURNING}`,
+    [f.label, f.price, f.description,
+     f.file ? f.file.originalname : null, f.file ? f.file.mimetype : null, f.file ? f.file.buffer : null,
+     f.image ? f.image.mimetype : null, f.image ? f.image.buffer : null,
+     f.type, f.module, f.slug]
   );
+  res.json(rows[0]);
+}));
+
+// Edits an existing item in place — label, price, description, type
+// and (optionally) a replacement file/photo. Anything not part of
+// this request (e.g. the file, if only the price changed) is left as
+// it was via COALESCE, so the owner doesn't have to re-upload a photo
+// just to fix a typo in the price.
+router.put('/lekala-items/:id', requireRole('owner'), uploadFields, asyncHandler(async (req, res) => {
+  const f = readItemFields(req);
+  if (f.error) return res.status(f.error.status).json(f.error.body);
+
+  const { rows } = await pool.query(
+    `UPDATE lekala_items SET
+       label = $1, price = $2, description = $3,
+       file_name = COALESCE($4, file_name), file_mime = COALESCE($5, file_mime), file_data = COALESCE($6, file_data),
+       image_mime = COALESCE($7, image_mime), image_data = COALESCE($8, image_data),
+       product_type = $9, module_key = $10, slug = $11
+     WHERE id = $12
+     RETURNING ${RETURNING}`,
+    [f.label, f.price, f.description,
+     f.file ? f.file.originalname : null, f.file ? f.file.mimetype : null, f.file ? f.file.buffer : null,
+     f.image ? f.image.mimetype : null, f.image ? f.image.buffer : null,
+     f.type, f.module, f.slug, req.params.id]
+  );
+  if (!rows[0]) return res.status(404).json({ error: 'not_found' });
   res.json(rows[0]);
 }));
 

@@ -106,6 +106,14 @@ async function migrate() {
     -- instead of appending it to the generic "Наборы лекал" list.
     ALTER TABLE lekala_items ADD COLUMN IF NOT EXISTS slug TEXT;
 
+    -- A 'file' item with a photo and no slug gets its own full shop
+    -- card (photo, description, price, cart button) instead of a
+    -- plain text line in "Наборы лекал" — lets the owner add any new
+    -- shop product herself, no fixed card needed in the HTML for it.
+    ALTER TABLE lekala_items ADD COLUMN IF NOT EXISTS description TEXT;
+    ALTER TABLE lekala_items ADD COLUMN IF NOT EXISTS image_mime TEXT;
+    ALTER TABLE lekala_items ADD COLUMN IF NOT EXISTS image_data BYTEA;
+
     -- Snapshotted onto the order at purchase time (like label/price)
     -- so confirming an order still knows what to grant even if the
     -- catalog item is edited or removed later.

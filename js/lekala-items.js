@@ -13,6 +13,7 @@
 (function(){
   var list = document.getElementById('lekalaItemsList');
   var fallbackMeta = document.getElementById('lekalaFallbackMeta');
+  var grid = document.querySelector('.product-grid');
   if (!list || !window.MadeCart) return;
 
   var API_BASE = window.MADE_API_BASE || '';
@@ -70,6 +71,48 @@
           priceEl.textContent = money(item.price);
           meta.appendChild(priceEl);
           meta.appendChild(buildCartButton(cartItem));
+          return;
+        }
+
+        // A new product the owner added herself (photo, no fixed
+        // card built for it in the HTML) gets its own full card in
+        // the shop grid, same look as the two static ones.
+        if (item.hasImage && grid) {
+          var full = document.createElement('div');
+          // No .reveal — the scroll-in-view animation only observes
+          // elements present at page load, so anything injected later
+          // (like this) would stay invisible forever if it had that class.
+          full.className = 'product';
+
+          var media = document.createElement('div');
+          media.className = 'product-media';
+          var img = document.createElement('img');
+          img.src = API_BASE + '/api/lekala-items/' + item.id + '/image';
+          img.alt = item.label;
+          img.loading = 'lazy';
+          media.appendChild(img);
+          full.appendChild(media);
+
+          var h3 = document.createElement('h3');
+          h3.textContent = item.label;
+          full.appendChild(h3);
+
+          if (item.description) {
+            var desc = document.createElement('p');
+            desc.textContent = item.description;
+            full.appendChild(desc);
+          }
+
+          var fullMeta = document.createElement('div');
+          fullMeta.className = 'product-meta';
+          var fullPrice = document.createElement('span');
+          fullPrice.className = 'product-price';
+          fullPrice.textContent = money(item.price);
+          fullMeta.appendChild(fullPrice);
+          fullMeta.appendChild(buildCartButton(cartItem));
+          full.appendChild(fullMeta);
+
+          grid.appendChild(full);
           return;
         }
 

@@ -62,11 +62,13 @@
       <div id="fieldsList" class="fields-list"></div>
 
       <div id="lekalaView" class="lekala-view" hidden>
-        <p class="lekala-hint" id="lekalaHint">Любой товар или курс — одной строкой. «Файл» — это то, что покупатель получит на почту (лекало, планер и т.п.). «Модуль курса» и «Весь курс» открывают доступ ученику в личном кабинете на сайте. Показывается в «Магазине» (файлы) или на странице «Курсы» (модули/курс). Как только вы подтвердите оплату в разделе «Заказы» — доставка происходит автоматически: письмо с файлом либо открытие доступа на сайте.</p>
+        <p class="lekala-hint" id="lekalaHint">Любой товар или курс — одной строкой. «Файл» — это то, что покупатель получит на почту (лекало, планер и т.п.). «Модуль курса» и «Весь курс» открывают доступ ученику в личном кабинете на сайте. Добавьте фото и описание — и товар сам появится в «Магазине» отдельной карточкой с кнопкой «Добавить в корзину», без фото — попадёт в общий список «Наборы лекал». Нажмите на товар в списке ниже, чтобы отредактировать его (например, изменить цену). Как только вы подтвердите оплату в разделе «Заказы» — доставка происходит автоматически: письмо с файлом либо открытие доступа на сайте.</p>
         <ul id="lekalaList" class="lekala-list"></ul>
         <form id="lekalaForm" class="lekala-form">
+          <p class="lekala-form-editing" id="lekalaEditingNote" hidden></p>
           <input type="text" name="label" id="lekalaLabelInput" placeholder="Например: Платье, 42–50 размер" required>
           <input type="number" name="price" id="lekalaPriceInput" placeholder="Цена, ₸" min="0" step="1">
+          <textarea name="description" id="lekalaDescriptionInput" placeholder="Описание для карточки в магазине (необязательно)" rows="2"></textarea>
           <select name="productType" id="lekalaTypeInput">
             <option value="file">Файл (лекало, планер, книга…)</option>
             <option value="course_module">Модуль курса</option>
@@ -83,8 +85,16 @@
             <option value="sewing-book">Карточка «Швейное дело»</option>
             <option value="planner">Карточка «Планер для мастерской»</option>
           </select>
-          <input type="file" name="file" id="lekalaFileInput" accept="application/pdf,image/jpeg,image/png,application/zip">
-          <button type="submit" class="btn-solid" id="lekalaAddBtn">Добавить</button>
+          <label class="lekala-file-label" id="lekalaImageLabel">Фото для карточки
+            <input type="file" name="image" id="lekalaImageInput" accept="image/jpeg,image/png,image/webp">
+          </label>
+          <label class="lekala-file-label" id="lekalaFileLabel">Файл для отправки на почту
+            <input type="file" name="file" id="lekalaFileInput" accept="application/pdf,image/jpeg,image/png,application/zip">
+          </label>
+          <div class="lekala-form-actions">
+            <button type="submit" class="btn-solid" id="lekalaAddBtn">Добавить</button>
+            <button type="button" class="btn-outline" id="lekalaCancelEditBtn" hidden>Отмена</button>
+          </div>
         </form>
         <p id="lekalaStatus" class="save-status"></p>
       </div>

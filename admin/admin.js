@@ -55,7 +55,7 @@
       galleryNav: 'Фото галереи',
       ordersNav: 'Заказы',
       courseAccessNav: 'Доступ к курсу',
-      lekalaHint: 'Позиции набора лекал — фасон и размеры одной строкой, например «Рубашка, 44–60 размер». Показываются на сайте в карточке «Наборы лекал», покупатели могут собрать несколько в заказ. Файл — то, что автоматически уйдёт покупателю на почту после того, как вы подтвердите оплату в разделе «Заказы».',
+      lekalaHint: 'Любой товар или курс — одной строкой. «Файл» — это то, что покупатель получит на почту (лекало, планер и т.п.). «Модуль курса» и «Весь курс» открывают доступ ученику в личном кабинете на сайте. Добавьте фото и описание — и товар сам появится в «Магазине» отдельной карточкой с кнопкой «Добавить в корзину», без фото — попадёт в общий список «Наборы лекал». Нажмите на товар в списке ниже, чтобы отредактировать его (например, изменить цену). Как только вы подтвердите оплату в разделе «Заказы» — доставка происходит автоматически: письмо с файлом либо открытие доступа на сайте.',
       lekalaLabelPlaceholder: 'Например: Платье, 42–50 размер',
       lekalaPricePlaceholder: 'Цена, ₸',
       add: 'Добавить',
@@ -69,6 +69,13 @@
       adding: 'Добавляем…',
       added: 'Добавлено',
       addError: 'Не получилось добавить',
+      hasPhoto: 'с фото',
+      editingNote: 'Редактируете: ',
+      save: 'Сохранить',
+      saving: 'Сохраняем…',
+      saved: 'Сохранено',
+      saveError: 'Не получилось сохранить',
+      cancelEdit: 'Отмена',
       ordersHint: 'Все заказы — товары и курс вместе. Покупатель оплачивает по ссылке Kaspi и присылает вам чек в WhatsApp. В сообщении он указывает номер заказа — найдите этот номер здесь и нажмите «Подтвердить оплату»: файлы уйдут покупателю на почту, а доступ к курсу/модулю откроется у него сам.',
       noOrders: 'Заказов пока нет.',
       loadOrdersError: 'Не удалось загрузить заказы.',
@@ -154,7 +161,7 @@
       galleryNav: 'Галерея фотосуреттері',
       ordersNav: 'Тапсырыстар',
       courseAccessNav: 'Курсқа қолжетімділік',
-      lekalaHint: 'Лекал жинағының позициялары — фасон мен өлшемдер бір жолда, мысалы «Көйлек, 44–60 өлшем». Сайтта «Лекал жинақтары» карточкасында көрсетіледі, сатып алушылар бірнешеуін тапсырысқа жинай алады. Файл — «Тапсырыстар» бөлімінде төлемді растағаннан кейін сатып алушыға автоматты түрде поштаға кететін нәрсе.',
+      lekalaHint: 'Кез келген тауар немесе курс — бір жолда. «Файл» — сатып алушы поштаға алатын нәрсе (лекало, планер және т.б.). «Курс модулі» және «Толық курс» оқушыға сайттағы жеке кабинетте қолжетімділік ашады. Фото мен сипаттама қосыңыз — тауар «Дүкенде» өз бетінше жеке карточка ретінде, «Себетке қосу» түймесімен пайда болады, фотосыз болса — жалпы «Лекал жинақтары» тізіміне түседі. Өзгерту үшін (мысалы, бағасын) төмендегі тізімнен тауарды басыңыз. «Тапсырыстар» бөлімінде төлемді растаған соң — жеткізу автоматты түрде болады: файлы бар хат немесе сайтта қолжетімділіктің ашылуы.',
       lekalaLabelPlaceholder: 'Мысалы: Көйлек, 42–50 өлшем',
       lekalaPricePlaceholder: 'Бағасы, ₸',
       add: 'Қосу',
@@ -168,6 +175,13 @@
       adding: 'Қосылуда…',
       added: 'Қосылды',
       addError: 'Қосу мүмкін болмады',
+      hasPhoto: 'фотосуретпен',
+      editingNote: 'Өңдеп жатырсыз: ',
+      save: 'Сақтау',
+      saving: 'Сақталуда…',
+      saved: 'Сақталды',
+      saveError: 'Сақтау мүмкін болмады',
+      cancelEdit: 'Бас тарту',
       ordersHint: 'Барлық тапсырыстар — тауарлар мен курс бірге. Сатып алушы Kaspi сілтемесі арқылы төлеп, түбіртекті WhatsApp-қа жібереді. Хабарламада тапсырыс нөмірі көрсетіледі — сол нөмірді осы жерден тауып, «Төлемді растау» түймесін басыңыз: файлдар поштаға кетеді, курсқа/модульге қолжетімділік өзі ашылады.',
       noOrders: 'Әзірге тапсырыстар жоқ.',
       loadOrdersError: 'Тапсырыстарды жүктеу мүмкін болмады.',
@@ -235,7 +249,14 @@
   var lekalaTypeInput = document.getElementById('lekalaTypeInput');
   var lekalaModuleInput = document.getElementById('lekalaModuleInput');
   var lekalaFileInput = document.getElementById('lekalaFileInput');
+  var lekalaFileLabel = document.getElementById('lekalaFileLabel');
   var lekalaSlugInput = document.getElementById('lekalaSlugInput');
+  var lekalaDescriptionInput = document.getElementById('lekalaDescriptionInput');
+  var lekalaImageInput = document.getElementById('lekalaImageInput');
+  var lekalaEditingNote = document.getElementById('lekalaEditingNote');
+  var lekalaCancelEditBtn = document.getElementById('lekalaCancelEditBtn');
+  var lekalaAddBtn = document.getElementById('lekalaAddBtn');
+  var lekalaEditingId = null;
   var galleryView = document.getElementById('galleryView');
   var galleryUploadForm = document.getElementById('galleryUploadForm');
   var galleryUploadStatus = document.getElementById('galleryUploadStatus');
@@ -650,21 +671,42 @@
     items.forEach(function(item){
       var li = document.createElement('li');
       li.className = 'lekala-row';
+      li.title = t('editingNote');
+
+      if (item.hasImage) {
+        var thumb = document.createElement('img');
+        thumb.className = 'lekala-row-thumb';
+        thumb.src = API_BASE + '/api/lekala-items/' + item.id + '/image';
+        thumb.alt = '';
+        li.appendChild(thumb);
+      }
+
       var span = document.createElement('span');
       var bits = [item.label];
       if (item.price) bits.push(Number(item.price).toLocaleString('ru-RU') + ' ₸');
       if (item.productType === 'course_module') bits.push(t('typeCourseModule') + ' ' + item.moduleKey);
       else if (item.productType === 'course_full') bits.push(t('typeCourseFull'));
-      else bits.push(item.hasFile ? t('hasFile') : t('noFile'));
+      else {
+        bits.push(item.hasFile ? t('hasFile') : t('noFile'));
+        if (item.hasImage) bits.push(t('hasPhoto'));
+      }
       span.textContent = bits.join(' — ');
+      span.style.flex = '1';
+
+      li.addEventListener('click', function(){ startEditLekalaItem(item); });
+
       var del = document.createElement('button');
       del.type = 'button';
       del.className = 'lekala-delete';
       del.textContent = t('del');
-      del.addEventListener('click', function(){
+      del.addEventListener('click', function(e){
+        e.stopPropagation();
         del.disabled = true;
         api('/api/lekala-items/' + item.id, { method: 'DELETE' })
-          .then(loadLekalaItems)
+          .then(function(){
+            if (lekalaEditingId === item.id) cancelLekalaEdit();
+            loadLekalaItems();
+          })
           .catch(function(err){
             if (err && err.unauthorized) { showLogin(); return; }
             del.disabled = false;
@@ -674,6 +716,40 @@
       li.appendChild(del);
       lekalaList.appendChild(li);
     });
+  }
+
+  // Loads an existing item into the form so submitting it PUTs an
+  // update instead of POSTing a new row — the only way to fix a price
+  // or description without deleting and re-creating the item.
+  function startEditLekalaItem(item) {
+    lekalaEditingId = item.id;
+    lekalaForm.elements.label.value = item.label || '';
+    lekalaForm.elements.price.value = item.price || '';
+    lekalaForm.elements.description.value = item.description || '';
+    lekalaForm.elements.productType.value = item.productType || 'file';
+    lekalaTypeInput.dispatchEvent(new Event('change'));
+    if (item.productType === 'course_module') lekalaForm.elements.moduleKey.value = item.moduleKey || 'm1';
+    if (lekalaSlugInput) lekalaSlugInput.value = item.slug || '';
+    lekalaFileInput.value = '';
+    lekalaImageInput.value = '';
+    lekalaEditingNote.textContent = t('editingNote') + item.label;
+    lekalaEditingNote.hidden = false;
+    lekalaCancelEditBtn.hidden = false;
+    lekalaAddBtn.textContent = t('save');
+    lekalaStatus.textContent = '';
+    lekalaStatus.className = 'save-status';
+    lekalaForm.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function cancelLekalaEdit() {
+    lekalaEditingId = null;
+    lekalaForm.reset();
+    if (lekalaModuleInput) lekalaModuleInput.hidden = true;
+    if (lekalaFileLabel) lekalaFileLabel.hidden = false;
+    if (lekalaSlugInput) lekalaSlugInput.hidden = false;
+    lekalaEditingNote.hidden = true;
+    lekalaCancelEditBtn.hidden = true;
+    lekalaAddBtn.textContent = t('add');
   }
 
   function loadLekalaItems() {
@@ -802,9 +878,13 @@
       var isModule = lekalaTypeInput.value === 'course_module';
       var isFile = lekalaTypeInput.value === 'file';
       lekalaModuleInput.hidden = !isModule;
-      lekalaFileInput.hidden = !isFile;
+      if (lekalaFileLabel) lekalaFileLabel.hidden = !isFile;
       if (lekalaSlugInput) lekalaSlugInput.hidden = !isFile;
     });
+  }
+
+  if (lekalaCancelEditBtn) {
+    lekalaCancelEditBtn.addEventListener('click', cancelLekalaEdit);
   }
 
   lekalaForm.addEventListener('submit', function(e){
@@ -812,32 +892,32 @@
     var label = lekalaForm.elements.label.value.trim();
     if (!label) return;
 
-    lekalaStatus.textContent = t('adding');
+    var isEdit = !!lekalaEditingId;
+    lekalaStatus.textContent = t(isEdit ? 'saving' : 'adding');
     lekalaStatus.className = 'save-status';
 
     var formData = new FormData(lekalaForm);
+    var url = API_BASE + '/api/lekala-items' + (isEdit ? '/' + lekalaEditingId : '');
 
-    fetch(API_BASE + '/api/lekala-items', {
-      method: 'POST',
+    fetch(url, {
+      method: isEdit ? 'PUT' : 'POST',
       credentials: 'include',
       body: formData
     })
       .then(function(res){
         if (res.status === 401) throw { unauthorized: true };
-        if (!res.ok) throw new Error('add_failed');
+        if (!res.ok) throw new Error(isEdit ? 'save_failed' : 'add_failed');
         return res.json();
       })
       .then(function(){
-        lekalaForm.reset();
-        if (lekalaModuleInput) lekalaModuleInput.hidden = true;
-        if (lekalaFileInput) lekalaFileInput.hidden = false;
-        lekalaStatus.textContent = t('added');
+        cancelLekalaEdit();
+        lekalaStatus.textContent = t(isEdit ? 'saved' : 'added');
         lekalaStatus.className = 'save-status ok';
         loadLekalaItems();
       })
       .catch(function(err){
         if (err && err.unauthorized) { showLogin(); return; }
-        lekalaStatus.textContent = t('addError');
+        lekalaStatus.textContent = t(isEdit ? 'saveError' : 'addError');
         lekalaStatus.className = 'save-status err';
       });
   });
