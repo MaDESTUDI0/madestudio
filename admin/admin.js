@@ -69,12 +69,17 @@
       adding: 'Добавляем…',
       added: 'Добавлено',
       addError: 'Не получилось добавить',
-      ordersHint: 'Все заказы — товары и курс вместе. Покупатель оплачивает по ссылке Kaspi и присылает вам чек в WhatsApp. Когда чек пришёл — нажмите «Подтвердить оплату»: файлы уйдут покупателю на почту, а доступ к курсу/модулю откроется у него сам.',
+      ordersHint: 'Все заказы — товары и курс вместе. Покупатель оплачивает по ссылке Kaspi и присылает вам чек в WhatsApp. В сообщении он указывает номер заказа — найдите этот номер здесь и нажмите «Подтвердить оплату»: файлы уйдут покупателю на почту, а доступ к курсу/модулю откроется у него сам.',
       noOrders: 'Заказов пока нет.',
       loadOrdersError: 'Не удалось загрузить заказы.',
-      statusPending: 'Ожидает оплаты',
-      statusPaid: 'Оплачен, файлы отправлены',
+      statusPending: 'Ждёт подтверждения',
+      statusPaid: 'Оплачен, доступ выдан',
       total: 'Итого',
+      orderNo: 'Заказ №',
+      orderPlaced: 'Оформлен',
+      orderConfirmed: 'Подтверждён',
+      ordersSummary: 'Всего заказов',
+      ordersPendingCount: 'ждут подтверждения',
       confirmPayment: 'Подтвердить оплату',
       sending: 'Отправляем…',
       retryFailed: 'Не получилось, повторить',
@@ -163,12 +168,17 @@
       adding: 'Қосылуда…',
       added: 'Қосылды',
       addError: 'Қосу мүмкін болмады',
-      ordersHint: 'Барлық тапсырыстар — тауарлар мен курс бірге. Сатып алушы Kaspi сілтемесі арқылы төлеп, түбіртекті WhatsApp-қа жібереді. Түбіртек келгенде «Төлемді растау» түймесін басыңыз: файлдар поштаға кетеді, курсқа/модульге қолжетімділік өзі ашылады.',
+      ordersHint: 'Барлық тапсырыстар — тауарлар мен курс бірге. Сатып алушы Kaspi сілтемесі арқылы төлеп, түбіртекті WhatsApp-қа жібереді. Хабарламада тапсырыс нөмірі көрсетіледі — сол нөмірді осы жерден тауып, «Төлемді растау» түймесін басыңыз: файлдар поштаға кетеді, курсқа/модульге қолжетімділік өзі ашылады.',
       noOrders: 'Әзірге тапсырыстар жоқ.',
       loadOrdersError: 'Тапсырыстарды жүктеу мүмкін болмады.',
-      statusPending: 'Төлемді күтуде',
-      statusPaid: 'Төленді, файлдар жіберілді',
+      statusPending: 'Растауды күтуде',
+      statusPaid: 'Төленді, қолжетімділік берілді',
       total: 'Барлығы',
+      orderNo: 'Тапсырыс №',
+      orderPlaced: 'Рәсімделді',
+      orderConfirmed: 'Расталды',
+      ordersSummary: 'Барлық тапсырыс',
+      ordersPendingCount: 'растауды күтуде',
       confirmPayment: 'Төлемді растау',
       sending: 'Жіберілуде…',
       retryFailed: 'Сәтсіз аяқталды, қайталаңыз',
@@ -832,44 +842,90 @@
       });
   });
 
+  function money(value) {
+    return Number(value || 0).toLocaleString('ru-RU') + ' ₸';
+  }
+
+  // "23.09.2026, 19:40" — the owner needs to tell one order from another
+  // when a customer writes "я оплатил" without saying what exactly.
+  function formatWhen(value) {
+    if (!value) return '';
+    var d = new Date(value);
+    if (isNaN(d.getTime())) return '';
+    return d.toLocaleString('ru-RU', {
+      day: '2-digit', month: '2-digit', year: 'numeric',
+      hour: '2-digit', minute: '2-digit'
+    });
+  }
+
   function renderOrders(orders) {
     ordersList.innerHTML = '';
     if (!orders.length) {
       ordersList.innerHTML = '<p class="empty-note">' + t('noOrders') + '</p>';
       return;
     }
+
+    var pending = orders.filter(function(o){ return o.status === 'pending'; }).length;
+    var summary = document.createElement('p');
+    summary.className = 'orders-summary';
+    summary.textContent = t('ordersSummary') + ': ' + orders.length +
+      (pending ? ' · ' + pending + ' ' + t('ordersPendingCount') : '');
+    ordersList.appendChild(summary);
+
     orders.forEach(function(order){
       var card = document.createElement('div');
-      card.className = 'order-card';
+      card.className = 'order-card order-card-' + order.status;
 
       var head = document.createElement('div');
       head.className = 'order-card-head';
-      var who = document.createElement('span');
-      who.textContent = (order.name ? order.name + ' — ' : '') + order.email;
+      var no = document.createElement('span');
+      no.className = 'order-no';
+      no.textContent = t('orderNo') + order.id;
       var status = document.createElement('span');
       status.className = 'order-status order-status-' + order.status;
       status.textContent = order.status === 'paid' ? t('statusPaid') : (order.status === 'pending' ? t('statusPending') : order.status);
-      head.appendChild(who);
+      head.appendChild(no);
       head.appendChild(status);
       card.appendChild(head);
+
+      var meta = document.createElement('p');
+      meta.className = 'order-meta';
+      meta.textContent = t('orderPlaced') + ': ' + formatWhen(order.created_at);
+      if (order.status === 'paid' && order.confirmed_at) {
+        meta.textContent += ' · ' + t('orderConfirmed') + ': ' + formatWhen(order.confirmed_at);
+      }
+      card.appendChild(meta);
+
+      var who = document.createElement('p');
+      who.className = 'order-buyer';
+      if (order.name) who.appendChild(document.createTextNode(order.name + ' — '));
+      var mail = document.createElement('a');
+      mail.href = 'mailto:' + order.email;
+      mail.textContent = order.email;
+      who.appendChild(mail);
+      card.appendChild(who);
 
       var items = document.createElement('ul');
       items.className = 'order-items';
       var total = 0;
       order.items.forEach(function(item){
         var li = document.createElement('li');
-        li.textContent = item.label + (item.price ? ' — ' + Number(item.price).toLocaleString('ru-RU') + ' ₸' : '');
+        var name = document.createElement('span');
+        name.textContent = item.label;
+        var price = document.createElement('span');
+        price.className = 'order-item-price';
+        price.textContent = money(item.price);
+        li.appendChild(name);
+        li.appendChild(price);
         items.appendChild(li);
         total += Number(item.price) || 0;
       });
       card.appendChild(items);
 
-      if (total) {
-        var totalP = document.createElement('p');
-        totalP.className = 'order-total';
-        totalP.textContent = t('total') + ': ' + total.toLocaleString('ru-RU') + ' ₸';
-        card.appendChild(totalP);
-      }
+      var totalP = document.createElement('p');
+      totalP.className = 'order-total';
+      totalP.textContent = t('total') + ': ' + money(total);
+      card.appendChild(totalP);
 
       if (order.status === 'pending') {
         var confirmBtn = document.createElement('button');

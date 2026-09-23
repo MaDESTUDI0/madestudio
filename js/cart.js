@@ -31,9 +31,12 @@
       needLogin: 'Чтобы оформить заказ, сначала войдите или зарегистрируйтесь.',
       login: 'Войти',
       register: 'Регистрация',
-      success: 'Заказ создан. Оплатите по ссылке Kaspi и пришлите нам чек в WhatsApp — после проверки откроем доступ к курсу и отправим файлы на почту.',
+      // {n} = order number, {sum} = total — the buyer quotes both when
+      // sending the receipt so the owner can match it to the order.
+      success: 'Заказ №{n} на {sum} создан. 1) Оплатите по ссылке Kaspi. 2) Пришлите нам чек в WhatsApp, указав номер заказа. После проверки откроем доступ к курсу и отправим файлы на почту.',
       pay: 'Оплатить через Kaspi',
-      sendReceipt: 'Отправить чек',
+      sendReceipt: 'Отправить чек в WhatsApp',
+      receiptMessage: 'Здравствуйте! Оплатил(а) заказ №{n} на {sum}, отправляю чек.',
       fail: 'Не получилось оформить заказ, попробуйте ещё раз.',
       title: 'Корзина'
     },
@@ -46,9 +49,10 @@
       needLogin: 'Тапсырыс беру үшін алдымен кіріңіз немесе тіркеліңіз.',
       login: 'Кіру',
       register: 'Тіркелу',
-      success: 'Тапсырыс жасалды. Kaspi сілтемесі арқылы төлеп, түбіртекті WhatsApp-қа жіберіңіз — тексергеннен кейін курсқа қолжетімділік ашылады, файлдар поштаға жіберіледі.',
+      success: '№{n} тапсырыс ({sum}) жасалды. 1) Kaspi сілтемесі арқылы төлеңіз. 2) Тапсырыс нөмірін көрсетіп, түбіртекті WhatsApp-қа жіберіңіз. Тексергеннен кейін курсқа қолжетімділік ашылады, файлдар поштаға жіберіледі.',
       pay: 'Kaspi арқылы төлеу',
-      sendReceipt: 'Түбіртекті жіберу',
+      sendReceipt: 'Түбіртекті WhatsApp-қа жіберу',
+      receiptMessage: 'Сәлеметсіз бе! №{n} тапсырысты ({sum}) төледім, түбіртекті жіберіп отырмын.',
       fail: 'Тапсырысты рәсімдеу сәтсіз аяқталды, қайталап көріңіз.',
       title: 'Себет'
     }
@@ -56,6 +60,18 @@
 
   function money(n) {
     return Number(n).toLocaleString('ru-RU') + ' ₸';
+  }
+
+  function fill(template, vars) {
+    return template.replace(/\{(\w+)\}/g, function(_, key){
+      return vars[key] != null ? vars[key] : '';
+    });
+  }
+
+  function escapeHtml(str) {
+    return String(str).replace(/[&<>"]/g, function(ch){
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch];
+    });
   }
 
   function readCart() {
@@ -231,11 +247,17 @@
       statusEl.className = 'cart-panel-status';
 
       api('/api/orders', { method: 'POST', body: JSON.stringify({ itemIds: ids }) })
-        .then(function(){
+        .then(function(order){
           Cart.clear();
-          statusEl.innerHTML = s.success +
+          // Total comes from the server's reply, not the local cart: the
+          // price in the order is whatever the catalog says right now.
+          var serverItems = (order && order.items) || [];
+          var total = serverItems.reduce(function(sum, i){ return sum + (Number(i.price) || 0); }, 0);
+          var vars = { n: order && order.id ? order.id : '', sum: money(total) };
+          var waHref = RECEIPT_WHATSAPP + '?text=' + encodeURIComponent(fill(s.receiptMessage, vars));
+          statusEl.innerHTML = escapeHtml(fill(s.success, vars)) +
             ' <a class="btn btn-solid" href="' + KASPI_LINK + '" target="_blank" rel="noopener">' + s.pay + '</a>' +
-            ' <a class="btn btn-outline" href="' + RECEIPT_WHATSAPP + '" target="_blank" rel="noopener">' + s.sendReceipt + '</a>';
+            ' <a class="btn btn-outline" href="' + waHref + '" target="_blank" rel="noopener">' + s.sendReceipt + '</a>';
           statusEl.className = 'cart-panel-status ok';
         })
         .catch(function(err){
