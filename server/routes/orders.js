@@ -119,7 +119,7 @@ router.post('/orders/:id/confirm', requireRole('owner'), asyncHandler(async (req
   if (order.status === 'paid') return res.status(409).json({ error: 'already_confirmed' });
 
   const { rows: items } = await pool.query(
-    `SELECT order_items.label, order_items.product_type AS "productType", order_items.module_key AS "moduleKey",
+    `SELECT order_items.label, order_items.price, order_items.product_type AS "productType", order_items.module_key AS "moduleKey",
             lekala_items.file_name AS "fileName", lekala_items.file_mime AS "fileMime", lekala_items.file_data AS "fileData"
      FROM order_items
      LEFT JOIN lekala_items ON lekala_items.id = order_items.lekala_item_id
@@ -160,7 +160,7 @@ router.post('/orders/:id/confirm', requireRole('owner'), asyncHandler(async (req
     client.release();
   }
 
-  await sendOrderReceipt(order.email, order.name, items);
+  await sendOrderReceipt(order.email, order.name, items, order.id);
 
   res.json({ id: order.id, status: 'paid' });
 }));

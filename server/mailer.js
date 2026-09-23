@@ -63,17 +63,24 @@ const CABINET_URL = 'https://madestudio.net/cabinet.html';
  *   - a course/module was granted      -> "открыт доступ в личном кабинете"
  *   - neither (no file on record)      -> "пришлём отдельно" fallback
  */
-async function sendOrderReceipt(email, name, items) {
+function money(value) {
+  return Number(value || 0).toLocaleString('ru-RU') + ' ₸';
+}
+
+async function sendOrderReceipt(email, name, items, orderId) {
   const withFile = items.filter((item) => item.fileData);
   const courseItems = items.filter((item) => item.productType === 'course_module' || item.productType === 'course_full');
   const otherPending = items.filter((item) => !item.fileData && item.productType !== 'course_module' && item.productType !== 'course_full');
+  const total = items.reduce((sum, item) => sum + (Number(item.price) || 0), 0);
 
-  const subject = 'Ваш заказ — MaDE';
+  const subject = 'Ваш заказ' + (orderId ? ' №' + orderId : '') + ' — MaDE';
   const lines = [
     `Здравствуйте${name ? ', ' + name : ''}!`,
     '',
-    'Спасибо за оплату. Ваш заказ:',
-    ...items.map((item) => `— ${item.label}`),
+    'Спасибо за оплату. Ваш заказ' + (orderId ? ' №' + orderId : '') + ':',
+    ...items.map((item) => `— ${item.label}${item.price ? ' — ' + money(item.price) : ''}`),
+    '',
+    `Итого: ${money(total)}`,
     ''
   ];
   if (withFile.length) lines.push('Файлы приложены к этому письму.');
@@ -83,8 +90,9 @@ async function sendOrderReceipt(email, name, items) {
   const html = `
     <div style="font-family:sans-serif;color:#241D19;">
       <p>Здравствуйте${name ? ', ' + name : ''}!</p>
-      <p>Спасибо за оплату. Ваш заказ:</p>
-      <ul>${items.map((item) => `<li>${item.label}</li>`).join('')}</ul>
+      <p>Спасибо за оплату. Ваш заказ${orderId ? ' №' + orderId : ''}:</p>
+      <ul>${items.map((item) => `<li>${item.label}${item.price ? ' — <strong>' + money(item.price) + '</strong>' : ''}</li>`).join('')}</ul>
+      <p style="font-size:16px;"><strong>Итого: ${money(total)}</strong></p>
       ${withFile.length ? '<p>Файлы приложены к этому письму.</p>' : ''}
       ${courseItems.length ? `<p>Доступ открыт в личном кабинете: <a href="${CABINET_URL}">${CABINET_URL}</a></p>` : ''}
       ${otherPending.length ? '<p style="color:#A8846A;font-size:13px;">Остальные позиции пришлём отдельно.</p>' : ''}
