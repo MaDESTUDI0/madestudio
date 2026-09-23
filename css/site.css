@@ -530,27 +530,6 @@ main{
     rgba(94,31,43,.04) 0 1px, transparent 1px 12px);
 }
 
-/* ===== Courses page — cursive margin accents =====
-   A few one-off script phrases in the margins, same Pinyon Script the
-   logo uses. Plain text, not an image or a repeating tile, so there's
-   no resolution or seam concern — just a quiet flourish in otherwise
-   empty space, on pages wide enough to have that space. */
-.margin-accent{
-  position:absolute;top:64px;
-  font-family:'Pinyon Script',cursive;font-size:26px;
-  color:rgba(94,31,43,.4);white-space:nowrap;
-  pointer-events:none;
-}
-/* Anchored just outside the 1080px wrap's edge (the section itself is
-   full-bleed, so this is relative to its own centre, not a fixed
-   viewport offset — that clipped on narrower wide viewports). The
-   text then grows OUTWARD from that anchor via translateX, whatever
-   its length, so it can never reach back in and sit on top of the
-   wrap's content — that was the actual bug, not the z-index. */
-.margin-accent-left{left:calc(50% - 560px);transform:translateX(-100%) rotate(-6deg);}
-.margin-accent-right{right:calc(50% - 560px);transform:translateX(100%) rotate(5deg);}
-@media (max-width:1300px){.margin-accent{display:none;}}
-
 /* Matching treatment for the CTA band on pages that carry no photo
    decor of their own (the homepage band keeps its fabric crops). */
 .enroll:not(:has(.enroll-decor))::before{
@@ -574,7 +553,7 @@ main{
 .page-lead{font-size:17px;max-width:56ch;color:var(--ink);font-weight:300;}
 
 /* ===== Generic content section ===== */
-.section{padding:72px 0;position:relative;}
+.section{padding:72px 0;}
 .section-tight{padding:56px 0;}
 .section-divider{border-top:1px solid var(--rule);}
 .section-head{margin-bottom:44px;max-width:60ch;}
