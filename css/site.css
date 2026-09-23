@@ -601,11 +601,19 @@ main{
 .product h3{font-size:22px;margin-bottom:8px;}
 .product p{font-size:14.5px;color:var(--ink);margin-bottom:16px;max-width:36ch;}
 .product-meta{
-  display:flex;justify-content:space-between;align-items:center;
+  display:flex;flex-direction:column;gap:12px;
   font-size:14px;
 }
 .product-price{font-family:'Playfair Display',serif;color:var(--wine);font-size:18px;}
 .product-cta{color:var(--wine);border-bottom:1px solid var(--wine);padding-bottom:2px;}
+.product-actions{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px 16px;}
+.product-buy-btn{
+  background:var(--wine);color:var(--paper-light);
+  padding:9px 20px;border-radius:14px;font-size:13px;
+  border:1px solid var(--wine);
+  transition:background .3s ease,box-shadow .3s ease;
+}
+.product-buy-btn:hover{background:var(--wine-deep);border-color:var(--wine-deep);box-shadow:0 8px 18px -10px rgba(94,31,43,.5);}
 
 /* ===== Module offers (courses) ===== */
 .module-offer-grid{
@@ -658,9 +666,11 @@ main{
   border:1px solid var(--rule);border-radius:2px;padding:5px 10px;
 }
 .lekala-pick{
-  display:flex;align-items:center;justify-content:space-between;gap:14px;
-  padding:10px 14px;transition:border-color .2s ease;
+  display:flex;flex-direction:column;align-items:stretch;gap:12px;
+  padding:14px 16px;font-size:15.5px;line-height:1.4;
+  transition:border-color .2s ease;
 }
+.lekala-pick .course-cart-btn{align-self:flex-start;}
 .lekala-pick:has(.course-cart-btn.in-cart){border-color:var(--wine);}
 .lekala-cart-bar{
   display:flex;justify-content:space-between;align-items:center;gap:16px;
