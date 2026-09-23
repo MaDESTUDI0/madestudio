@@ -521,6 +521,32 @@ footer{padding:32px 0;}
   .page-hero::after{right:-260px;top:-300px;width:480px;height:480px;}
 }
 
+/* ===== Courses page — hero-only photo decor =====
+   A single image per side, sized with cover and confined to the hero's
+   own height (no repeat, no page-long stretch) — the same technique as
+   the homepage hero, just for this one section. The generated wash,
+   weave and dashed curve step aside here since the photo carries that
+   role instead; the rest of the page keeps the usual generated decor. */
+body[data-page="courses"] .page-hero{background:none;}
+body[data-page="courses"] .page-hero::before,
+body[data-page="courses"] .page-hero::after{content:none;}
+.courses-hero-decor{
+  position:absolute;top:0;bottom:0;width:600px;
+  background-size:cover;background-repeat:no-repeat;
+  pointer-events:none;z-index:0;
+}
+.courses-hero-decor-left{
+  left:0;background-image:url('../images/decor-courses-left.jpg');background-position:left top;
+  -webkit-mask-image:radial-gradient(ellipse 62% 260% at 26% 100%,#000 42%,transparent 95%);
+  mask-image:radial-gradient(ellipse 62% 260% at 26% 100%,#000 42%,transparent 95%);
+}
+.courses-hero-decor-right{
+  right:0;background-image:url('../images/decor-courses-right.jpg');background-position:right top;
+  -webkit-mask-image:radial-gradient(ellipse 62% 260% at 74% 100%,#000 42%,transparent 95%);
+  mask-image:radial-gradient(ellipse 62% 260% at 74% 100%,#000 42%,transparent 95%);
+}
+@media (max-width:1300px){.courses-hero-decor{display:none;}}
+
 /* Whole-page linen texture on inner pages, so the content areas
    between the hero and the CTA band read as paper rather than flat fill. */
 body:not([data-page="index"]) main{
