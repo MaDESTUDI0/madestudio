@@ -522,50 +522,11 @@ footer{padding:32px 0;}
 }
 
 /* Whole-page linen texture on inner pages, so the content areas
-   between the hero and the CTA band read as paper rather than flat fill.
-   The courses page has its own photo decor instead (see below) and
-   skips both this texture and the generated hero curve, so the two
-   treatments don't layer on top of each other. */
-body:not([data-page="index"]):not([data-page="courses"]) main{
+   between the hero and the CTA band read as paper rather than flat fill. */
+body:not([data-page="index"]) main{
   background-image:repeating-linear-gradient(45deg,
     rgba(94,31,43,.017) 0 1px, transparent 1px 12px);
 }
-body[data-page="courses"] .page-hero::before,
-body[data-page="courses"] .page-hero::after{
-  content:none;
-}
-body[data-page="courses"] .page-hero{
-  background:none;
-}
-
-/* ===== Courses page — photo decor flanking the page margins =====
-   Runs behind the hero and every section down to the CTA band (its
-   own wrap, like .location-footer-wrap). Only shown where there is
-   real margin outside the 1080px content column to put it in.
-
-   The source art is a seamless vertical strip (content hugs one edge,
-   the rest is flat cream) designed to repeat, not to be stretched —
-   background-size:100% auto + repeat-y tiles it at its own resolution
-   however long the page is, instead of scaling a short image up to
-   cover a ~4500px column (which read as soft/blurry). */
-.courses-decor-wrap{position:relative;overflow:hidden;}
-.courses-decor-left,.courses-decor-right{
-  position:absolute;top:0;bottom:0;width:420px;
-  background-size:100% auto;background-repeat:repeat-y;background-position:top;
-  pointer-events:none;z-index:0;
-}
-.courses-decor-left{
-  left:0;background-image:url('../images/decor-courses-left.jpg');
-  -webkit-mask-image:linear-gradient(to right,#000 48%,transparent 94%);
-  mask-image:linear-gradient(to right,#000 48%,transparent 94%);
-}
-.courses-decor-right{
-  right:0;background-image:url('../images/decor-courses-right.jpg');
-  -webkit-mask-image:linear-gradient(to left,#000 48%,transparent 94%);
-  mask-image:linear-gradient(to left,#000 48%,transparent 94%);
-}
-.courses-decor-wrap > section{position:relative;z-index:1;}
-@media (max-width:1300px){.courses-decor-left,.courses-decor-right{display:none;}}
 
 /* Matching treatment for the CTA band on pages that carry no photo
    decor of their own (the homepage band keeps its fabric crops). */
