@@ -36,7 +36,13 @@
       success: 'Заказ №{n} на {sum} создан. 1) Оплатите по ссылке Kaspi. 2) Пришлите нам чек в WhatsApp, указав номер заказа. После проверки откроем доступ к курсу и отправим файлы на почту.',
       pay: 'Оплатить через Kaspi',
       sendReceipt: 'Отправить чек в WhatsApp',
-      receiptMessage: 'Здравствуйте! Оплатил(а) заказ №{n} на {sum}, отправляю чек.',
+      receiptMessage: 'Здравствуйте! Оплатил(а) заказ №{n} на {sum}, отправляю чек.\nСостав заказа: {items}',
+      paidBtn: 'Оплатили?',
+      modalTitle: 'Подтверждение оплаты',
+      modalBody: 'Напишите нам в WhatsApp и приложите скриншот чека об оплате — укажите номер заказа и что купили, так мы быстрее его найдём.',
+      modalOrder: 'Заказ №{n} — {items} — {sum}',
+      modalWaBtn: 'Написать в WhatsApp',
+      modalClose: 'Закрыть окно',
       fail: 'Не получилось оформить заказ, попробуйте ещё раз.',
       title: 'Корзина'
     },
@@ -52,7 +58,13 @@
       success: '№{n} тапсырыс ({sum}) жасалды. 1) Kaspi сілтемесі арқылы төлеңіз. 2) Тапсырыс нөмірін көрсетіп, түбіртекті WhatsApp-қа жіберіңіз. Тексергеннен кейін курсқа қолжетімділік ашылады, файлдар поштаға жіберіледі.',
       pay: 'Kaspi арқылы төлеу',
       sendReceipt: 'Түбіртекті WhatsApp-қа жіберу',
-      receiptMessage: 'Сәлеметсіз бе! №{n} тапсырысты ({sum}) төледім, түбіртекті жіберіп отырмын.',
+      receiptMessage: 'Сәлеметсіз бе! №{n} тапсырысты ({sum}) төледім, түбіртекті жіберіп отырмын.\nТапсырыс құрамы: {items}',
+      paidBtn: 'Төледіңіз бе?',
+      modalTitle: 'Төлемді растау',
+      modalBody: 'WhatsApp-қа жазып, төлем түбіртегінің скриншотын салыңыз — тапсырыс нөмірін және не сатып алғаныңызды көрсетіңіз, солай жылдам табамыз.',
+      modalOrder: 'Тапсырыс №{n} — {items} — {sum}',
+      modalWaBtn: 'WhatsApp-қа жазу',
+      modalClose: 'Терезені жабу',
       fail: 'Тапсырысты рәсімдеу сәтсіз аяқталды, қайталап көріңіз.',
       title: 'Себет'
     }
@@ -131,6 +143,42 @@
         '<p class="cart-panel-status"></p>' +
       '</div>';
     return wrap;
+  }
+
+  // Single shared "confirm payment" modal, reused by every cart widget —
+  // simpler than one per widget, and it lives at the body level so it
+  // isn't clipped by the cart panel's own small popover box.
+  var payModal = document.createElement('div');
+  payModal.className = 'pay-modal-overlay';
+  payModal.hidden = true;
+  payModal.innerHTML =
+    '<div class="pay-modal" role="dialog" aria-modal="true">' +
+      '<button type="button" class="pay-modal-close" aria-label="Закрыть"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 6 18 18M18 6 6 18"/></svg></button>' +
+      '<h3 class="pay-modal-title"></h3>' +
+      '<p class="pay-modal-body"></p>' +
+      '<p class="pay-modal-order"></p>' +
+      '<a class="btn btn-solid pay-modal-wa" target="_blank" rel="noopener"></a>' +
+    '</div>';
+  document.body.appendChild(payModal);
+
+  function closePayModal() { payModal.hidden = true; }
+  payModal.addEventListener('click', function(e){
+    if (e.target === payModal) closePayModal();
+  });
+  payModal.querySelector('.pay-modal-close').addEventListener('click', closePayModal);
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape') closePayModal();
+  });
+
+  function openPayModal(vars) {
+    var s = STRINGS[lang()];
+    payModal.querySelector('.pay-modal-title').textContent = s.modalTitle;
+    payModal.querySelector('.pay-modal-body').textContent = s.modalBody;
+    payModal.querySelector('.pay-modal-order').textContent = fill(s.modalOrder, vars);
+    var waLink = payModal.querySelector('.pay-modal-wa');
+    waLink.href = RECEIPT_WHATSAPP + '?text=' + encodeURIComponent(fill(s.receiptMessage, vars));
+    waLink.textContent = s.modalWaBtn;
+    payModal.hidden = false;
   }
 
   var mainNav = document.querySelector('nav.main-nav');
@@ -253,12 +301,19 @@
           // price in the order is whatever the catalog says right now.
           var serverItems = (order && order.items) || [];
           var total = serverItems.reduce(function(sum, i){ return sum + (Number(i.price) || 0); }, 0);
-          var vars = { n: order && order.id ? order.id : '', sum: money(total) };
-          var waHref = RECEIPT_WHATSAPP + '?text=' + encodeURIComponent(fill(s.receiptMessage, vars));
+          var itemLabels = serverItems.map(function(i){ return i.label; }).join(', ');
+          var vars = { n: order && order.id ? order.id : '', sum: money(total), items: itemLabels };
+
           statusEl.innerHTML = escapeHtml(fill(s.success, vars)) +
-            ' <a class="btn btn-solid" href="' + KASPI_LINK + '" target="_blank" rel="noopener">' + s.pay + '</a>' +
-            ' <a class="btn btn-outline" href="' + waHref + '" target="_blank" rel="noopener">' + s.sendReceipt + '</a>';
+            ' <a class="btn btn-solid" href="' + KASPI_LINK + '" target="_blank" rel="noopener">' + s.pay + '</a>';
           statusEl.className = 'cart-panel-status ok';
+
+          var paidBtn = document.createElement('button');
+          paidBtn.type = 'button';
+          paidBtn.className = 'btn btn-outline cart-paid-btn';
+          paidBtn.textContent = s.paidBtn;
+          paidBtn.addEventListener('click', function(){ openPayModal(vars); });
+          statusEl.appendChild(paidBtn);
         })
         .catch(function(err){
           if (err && err.unauthorized) {
