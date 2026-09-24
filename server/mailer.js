@@ -16,15 +16,13 @@ if (configured) {
     host: SMTP_HOST,
     port: Number(SMTP_PORT) || 587,
     secure: Number(SMTP_PORT) === 465,
-    auth: { user: SMTP_USER, pass: SMTP_PASS },
-    // Reuses SMTP connections instead of doing a fresh TCP+TLS
-    // handshake with Brevo on every single email — that handshake is
-    // most of what made each send feel slow, especially on Render's
-    // free tier. Actual inbox delivery time after that is Brevo's and
-    // the recipient's mail provider's call, not something here.
-    pool: true,
-    maxConnections: 3,
-    maxMessages: 100
+    auth: { user: SMTP_USER, pass: SMTP_PASS }
+    // Tried pool:true here to cut per-send handshake time, but a
+    // pooled connection can go stale on Render's free tier (the
+    // network drops a long-idle connection without telling
+    // nodemailer) and sends start silently failing. Reliability of
+    // "did the buyer get their receipt" matters far more than shaving
+    // off a handshake, so back to a fresh connection per send.
   });
 }
 
