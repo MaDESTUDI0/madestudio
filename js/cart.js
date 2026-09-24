@@ -11,11 +11,9 @@
  */
 (function(){
   var STORAGE_KEY = 'made_cart_v1';
-  var API_BASE = window.MADE_API_BASE || '';
-  var KASPI_LINK = 'https://pay.kaspi.kz/pay/75lrsqpf';
   // Kaspi has no merchant API on this account, so the buyer sends the
   // receipt here and the owner confirms the order in the admin panel.
-  var RECEIPT_WHATSAPP = 'https://wa.me/77786721798';
+  var RECEIPT_WHATSAPP = window.MADE_RECEIPT_WHATSAPP;
 
   function lang() {
     return document.documentElement.lang === 'kk' ? 'kk' : 'ru';
@@ -26,46 +24,27 @@
       empty: 'Корзина пуста.',
       total: 'Итого',
       checkout: 'Перейти к оплате',
-      sending: 'Оформляем…',
       remove: 'Убрать',
-      needLogin: 'Чтобы оформить заказ, сначала войдите или зарегистрируйтесь.',
-      login: 'Войти',
-      register: 'Регистрация',
-      // {n} = order number, {sum} = total — the buyer quotes both when
-      // sending the receipt so the owner can match it to the order.
-      success: 'Заказ №{n} на {sum} создан. 1) Оплатите по ссылке Kaspi. 2) Пришлите нам чек в WhatsApp, указав номер заказа. После проверки откроем доступ к курсу и отправим файлы на почту.',
-      pay: 'Оплатить через Kaspi',
-      sendReceipt: 'Отправить чек в WhatsApp',
+      // {n} = order number, {sum} = total, {items} = comma-joined labels
+      // — the buyer quotes these when sending the receipt so the owner
+      // can match it to the order.
       receiptMessage: 'Здравствуйте! Оплатил(а) заказ №{n} на {sum}, отправляю чек.\nСостав заказа: {items}',
-      paidBtn: 'Оплатили?',
       modalTitle: 'Подтверждение оплаты',
       modalBody: 'Напишите нам в WhatsApp и приложите скриншот чека об оплате — укажите номер заказа и что купили, так мы быстрее его найдём.',
       modalOrder: 'Заказ №{n} — {items} — {sum}',
       modalWaBtn: 'Написать в WhatsApp',
-      modalClose: 'Закрыть окно',
-      fail: 'Не получилось оформить заказ, попробуйте ещё раз.',
       title: 'Корзина'
     },
     kk: {
       empty: 'Себет бос.',
       total: 'Барлығы',
       checkout: 'Төлеуге өту',
-      sending: 'Рәсімделуде…',
       remove: 'Алып тастау',
-      needLogin: 'Тапсырыс беру үшін алдымен кіріңіз немесе тіркеліңіз.',
-      login: 'Кіру',
-      register: 'Тіркелу',
-      success: '№{n} тапсырыс ({sum}) жасалды. 1) Kaspi сілтемесі арқылы төлеңіз. 2) Тапсырыс нөмірін көрсетіп, түбіртекті WhatsApp-қа жіберіңіз. Тексергеннен кейін курсқа қолжетімділік ашылады, файлдар поштаға жіберіледі.',
-      pay: 'Kaspi арқылы төлеу',
-      sendReceipt: 'Түбіртекті WhatsApp-қа жіберу',
       receiptMessage: 'Сәлеметсіз бе! №{n} тапсырысты ({sum}) төледім, түбіртекті жіберіп отырмын.\nТапсырыс құрамы: {items}',
-      paidBtn: 'Төледіңіз бе?',
       modalTitle: 'Төлемді растау',
       modalBody: 'WhatsApp-қа жазып, төлем түбіртегінің скриншотын салыңыз — тапсырыс нөмірін және не сатып алғаныңызды көрсетіңіз, солай жылдам табамыз.',
       modalOrder: 'Тапсырыс №{n} — {items} — {sum}',
       modalWaBtn: 'WhatsApp-қа жазу',
-      modalClose: 'Терезені жабу',
-      fail: 'Тапсырысты рәсімдеу сәтсіз аяқталды, қайталап көріңіз.',
       title: 'Себет'
     }
   };
@@ -77,12 +56,6 @@
   function fill(template, vars) {
     return template.replace(/\{(\w+)\}/g, function(_, key){
       return vars[key] != null ? vars[key] : '';
-    });
-  }
-
-  function escapeHtml(str) {
-    return String(str).replace(/[&<>"]/g, function(ch){
-      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch];
     });
   }
 
@@ -113,19 +86,6 @@
   var BASKET_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">' +
     '<path d="M3 7h18l-1.5 12.3a2 2 0 0 1-2 1.7H6.5a2 2 0 0 1-2-1.7L3 7Z"/>' +
     '<path d="M8 7V5.5a4 4 0 0 1 8 0V7"/></svg>';
-
-  function api(path, opts) {
-    opts = opts || {};
-    opts.credentials = 'include';
-    opts.headers = Object.assign({ 'Content-Type': 'application/json' }, opts.headers || {});
-    return fetch(API_BASE + path, opts).then(function(res){
-      if (res.status === 401) throw { unauthorized: true };
-      return res.json().then(function(body){
-        if (!res.ok) throw body;
-        return body;
-      });
-    });
-  }
 
   function buildWidget(extraClass) {
     var wrap = document.createElement('div');
@@ -180,6 +140,12 @@
     waLink.textContent = s.modalWaBtn;
     payModal.hidden = false;
   }
+
+  // Exposed so checkout.js (a separate page, its own script) can reuse
+  // the same modal and formatting instead of duplicating them.
+  Cart.money = money;
+  Cart.fill = fill;
+  Cart.openPayModal = openPayModal;
 
   var mainNav = document.querySelector('nav.main-nav');
   var mobileBar = document.querySelector('.mobile-bar');
@@ -270,7 +236,6 @@
     var btn = widget.querySelector('.cart-btn');
     var panel = widget.querySelector('.cart-panel');
     var checkoutBtn = widget.querySelector('.cart-checkout-btn');
-    var statusEl = widget.querySelector('.cart-panel-status');
 
     panel.addEventListener('click', function(e){ e.stopPropagation(); });
 
@@ -284,49 +249,11 @@
       }
     });
 
+    // The actual order (contact details, review, submit) happens on
+    // its own page now — this button just takes the cart there.
     checkoutBtn.addEventListener('click', function(){
-      var s = STRINGS[lang()];
-      var ids = readCart().map(function(i){ return i.id; });
-      if (!ids.length) return;
-
-      checkoutBtn.disabled = true;
-      checkoutBtn.textContent = s.sending;
-      statusEl.textContent = '';
-      statusEl.className = 'cart-panel-status';
-
-      api('/api/orders', { method: 'POST', body: JSON.stringify({ itemIds: ids }) })
-        .then(function(order){
-          Cart.clear();
-          // Total comes from the server's reply, not the local cart: the
-          // price in the order is whatever the catalog says right now.
-          var serverItems = (order && order.items) || [];
-          var total = serverItems.reduce(function(sum, i){ return sum + (Number(i.price) || 0); }, 0);
-          var itemLabels = serverItems.map(function(i){ return i.label; }).join(', ');
-          var vars = { n: order && order.id ? order.id : '', sum: money(total), items: itemLabels };
-
-          statusEl.innerHTML = escapeHtml(fill(s.success, vars)) +
-            ' <a class="btn btn-solid" href="' + KASPI_LINK + '" target="_blank" rel="noopener">' + s.pay + '</a>';
-          statusEl.className = 'cart-panel-status ok';
-
-          var paidBtn = document.createElement('button');
-          paidBtn.type = 'button';
-          paidBtn.className = 'btn btn-outline cart-paid-btn';
-          paidBtn.textContent = s.paidBtn;
-          paidBtn.addEventListener('click', function(){ openPayModal(vars); });
-          statusEl.appendChild(paidBtn);
-        })
-        .catch(function(err){
-          if (err && err.unauthorized) {
-            statusEl.innerHTML = s.needLogin + ' <a href="login.html">' + s.login + '</a> · <a href="register.html">' + s.register + '</a>';
-          } else {
-            statusEl.textContent = s.fail;
-          }
-          statusEl.className = 'cart-panel-status err';
-        })
-        .finally(function(){
-          checkoutBtn.disabled = false;
-          checkoutBtn.textContent = s.checkout;
-        });
+      if (!readCart().length) return;
+      window.location.href = 'checkout.html';
     });
   }
 

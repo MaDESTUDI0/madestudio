@@ -291,6 +291,34 @@ nav.main-nav{display:flex;align-items:center;gap:36px;}
 .cart-panel-status .btn{display:inline-block;margin-top:8px;margin-right:6px;padding:9px 18px;font-size:12.5px;text-decoration:none;}
 .cart-panel-status .cart-paid-btn{display:block;width:100%;margin-right:0;text-align:center;}
 
+/* ===== Checkout page ===== */
+.checkout-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:64px;align-items:start;}
+.checkout-summary h2{font-size:22px;margin-bottom:20px;}
+.checkout-items{border-top:1px solid var(--rule);margin-bottom:16px;}
+.checkout-item{
+  display:flex;align-items:center;gap:12px;
+  padding:14px 0;border-bottom:1px solid var(--rule);font-size:14.5px;
+}
+.checkout-item span:first-child{flex:1;}
+.checkout-item-price{color:var(--clay);white-space:nowrap;}
+.checkout-item-remove{
+  background:none;border:none;color:var(--clay);font-size:19px;line-height:1;
+  flex-shrink:0;transition:color .2s ease;
+}
+.checkout-item-remove:hover{color:var(--wine);}
+.checkout-total{font-family:'Playfair Display',serif;color:var(--wine);font-size:19px;}
+.checkout-empty{color:var(--clay);font-size:14.5px;}
+.checkout-empty a{color:var(--wine);border-bottom:1px solid var(--wine);padding-bottom:1px;margin-left:4px;}
+.checkout-success{
+  border:1px solid var(--rule);border-radius:2px;padding:28px;
+  display:flex;flex-direction:column;gap:14px;
+}
+.checkout-success-msg{font-size:14.5px;color:var(--ink);line-height:1.6;}
+.checkout-success .btn{width:100%;text-align:center;}
+@media (max-width:900px){
+  .checkout-grid{grid-template-columns:1fr;gap:40px;}
+}
+
 /* ===== Payment-confirm modal (cart "Оплатили?") ===== */
 .pay-modal-overlay{
   position:fixed;inset:0;z-index:2000;

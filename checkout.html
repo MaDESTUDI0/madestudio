@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Оформление заказа — MaDE</title>
+<meta name="description" content="Проверьте состав заказа, укажите контакты и оплатите через Kaspi.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500;600&family=Pinyon+Script&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/site.css">
+<noscript><style>.reveal{opacity:1!important;transform:none!important;}</style></noscript>
+</head>
+<body data-page="checkout">
+
+<header>
+  <div class="header-inner">
+    <a href="index.html" aria-label="MaDE — главная">
+      <svg class="logo-svg" viewBox="0 0 160 40" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="MaDE">
+        <text x="0" y="30" font-family="'Pinyon Script', cursive" font-size="36" fill="#5E1F2B">MaDE</text>
+      </svg>
+    </a>
+
+    <nav class="main-nav">
+      <div class="nav-links" data-i18n-group>
+        <a data-key="nav.1" href="courses.html" data-ru="Курсы" data-kk="Курстар">Курсы</a>
+        <a data-key="nav.2" href="atelier.html" data-ru="Ателье" data-kk="Ателье">Ателье</a>
+        <a data-key="nav.3" href="gallery.html" data-ru="Работы" data-kk="Жұмыстар">Работы</a>
+        <a data-key="nav.4" href="shop.html" data-ru="Магазин" data-kk="Дүкен">Магазин</a>
+        <a data-key="nav.5" href="reviews.html" data-ru="Отзывы" data-kk="Пікірлер">Отзывы</a>
+        <a data-key="nav.6" href="about.html" data-ru="О студии" data-kk="Студия туралы">О студии</a>
+      </div>
+
+      <div class="lang-switch" role="group" aria-label="Язык / Тіл">
+        <button type="button" data-lang="ru" class="active">Рус</button>
+        <span class="sep">/</span>
+        <button type="button" data-lang="kk">Қаз</button>
+      </div>
+
+      <div class="auth-group">
+        <a data-key="nav.7" href="login.html" class="btn btn-outline header-cta" data-ru="Войти" data-kk="Кіру">Войти</a>
+        <a data-key="nav.8" href="register.html" class="btn btn-outline header-cta" data-ru="Регистрация" data-kk="Тіркелу">Регистрация</a>
+      </div>
+      <a data-key="nav.9" href="courses.html#signup" class="btn btn-solid header-cta" data-ru="Записаться" data-kk="Жазылу">Записаться</a>
+    </nav>
+
+    <div class="mobile-bar">
+      <div class="lang-switch mobile-lang-switch" role="group" aria-label="Язык / Тіл">
+        <button type="button" data-lang="ru" class="active">Рус</button>
+        <span class="sep">/</span>
+        <button type="button" data-lang="kk">Қаз</button>
+      </div>
+
+      <button class="burger" id="burgerBtn" aria-expanded="false" aria-controls="mobileNav" aria-label="Меню">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="mobile-nav" id="mobileNav" data-i18n-group>
+    <a data-key="mobile-nav.1" href="courses.html" data-ru="Курсы" data-kk="Курстар">Курсы</a>
+    <a data-key="mobile-nav.2" href="atelier.html" data-ru="Ателье" data-kk="Ателье">Ателье</a>
+    <a data-key="mobile-nav.3" href="gallery.html" data-ru="Работы" data-kk="Жұмыстар">Работы</a>
+    <a data-key="mobile-nav.4" href="shop.html" data-ru="Магазин" data-kk="Дүкен">Магазин</a>
+    <a data-key="mobile-nav.5" href="reviews.html" data-ru="Отзывы" data-kk="Пікірлер">Отзывы</a>
+    <a data-key="mobile-nav.6" href="about.html" data-ru="О студии" data-kk="Студия туралы">О студии</a>
+    <a data-key="mobile-nav.7" href="login.html" class="header-login" data-ru="Войти" data-kk="Кіру">Войти</a>
+    <a data-key="mobile-nav.8" href="register.html" class="header-login" data-ru="Регистрация" data-kk="Тіркелу">Регистрация</a>
+    <div class="mobile-extra">
+      <a data-key="mobile-nav.9" href="courses.html#signup" class="btn btn-solid" data-ru="Записаться" data-kk="Жазылу">Записаться</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="page-hero">
+    <div class="wrap">
+      <div class="eyebrow reveal" data-ru="Корзина · Оформление" data-kk="Себет · Рәсімдеу">Корзина · Оформление</div>
+      <h1 class="page-title reveal reveal-d1" data-ru="Оформление заказа" data-kk="Тапсырысты рәсімдеу">Оформление заказа</h1>
+      <p class="page-lead reveal reveal-d2" data-ru="Проверьте состав заказа и укажите контакты — дальше оплата по ссылке Kaspi." data-kk="Тапсырыс құрамын тексеріп, байланыс деректерін көрсетіңіз — әрі қарай Kaspi сілтемесі арқылы төлем.">
+        Проверьте состав заказа и укажите контакты — дальше оплата по ссылке Kaspi.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap checkout-grid">
+
+      <div class="checkout-summary reveal">
+        <h2 data-ru="Ваш заказ" data-kk="Сіздің тапсырысыңыз">Ваш заказ</h2>
+        <div id="checkoutItems" class="checkout-items"></div>
+        <div id="checkoutTotal" class="checkout-total"></div>
+        <p id="checkoutEmpty" class="checkout-empty" hidden>
+          <span data-ru="Корзина пуста." data-kk="Себет бос.">Корзина пуста.</span>
+          <a href="shop.html" data-ru="Перейти в магазин" data-kk="Дүкенге өту">Перейти в магазин</a>
+        </p>
+      </div>
+
+      <div class="checkout-form-col reveal reveal-d1">
+        <form id="checkoutForm" class="account-form">
+          <label>
+            <span data-ru="ФИО" data-kk="Аты-жөні">ФИО</span>
+            <input type="text" name="name" autocomplete="name" maxlength="100" required>
+          </label>
+          <label>
+            <span data-ru="Телефон" data-kk="Телефон">Телефон</span>
+            <input type="tel" name="phone" autocomplete="tel" placeholder="+7 700 000 00 00" maxlength="30" required>
+          </label>
+          <button type="submit" class="btn btn-solid" id="checkoutSubmitBtn" data-ru="Оформить заказ" data-kk="Тапсырысты рәсімдеу">Оформить заказ</button>
+          <p id="checkoutError" class="account-error"></p>
+        </form>
+
+        <div id="checkoutSuccess" class="checkout-success" hidden>
+          <p id="checkoutSuccessMsg" class="checkout-success-msg"></p>
+          <a id="checkoutKaspiBtn" class="btn btn-solid" target="_blank" rel="noopener"></a>
+          <button type="button" id="checkoutPaidBtn" class="btn btn-outline checkout-paid-btn"></button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap footer-row">
+    <div>© 2026 MaDE, Алматы</div>
+    <div class="footer-links">
+      <a data-key="footer.1" href="courses.html" data-ru="Курсы" data-kk="Курстар">Курсы</a>
+      <a data-key="footer.2" href="atelier.html" data-ru="Ателье" data-kk="Ателье">Ателье</a>
+      <a data-key="footer.3" href="shop.html" data-ru="Магазин" data-kk="Дүкен">Магазин</a>
+      <a data-key="footer.4" href="contacts.html" data-ru="Контакты" data-kk="Байланыс">Контакты</a>
+      <a href="https://instagram.com/made_studio_kz" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://2gis.kz" target="_blank" rel="noopener">2ГИС</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  window.MADE_TITLES = {
+    ru: 'Оформление заказа — MaDE',
+    kk: 'Тапсырысты рәсімдеу — MaDE'
+  };
+</script>
+<script src="js/config.js"></script>
+<script src="js/site.js"></script>
+<script src="js/content-loader.js"></script>
+<script src="js/auth-widget.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/checkout.js"></script>
+</body>
+</html>
