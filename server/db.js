@@ -132,6 +132,14 @@ async function migrate() {
       granted_at TIMESTAMPTZ NOT NULL DEFAULT now(),
       PRIMARY KEY (user_id, module_key)
     );
+
+    CREATE TABLE IF NOT EXISTS reviews (
+      id SERIAL PRIMARY KEY,
+      author_name TEXT NOT NULL,
+      course_label TEXT NOT NULL DEFAULT '',
+      text TEXT NOT NULL,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+    );
   `);
 }
 

@@ -14,6 +14,7 @@ const galleryRoutes = require('./routes/gallery');
 const ordersRoutes = require('./routes/orders');
 const courseAccessRoutes = require('./routes/course-access');
 const paymentsRoutes = require('./routes/payments');
+const reviewsRoutes = require('./routes/reviews');
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -75,6 +76,7 @@ app.use('/api', galleryRoutes);
 app.use('/api', ordersRoutes);
 app.use('/api', courseAccessRoutes);
 app.use('/api', paymentsRoutes);
+app.use('/api', reviewsRoutes);
 
 // Serve the admin panel
 app.use('/admin', express.static(path.join(__dirname, '..', 'admin')));

@@ -136,6 +136,22 @@
         <p id="galleryUploadStatus" class="save-status"></p>
         <div id="galleryPhotosGrid" class="gallery-upload-grid"></div>
       </div>
+
+      <div id="reviewsView" class="lekala-view" hidden>
+        <p class="lekala-hint" id="reviewsHint">Отзывы, которые вы добавите здесь, появятся на странице «Отзывы». Нажмите на отзыв в списке ниже, чтобы отредактировать его.</p>
+        <ul id="reviewsList" class="lekala-list"></ul>
+        <form id="reviewsForm" class="lekala-form">
+          <p class="lekala-form-editing" id="reviewsEditingNote" hidden></p>
+          <input type="text" name="authorName" id="reviewsAuthorInput" placeholder="Имя ученицы" required>
+          <input type="text" name="courseLabel" id="reviewsCourseInput" placeholder="Курс (например: Шитье и кройка)">
+          <textarea name="text" id="reviewsTextInput" placeholder="Текст отзыва" rows="3" required></textarea>
+          <div class="lekala-form-actions">
+            <button type="submit" class="btn-solid" id="reviewsAddBtn">Добавить</button>
+            <button type="button" class="btn-outline" id="reviewsCancelEditBtn" hidden>Отмена</button>
+          </div>
+        </form>
+        <p id="reviewsStatus" class="save-status"></p>
+      </div>
     </main>
   </div>
 </div>

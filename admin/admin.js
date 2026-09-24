@@ -55,6 +55,12 @@
       galleryNav: 'Фото галереи',
       ordersNav: 'Заказы',
       courseAccessNav: 'Доступ к курсу',
+      reviewsNav: 'Отзывы',
+      reviewsHint: 'Отзывы, которые вы добавите здесь, появятся на странице «Отзывы». Нажмите на отзыв в списке ниже, чтобы отредактировать его.',
+      reviewsAuthorPlaceholder: 'Имя ученицы',
+      reviewsCoursePlaceholder: 'Курс (например: Шитье и кройка)',
+      reviewsTextPlaceholder: 'Текст отзыва',
+      noReviewsYet: 'Пока нет ни одного отзыва.',
       lekalaHint: 'Любой товар или курс — одной строкой. «Файл» — это то, что покупатель получит на почту (лекало, планер и т.п.). «Модуль курса» и «Весь курс» открывают доступ ученику в личном кабинете на сайте. Добавьте фото и описание — и товар сам появится в «Магазине» отдельной карточкой с кнопкой «Добавить в корзину», без фото — попадёт в общий список «Наборы лекал». Нажмите на товар в списке ниже, чтобы отредактировать его (например, изменить цену). Как только вы подтвердите оплату в разделе «Заказы» — доставка происходит автоматически: письмо с файлом либо открытие доступа на сайте.',
       lekalaLabelPlaceholder: 'Например: Платье, 42–50 размер',
       lekalaPricePlaceholder: 'Цена, ₸',
@@ -162,6 +168,12 @@
       galleryNav: 'Галерея фотосуреттері',
       ordersNav: 'Тапсырыстар',
       courseAccessNav: 'Курсқа қолжетімділік',
+      reviewsNav: 'Пікірлер',
+      reviewsHint: 'Осында қосатын пікірлер «Пікірлер» бетінде пайда болады. Өзгерту үшін төмендегі тізімнен пікірді басыңыз.',
+      reviewsAuthorPlaceholder: 'Оқушының аты',
+      reviewsCoursePlaceholder: 'Курс (мысалы: Тігу және кесу)',
+      reviewsTextPlaceholder: 'Пікір мәтіні',
+      noReviewsYet: 'Әзірге бірде-бір пікір жоқ.',
       lekalaHint: 'Кез келген тауар немесе курс — бір жолда. «Файл» — сатып алушы поштаға алатын нәрсе (лекало, планер және т.б.). «Курс модулі» және «Толық курс» оқушыға сайттағы жеке кабинетте қолжетімділік ашады. Фото мен сипаттама қосыңыз — тауар «Дүкенде» өз бетінше жеке карточка ретінде, «Себетке қосу» түймесімен пайда болады, фотосыз болса — жалпы «Лекал жинақтары» тізіміне түседі. Өзгерту үшін (мысалы, бағасын) төмендегі тізімнен тауарды басыңыз. «Тапсырыстар» бөлімінде төлемді растаған соң — жеткізу автоматты түрде болады: файлы бар хат немесе сайтта қолжетімділіктің ашылуы.',
       lekalaLabelPlaceholder: 'Мысалы: Көйлек, 42–50 өлшем',
       lekalaPricePlaceholder: 'Бағасы, ₸',
@@ -231,6 +243,7 @@
   var GALLERY_ID = 'gallery-photos-view';
   var ORDERS_ID = 'orders-view';
   var COURSE_ACCESS_ID = 'course-access-view';
+  var REVIEWS_ID = 'reviews-view';
 
   var loginScreen = document.getElementById('loginScreen');
   var loginForm = document.getElementById('loginForm');
@@ -267,6 +280,14 @@
   var ordersList = document.getElementById('ordersList');
   var courseAccessView = document.getElementById('courseAccessView');
   var courseAccessList = document.getElementById('courseAccessList');
+  var reviewsView = document.getElementById('reviewsView');
+  var reviewsList = document.getElementById('reviewsList');
+  var reviewsForm = document.getElementById('reviewsForm');
+  var reviewsStatus = document.getElementById('reviewsStatus');
+  var reviewsEditingNote = document.getElementById('reviewsEditingNote');
+  var reviewsCancelEditBtn = document.getElementById('reviewsCancelEditBtn');
+  var reviewsAddBtn = document.getElementById('reviewsAddBtn');
+  var reviewsEditingId = null;
 
   var currentPage = null;
   var originalContent = {};
@@ -315,6 +336,12 @@
     document.getElementById('galleryAltInput').placeholder = t('captionPlaceholder');
     document.getElementById('galleryPhotoLabel').textContent = t('photoLabel');
     document.getElementById('galleryUploadBtn').textContent = t('upload');
+    document.getElementById('reviewsHint').textContent = t('reviewsHint');
+    document.getElementById('reviewsAuthorInput').placeholder = t('reviewsAuthorPlaceholder');
+    document.getElementById('reviewsCourseInput').placeholder = t('reviewsCoursePlaceholder');
+    document.getElementById('reviewsTextInput').placeholder = t('reviewsTextPlaceholder');
+    reviewsAddBtn.textContent = t(reviewsEditingId ? 'save' : 'add');
+    reviewsCancelEditBtn.textContent = t('cancelEdit');
 
     if (whoami.dataset.username) {
       whoami.textContent = t('loggedInAs') + whoami.dataset.username;
@@ -330,6 +357,8 @@
       openOrders();
     } else if (currentPage === COURSE_ACCESS_ID) {
       openCourseAccess();
+    } else if (currentPage === REVIEWS_ID) {
+      openReviewsView();
     } else {
       renderNav();
     }
@@ -404,6 +433,14 @@
     if (currentPage === COURSE_ACCESS_ID) courseAccessBtn.classList.add('active');
     courseAccessBtn.addEventListener('click', openCourseAccess);
     pageNav.appendChild(courseAccessBtn);
+
+    var reviewsBtn = document.createElement('button');
+    reviewsBtn.type = 'button';
+    reviewsBtn.textContent = t('reviewsNav');
+    reviewsBtn.dataset.page = REVIEWS_ID;
+    if (currentPage === REVIEWS_ID) reviewsBtn.classList.add('active');
+    reviewsBtn.addEventListener('click', openReviewsView);
+    pageNav.appendChild(reviewsBtn);
   }
 
   // Lesson titles for the cabinet's "video-lesson-mN.n" fields, so each
@@ -649,6 +686,7 @@
     galleryView.hidden = true;
     ordersView.hidden = true;
     courseAccessView.hidden = true;
+    reviewsView.hidden = true;
     pageTitle.textContent = STRINGS[lang].pageLabels[pageId] || pageId;
     fieldsList.innerHTML = '<p class="empty-note">' + t('loading') + '</p>';
     updateSaveState();
@@ -773,6 +811,7 @@
     galleryView.hidden = true;
     ordersView.hidden = true;
     courseAccessView.hidden = true;
+    reviewsView.hidden = true;
     lekalaStatus.textContent = '';
     lekalaStatus.className = 'save-status';
     loadLekalaItems();
@@ -837,6 +876,7 @@
     galleryView.hidden = false;
     ordersView.hidden = true;
     courseAccessView.hidden = true;
+    reviewsView.hidden = true;
     galleryUploadStatus.textContent = '';
     galleryUploadStatus.className = 'save-status';
     loadGalleryPhotos();
@@ -1073,6 +1113,7 @@
     galleryView.hidden = true;
     ordersView.hidden = false;
     courseAccessView.hidden = true;
+    reviewsView.hidden = true;
     loadOrders();
   }
 
@@ -1126,8 +1167,130 @@
     galleryView.hidden = true;
     ordersView.hidden = true;
     courseAccessView.hidden = false;
+    reviewsView.hidden = true;
     loadCourseAccess();
   }
+
+  function renderReviews(reviews) {
+    reviewsList.innerHTML = '';
+    if (!reviews.length) {
+      reviewsList.innerHTML = '<li class="empty-note">' + t('noReviewsYet') + '</li>';
+      return;
+    }
+    reviews.forEach(function(review){
+      var li = document.createElement('li');
+      li.className = 'lekala-row';
+      var span = document.createElement('span');
+      span.style.flex = '1';
+      var bits = [review.authorName];
+      if (review.courseLabel) bits.push(review.courseLabel);
+      span.textContent = bits.join(' — ') + ': «' + review.text.slice(0, 60) + (review.text.length > 60 ? '…' : '') + '»';
+      li.addEventListener('click', function(){ startEditReview(review); });
+
+      var del = document.createElement('button');
+      del.type = 'button';
+      del.className = 'lekala-delete';
+      del.textContent = t('del');
+      del.addEventListener('click', function(e){
+        e.stopPropagation();
+        del.disabled = true;
+        api('/api/reviews/' + review.id, { method: 'DELETE' })
+          .then(function(){
+            if (reviewsEditingId === review.id) cancelReviewEdit();
+            loadReviews();
+          })
+          .catch(function(err){
+            if (err && err.unauthorized) { showLogin(); return; }
+            del.disabled = false;
+          });
+      });
+      li.appendChild(span);
+      li.appendChild(del);
+      reviewsList.appendChild(li);
+    });
+  }
+
+  function startEditReview(review) {
+    reviewsEditingId = review.id;
+    reviewsForm.elements.authorName.value = review.authorName || '';
+    reviewsForm.elements.courseLabel.value = review.courseLabel || '';
+    reviewsForm.elements.text.value = review.text || '';
+    reviewsEditingNote.textContent = t('editingNote') + review.authorName;
+    reviewsEditingNote.hidden = false;
+    reviewsCancelEditBtn.hidden = false;
+    reviewsAddBtn.textContent = t('save');
+    reviewsStatus.textContent = '';
+    reviewsStatus.className = 'save-status';
+    reviewsForm.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function cancelReviewEdit() {
+    reviewsEditingId = null;
+    reviewsForm.reset();
+    reviewsEditingNote.hidden = true;
+    reviewsCancelEditBtn.hidden = true;
+    reviewsAddBtn.textContent = t('add');
+  }
+
+  function loadReviews() {
+    reviewsList.innerHTML = '<li class="empty-note">' + t('loading') + '</li>';
+    api('/api/reviews')
+      .then(renderReviews)
+      .catch(function(err){
+        if (err && err.unauthorized) { showLogin(); return; }
+        reviewsList.innerHTML = '<li class="empty-note">' + t('loadListError') + '</li>';
+      });
+  }
+
+  function openReviewsView() {
+    currentPage = REVIEWS_ID;
+    renderNav();
+    editorHead.hidden = true;
+    fieldsList.hidden = true;
+    lekalaView.hidden = true;
+    galleryView.hidden = true;
+    ordersView.hidden = true;
+    courseAccessView.hidden = true;
+    reviewsView.hidden = false;
+    reviewsStatus.textContent = '';
+    reviewsStatus.className = 'save-status';
+    loadReviews();
+  }
+
+  if (reviewsCancelEditBtn) {
+    reviewsCancelEditBtn.addEventListener('click', cancelReviewEdit);
+  }
+
+  reviewsForm.addEventListener('submit', function(e){
+    e.preventDefault();
+    var authorName = reviewsForm.elements.authorName.value.trim();
+    var text = reviewsForm.elements.text.value.trim();
+    if (!authorName || !text) return;
+
+    var isEdit = !!reviewsEditingId;
+    reviewsStatus.textContent = t(isEdit ? 'saving' : 'adding');
+    reviewsStatus.className = 'save-status';
+
+    var payload = {
+      authorName: authorName,
+      courseLabel: reviewsForm.elements.courseLabel.value.trim(),
+      text: text
+    };
+    var url = '/api/reviews' + (isEdit ? '/' + reviewsEditingId : '');
+
+    api(url, { method: isEdit ? 'PUT' : 'POST', body: JSON.stringify(payload) })
+      .then(function(){
+        cancelReviewEdit();
+        reviewsStatus.textContent = t(isEdit ? 'saved' : 'added');
+        reviewsStatus.className = 'save-status ok';
+        loadReviews();
+      })
+      .catch(function(err){
+        if (err && err.unauthorized) { showLogin(); return; }
+        reviewsStatus.textContent = t(isEdit ? 'saveError' : 'addError');
+        reviewsStatus.className = 'save-status err';
+      });
+  });
 
   saveBtn.addEventListener('click', function(){
     if (!Object.keys(dirtyKeys).length) return;
