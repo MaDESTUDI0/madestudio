@@ -17,6 +17,11 @@ router.post('/orders', requireAuth, asyncHandler(async (req, res) => {
   if (!itemIds.length) {
     return res.status(400).json({ error: 'empty_cart' });
   }
+  const contactName = (req.body && req.body.name || '').trim();
+  const phone = (req.body && req.body.phone || '').trim();
+  if (!contactName || !phone) {
+    return res.status(400).json({ error: 'missing_contact_info' });
+  }
 
   const { rows: items } = await pool.query(
     'SELECT id, label, price, product_type AS "productType", module_key AS "moduleKey" FROM lekala_items WHERE id = ANY($1::int[])',
@@ -30,8 +35,8 @@ router.post('/orders', requireAuth, asyncHandler(async (req, res) => {
   try {
     await client.query('BEGIN');
     const { rows: orderRows } = await client.query(
-      'INSERT INTO orders (user_id, status) VALUES ($1, $2) RETURNING id, status, created_at',
-      [req.session.userId, 'pending']
+      'INSERT INTO orders (user_id, status, contact_name, phone) VALUES ($1, $2, $3, $4) RETURNING id, status, created_at',
+      [req.session.userId, 'pending', contactName, phone]
     );
     const order = orderRows[0];
 
@@ -79,6 +84,7 @@ router.get('/orders/mine', requireAuth, asyncHandler(async (req, res) => {
 router.get('/orders', requireRole('owner'), asyncHandler(async (req, res) => {
   const { rows: orders } = await pool.query(
     `SELECT orders.id, orders.status, orders.created_at, orders.confirmed_at,
+            orders.contact_name AS "contactName", orders.phone,
             users.username AS email, users.name
      FROM orders
      JOIN users ON users.id = orders.user_id
@@ -160,9 +166,20 @@ router.post('/orders/:id/confirm', requireRole('owner'), asyncHandler(async (req
     client.release();
   }
 
-  await sendOrderReceipt(order.email, order.name, items, order.id);
+  // The payment is already confirmed and access already granted above
+  // (committed) — a mail hiccup (SMTP timeout, etc.) must not turn
+  // that into a request failure, or the owner sees "не получилось" and
+  // retries into a 409, while the buyer already has access and just
+  // never got the email. Report it instead of throwing.
+  let emailSent = true;
+  try {
+    await sendOrderReceipt(order.email, order.name, items, order.id);
+  } catch (err) {
+    emailSent = false;
+    console.error('sendOrderReceipt failed for order', order.id, err);
+  }
 
-  res.json({ id: order.id, status: 'paid' });
+  res.json({ id: order.id, status: 'paid', emailSent });
 }));
 
 module.exports = router;

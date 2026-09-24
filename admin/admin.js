@@ -90,6 +90,7 @@
       confirmPayment: 'Подтвердить оплату',
       sending: 'Отправляем…',
       retryFailed: 'Не получилось, повторить',
+      emailFailedWarning: 'Оплата подтверждена, доступ/файлы выданы — но письмо покупателю не отправилось (сбой почты). Сообщите ему вручную, например в WhatsApp.',
       galleryHint: 'Фото, которые вы сюда добавите, появятся на странице «Работы» — в разделе «Работы MaDE» или «Работы учениц», в зависимости от выбора.',
       sectionLabel: 'Раздел',
       madeWorks: 'Работы MaDE',
@@ -196,6 +197,7 @@
       confirmPayment: 'Төлемді растау',
       sending: 'Жіберілуде…',
       retryFailed: 'Сәтсіз аяқталды, қайталаңыз',
+      emailFailedWarning: 'Төлем расталды, қолжетімділік/файлдар берілді — бірақ сатып алушыға хат кетпеді (пошта ақауы). Оған қолмен хабарласыңыз, мысалы WhatsApp-та.',
       galleryHint: 'Осында қосатын фотосуреттер «Жұмыстар» бетінде — «MaDE жұмыстары» немесе «Оқушылардың жұмыстары» бөлімінде, таңдауыңызға байланысты пайда болады.',
       sectionLabel: 'Бөлім',
       madeWorks: 'MaDE жұмыстары',
@@ -985,6 +987,25 @@
       who.appendChild(mail);
       card.appendChild(who);
 
+      // Filled in on the checkout page — the account may have a
+      // different name, and never has a phone number at all, so this
+      // is how the owner actually reaches a buyer.
+      if (order.contactName || order.phone) {
+        var contact = document.createElement('p');
+        contact.className = 'order-buyer order-contact';
+        var bits = [];
+        if (order.contactName) bits.push(order.contactName);
+        contact.appendChild(document.createTextNode(bits.join(' — ')));
+        if (order.phone) {
+          if (bits.length) contact.appendChild(document.createTextNode(' — '));
+          var tel = document.createElement('a');
+          tel.href = 'tel:' + order.phone.replace(/[^\d+]/g, '');
+          tel.textContent = order.phone;
+          contact.appendChild(tel);
+        }
+        card.appendChild(contact);
+      }
+
       var items = document.createElement('ul');
       items.className = 'order-items';
       var total = 0;
@@ -1016,7 +1037,10 @@
           confirmBtn.disabled = true;
           confirmBtn.textContent = t('sending');
           api('/api/orders/' + order.id + '/confirm', { method: 'POST' })
-            .then(loadOrders)
+            .then(function(result){
+              if (result && result.emailSent === false) window.alert(t('emailFailedWarning'));
+              loadOrders();
+            })
             .catch(function(err){
               if (err && err.unauthorized) { showLogin(); return; }
               confirmBtn.disabled = false;

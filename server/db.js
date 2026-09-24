@@ -120,6 +120,12 @@ async function migrate() {
     ALTER TABLE order_items ADD COLUMN IF NOT EXISTS product_type TEXT NOT NULL DEFAULT 'file';
     ALTER TABLE order_items ADD COLUMN IF NOT EXISTS module_key TEXT;
 
+    -- Collected on the checkout page, not the account (a buyer's
+    -- contact details can differ order to order) — lets the owner
+    -- actually reach someone by phone, not just by email.
+    ALTER TABLE orders ADD COLUMN IF NOT EXISTS contact_name TEXT;
+    ALTER TABLE orders ADD COLUMN IF NOT EXISTS phone TEXT;
+
     CREATE TABLE IF NOT EXISTS user_module_access (
       user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
       module_key TEXT NOT NULL,
