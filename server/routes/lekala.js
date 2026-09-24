@@ -8,7 +8,11 @@ const router = express.Router();
 
 const MODULE_KEYS = ['m1', 'm2', 'm3', 'm4'];
 const PRODUCT_TYPES = ['file', 'course_module', 'course_full'];
-const SLUGS = ['sewing-book', 'planner'];
+// The offline-* slugs don't bind to a shop.html card like the others —
+// they let the owner set the offline course/module prices shown as
+// plain text on courses.html (no cart there, enrollment stays
+// WhatsApp) without editing the page's source each time.
+const SLUGS = ['sewing-book', 'planner', 'offline-full', 'offline-m2', 'offline-m3', 'offline-m4'];
 
 const upload = multer({
   storage: multer.memoryStorage(),
