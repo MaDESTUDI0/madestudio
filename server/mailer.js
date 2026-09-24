@@ -16,7 +16,15 @@ if (configured) {
     host: SMTP_HOST,
     port: Number(SMTP_PORT) || 587,
     secure: Number(SMTP_PORT) === 465,
-    auth: { user: SMTP_USER, pass: SMTP_PASS }
+    auth: { user: SMTP_USER, pass: SMTP_PASS },
+    // Reuses SMTP connections instead of doing a fresh TCP+TLS
+    // handshake with Brevo on every single email — that handshake is
+    // most of what made each send feel slow, especially on Render's
+    // free tier. Actual inbox delivery time after that is Brevo's and
+    // the recipient's mail provider's call, not something here.
+    pool: true,
+    maxConnections: 3,
+    maxMessages: 100
   });
 }
 
